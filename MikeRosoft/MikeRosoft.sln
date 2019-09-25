@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29318.209
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Design", "Desing\Design.csproj", "{92BA64DE-8270-4BF9-BB91-AE46B9FC943D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{99990BA2-334E-41E7-801B-8F200C8B16FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeRosoft", "MikeRosoft\MikeRosoft.csproj", "{75D6EE77-4126-4219-80B8-EC07BE6B2CA9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92BA64DE-8270-4BF9-BB91-AE46B9FC943D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92BA64DE-8270-4BF9-BB91-AE46B9FC943D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92BA64DE-8270-4BF9-BB91-AE46B9FC943D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92BA64DE-8270-4BF9-BB91-AE46B9FC943D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75D6EE77-4126-4219-80B8-EC07BE6B2CA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75D6EE77-4126-4219-80B8-EC07BE6B2CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75D6EE77-4126-4219-80B8-EC07BE6B2CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75D6EE77-4126-4219-80B8-EC07BE6B2CA9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{75D6EE77-4126-4219-80B8-EC07BE6B2CA9} = {99990BA2-334E-41E7-801B-8F200C8B16FB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9DB6D1FF-732F-4D88-BCA8-C9E375BE483E}
+	EndGlobalSection
+EndGlobal
