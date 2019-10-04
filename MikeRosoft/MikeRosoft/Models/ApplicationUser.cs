@@ -10,8 +10,10 @@ namespace MikeRosoft.Models
     public class ApplicationUser : IdentityUser
     {
         [Key]
+        //[Required]
         [StringLength(9)]
-        public virtual String DNI { get; set; }
+        override
+        public string Id { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Enter name")]
         [StringLength(50, MinimumLength = 1)]
