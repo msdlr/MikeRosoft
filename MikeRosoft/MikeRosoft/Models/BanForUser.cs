@@ -12,7 +12,7 @@ namespace MikeRosoft.Models
         //Relationships
         public virtual Ban GetBan { get; set; }
 
-        public virtual ApplicationUser GetUser { get; set; }
+        public virtual User GetUser { get; set; }
         public virtual BanType GetBanType { get; set; }
     }
 }

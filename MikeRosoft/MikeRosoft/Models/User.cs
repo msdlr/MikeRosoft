@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MikeRosoft.Models
 {
-    public class DataTypeAttribute : ApplicationUser
+    public class User : ApplicationUser
     {
         [Display(Name = "Street")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please select a street")]
