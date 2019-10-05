@@ -32,5 +32,9 @@ namespace MikeRosoft.Models
             ApplicationUser OtherUser = (ApplicationUser) obj;
             return (this.Id.Equals(OtherUser.Id) && this.Name.Equals(OtherUser.Name) && this.FirstSurname.Equals(OtherUser.SecondSurname));
         }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

@@ -33,5 +33,9 @@ namespace MikeRosoft.Models
             }
             return result;
         }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
