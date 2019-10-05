@@ -27,5 +27,15 @@ namespace MikeRosoft.Models
         public string GetBanTypeName { get; set; }
         [ForeignKey("GetBanTypeName")]
         public virtual BanType GetBanType { get; set; }
+
+        //Equals
+        public override bool Equals(object obj)
+        {
+            BanForUser bfu = (BanForUser)obj;
+            bool result = (this.ID == bfu.ID) && (this.GetBanID == bfu.GetBanID) && (this.GetUserId == bfu.GetUserId) && (this.GetBanTypeName == bfu.GetBanTypeName)
+                            && (this.AdditionalComment.Equals(bfu.AdditionalComment)) && this.Start.Equals(bfu.Start) && (this.End.Equals(bfu.End));
+
+            return base.Equals(obj);
+        }
     }
 }

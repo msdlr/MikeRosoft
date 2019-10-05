@@ -26,5 +26,11 @@ namespace MikeRosoft.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Enter province")]
         [Display(Name = "Second Surname")]
         public virtual string SecondSurname { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            ApplicationUser OtherUser = (ApplicationUser) obj;
+            return (this.Id.Equals(OtherUser.Id) && this.Name.Equals(OtherUser.Name) && this.FirstSurname.Equals(OtherUser.SecondSurname));
+        }
     }
 }

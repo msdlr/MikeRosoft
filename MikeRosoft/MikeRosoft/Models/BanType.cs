@@ -16,9 +16,19 @@ namespace MikeRosoft.Models
         public TimeSpan Duration { get; set; }
 
         //Relationships
-        public int BanForUserID { get; set; }
-        [ForeignKey("BanForUserID")]
-        public virtual BanForUser GetBanForUser { get; set; }
+        public virtual IList<BanForUser> GetBanForUsers { get; set; }
+
+        //Equals
+        public override bool Equals(object obj)
+        {
+            BanType otherType = (BanType)obj;
+            bool result=this.TypeName.Equals(otherType.TypeName) && (this.Duration.Equals(otherType.Duration)) && (this.GetBanForUsers.Count == otherType.GetBanForUsers.Count);
+            for (int i=0; i<this.GetBanForUsers.Count; i++)
+            {
+                result = result && this.GetBanForUsers.ElementAt(i).Equals(otherType.GetBanForUsers.ElementAt(i));
+            }
+            return result;
+        }
 
     }
 }
