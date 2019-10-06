@@ -27,5 +27,8 @@ namespace MikeRosoft.Models
         [Range(0, int.MaxValue)]
         public virtual int stock { set; get; }
 
+
+        public virtual IList<ProductOrder> productOrders { get; set; }
+
     }
 }

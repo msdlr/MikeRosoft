@@ -19,11 +19,11 @@ namespace MikeRosoft.Models
         [StringLength(50, MinimumLength = 1)]
         public virtual string Name { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Enter province")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Enter first surname")]
         [Display(Name = "First Surname")]
         public virtual string FirstSurname { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Enter province")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Enter second surname")]
         [Display(Name = "Second Surname")]
         public virtual string SecondSurname { get; set; }
 

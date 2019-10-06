@@ -28,6 +28,19 @@ namespace MikeRosoft.Models
         public string Country { get; set;}
 
 
+
+
+
+
+        //ATT NEEDED FOR UC_buyProduct
+
+        public virtual IList<Order> orders { get; set; }
+
+
+
+
+
+
         //Atributos para relaciones
 
         public virtual IList<BanForUser> BanRecord { get; set; }
