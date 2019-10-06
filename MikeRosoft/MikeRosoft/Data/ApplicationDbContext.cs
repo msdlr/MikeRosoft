@@ -35,8 +35,8 @@ namespace MikeRosoft.Data
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
-            builder.Entity<BanForUser>()
-            .HasKey(pi => new { pi.GetBan, pi.GetUser });
+            builder.Entity<ProductOrder>()
+            .HasKey(pi => new { pi.orderId, pi.productId });
         }
     }
 }
