@@ -37,6 +37,8 @@ namespace MikeRosoft.Data
 
             builder.Entity<ProductOrder>()
             .HasKey(pi => new { pi.orderId, pi.productId });
+            builder.Entity<BanForUser>()
+            .HasKey(pi => new { pi.GetBanID, pi.GetUserId });
         }
     }
 }

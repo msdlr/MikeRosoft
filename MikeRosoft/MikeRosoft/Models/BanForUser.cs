@@ -7,7 +7,7 @@ namespace MikeRosoft.Models
     public class BanForUser
     {
         //Attributes
-        [Key]
+        //[Key]
         public virtual int ID { get; set; }
         public virtual string AdditionalComment { get; set; }
         [Required(ErrorMessage = "Enter valid date")]
