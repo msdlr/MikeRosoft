@@ -7,5 +7,14 @@ namespace MikeRosoft.Models
 {
     public class Order
     {
+
+        public virtual int id { get; set; }
+
+        public virtual IList<ProductOrder> ProductOrders { get; set; }
+
+        public virtual User user { get; set; }
+
+
+
     }
 }
