@@ -14,9 +14,9 @@ namespace MikeRosoft.Models
         public virtual int ID { get; set; }
 
         //Relationships
-        public string GetAdmin { get; set; }
+        public string GetAdminId { get; set; }
         [ForeignKey("GetAdminDNI")]
-        public virtual ApplicationUser GetAdminId { get; set; }
+        public virtual Admin GetAdmin { get; set; }
 
         public virtual IList<BanForUser> GetBanForUsers { get; set; }
         public virtual DateTime BanTime { get; set; }
