@@ -19,10 +19,16 @@ namespace MikeRosoft.Models
         [StringLength(500, MinimumLength = 50)]
         public virtual string description { set; get; }
 
+
+        [Required]
+        public virtual string brand { set; get; }
+
+
         [Required]
         [Range(1, int.MaxValue)]
         public virtual float precio { set; get; }
 
+        
         [Required]
         [Range(0, int.MaxValue)]
         public virtual int stock { set; get; }
