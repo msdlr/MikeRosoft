@@ -22,7 +22,7 @@ namespace MikeRosoft.Models
 
         public string GetUserId { get; set; }
         [ForeignKey("GetUserId")]
-        public virtual ApplicationUser GetUser { get; set; }
+        public virtual User GetUser { get; set; }
 
         public string GetBanTypeName { get; set; }
         [ForeignKey("GetBanTypeName")]
