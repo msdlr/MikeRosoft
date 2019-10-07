@@ -11,7 +11,7 @@ namespace MikeRosoft.Design
     public class BanType
     {
         public virtual string TypeName { set; get; }
-        public TimeSpan Duration { get; set; }
+        public TimeSpan DefaultDuration { get; set; }
 
         //Relationships
         public virtual IList<BanForUser> GetBanForUsers { get; set; }
