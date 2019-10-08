@@ -36,5 +36,8 @@ namespace MikeRosoft.Models
 
         public virtual IList<ProductOrder> productOrders { get; set; }
 
+        //MakeRecommendation
+        public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
+
     }
 }

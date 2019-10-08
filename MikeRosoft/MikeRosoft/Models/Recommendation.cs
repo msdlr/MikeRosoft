@@ -32,6 +32,7 @@ namespace MikeRosoft.Models {
         public virtual IList<UserRecommend> UserRecommendations { get; set; }
 
         //Relacion con Productos N-N
+        public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
 
         public Recommendation()
         {
