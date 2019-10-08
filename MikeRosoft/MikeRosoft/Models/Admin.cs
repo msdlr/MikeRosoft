@@ -8,8 +8,6 @@ namespace MikeRosoft.Models
 {
     public class Admin : ApplicationUser
     {
-        public virtual int admin { get; set; }
-
         public virtual IList<Recommendation> Recommendations { get; set; }
 
         [Required]
