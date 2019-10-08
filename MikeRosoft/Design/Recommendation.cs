@@ -10,6 +10,8 @@ public class Recommendation
 
     public virtual Admin admin { get; set; }
 
+    public virtual IList<UserRecommend> UserRecommendations { get; set; }
+
     public Recommendation()
 	{
        

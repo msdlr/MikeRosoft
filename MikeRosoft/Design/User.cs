@@ -28,5 +28,8 @@ namespace MikeRosoft.Design
         //Atributos para relaciones
 
         public virtual IList<BanForUser> BanRecord { get; set; }
+
+        //MakeRecommendation
+        public virtual IList<UserRecommend> UserRecommendations { get; set; }
     }
 }
