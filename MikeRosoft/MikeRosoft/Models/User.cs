@@ -55,7 +55,7 @@ namespace MikeRosoft.Models
             {
                 result = result && (this.BanRecord.ElementAt(i).Equals(BanRecord.ElementAt(i)));
             }
-            return base.Equals(obj);
+            return result;
         }
         public override int GetHashCode()
         {

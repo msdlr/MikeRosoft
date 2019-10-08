@@ -13,7 +13,7 @@ namespace MikeRosoft.Models
         //Attributes
         [Key]
         public virtual string TypeName { set; get; }
-        public TimeSpan Duration { get; set; }
+        public TimeSpan DefaultDuration { get; set; }
 
         //Relationships
         public virtual IList<BanForUser> GetBanForUsers { get; set; }
@@ -22,7 +22,7 @@ namespace MikeRosoft.Models
         public override bool Equals(object obj)
         {
             BanType otherType = (BanType)obj;
-            bool result=this.TypeName.Equals(otherType.TypeName) && (this.Duration.Equals(otherType.Duration)) && (this.GetBanForUsers.Count == otherType.GetBanForUsers.Count);
+            bool result=this.TypeName.Equals(otherType.TypeName) && (this.DefaultDuration.Equals(otherType.DefaultDuration)) && (this.GetBanForUsers.Count == otherType.GetBanForUsers.Count);
             for (int i=0; i<this.GetBanForUsers.Count; i++)
             {
                 result = result && this.GetBanForUsers.ElementAt(i).Equals(otherType.GetBanForUsers.ElementAt(i));
