@@ -285,7 +285,7 @@ namespace MikeRosoft.Data.Migrations
                     b.Property<string>("TypeName")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<TimeSpan>("Duration")
+                    b.Property<TimeSpan>("DefaultDuration")
                         .HasColumnType("time");
 
                     b.HasKey("TypeName");

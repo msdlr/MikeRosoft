@@ -10,8 +10,8 @@ using MikeRosoft.Data;
 namespace MikeRosoft.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191007172122_ClassesForBanUser")]
-    partial class ClassesForBanUser
+    [Migration("20191008185455_UC_BanUser")]
+    partial class UC_BanUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -287,7 +287,7 @@ namespace MikeRosoft.Data.Migrations
                     b.Property<string>("TypeName")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<TimeSpan>("Duration")
+                    b.Property<TimeSpan>("DefaultDuration")
                         .HasColumnType("time");
 
                     b.HasKey("TypeName");
