@@ -24,11 +24,7 @@ namespace MikeRosoft.Models {
         [ForeignKey("idamin")]
         [Required]
         public virtual string admin { get; set; }
-        
-        //Reasons about users
-        [Required]
-        [StringLength(180, MinimumLength = 1, ErrorMessage = "Reason cannot be longer than 180 characters")]
-        public virtual string reason { get; set; }
+
         //Relacion con Usuarios N-N
         //Relacion con Productos N-N
 
