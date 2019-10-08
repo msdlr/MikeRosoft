@@ -7,6 +7,8 @@ namespace MikeRosoft.Design
     {
         public virtual int IdAdmin {get; set;}
 
+        public virtual IList<Recommendation> Recommendations { get; set; }
+
         public virtual DateTime contractStarting { set; get; }
 
         public virtual DateTime contractEnding { set; get; }

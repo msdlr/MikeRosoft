@@ -1,8 +1,17 @@
 ﻿using System;
 
-public class Class1
+public class Recommendation
 {
-	public Class1()
+    public virtual int IdRecommendation { get; set; }
+    
+    public virtual DateTime date { get; set; }
+    
+    public virtual String description { get; set; }
+
+    public virtual Admin admin { get; set; }
+
+    public Recommendation()
 	{
-	}
+       
+    }
 }

@@ -9,7 +9,7 @@ namespace MikeRosoft.Models {
     public class Recommendation
     {
         [Key]
-        public virtual int ID { get; set; }
+        public virtual int IdRecommendation { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
@@ -18,19 +18,17 @@ namespace MikeRosoft.Models {
         //Description about selected products
         [Required]
         [StringLength(180, MinimumLength = 1, ErrorMessage = "Description cannot be longer than 180 characters")]
-        public virtual string description { get; set;  }
+        public virtual String description { get; set;  }
         
         //Relacion con admin N-1
-        [ForeignKey("idamin")]
         [Required]
-        public virtual string admin { get; set; }
-
+        public virtual Admin admin { get; set; }
         //Relacion con Usuarios N-N
         //Relacion con Productos N-N
 
         public Recommendation()
         {
-
+        
         }
     }
 }
