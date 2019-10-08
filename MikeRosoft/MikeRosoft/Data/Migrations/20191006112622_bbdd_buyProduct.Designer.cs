@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MikeRosoft.Data;
 
 namespace MikeRosoft.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191006112622_bbdd_buyProduct")]
+    partial class bbdd_buyProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,16 +234,21 @@ namespace MikeRosoft.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AdminId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("BanTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("GetAdmin")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GetAdminDNI")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("GetAdminId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ID");
+
+                    b.HasIndex("AdminId");
 
                     b.HasIndex("GetAdminDNI");
 
@@ -250,11 +257,10 @@ namespace MikeRosoft.Data.Migrations
 
             modelBuilder.Entity("MikeRosoft.Models.BanForUser", b =>
                 {
-                    b.Property<int>("GetBanID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("GetUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdditionalComment")
                         .HasColumnType("nvarchar(max)");
@@ -262,20 +268,30 @@ namespace MikeRosoft.Data.Migrations
                     b.Property<DateTime>("End")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("GetBanID")
+                        .HasColumnType("int");
+
                     b.Property<string>("GetBanTypeName")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ID")
-                        .HasColumnType("int");
+                    b.Property<string>("GetUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Start")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("GetBanID", "GetUserId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("GetBanID");
 
                     b.HasIndex("GetBanTypeName");
 
                     b.HasIndex("GetUserId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("BanForUserList");
                 });
@@ -378,7 +394,7 @@ namespace MikeRosoft.Data.Migrations
                     b.ToTable("ProductOrder");
                 });
 
-            modelBuilder.Entity("MikeRosoft.Models.Admin", b =>
+            modelBuilder.Entity("MikeRosoft.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
@@ -394,6 +410,13 @@ namespace MikeRosoft.Data.Migrations
                     b.Property<string>("SecondSurname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
+            modelBuilder.Entity("MikeRosoft.Models.Admin", b =>
+                {
+                    b.HasBaseType("MikeRosoft.Models.ApplicationUser");
 
                     b.Property<DateTime>("contractEnding")
                         .HasColumnType("datetime2");
@@ -406,7 +429,7 @@ namespace MikeRosoft.Data.Migrations
 
             modelBuilder.Entity("MikeRosoft.Models.User", b =>
                 {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+                    b.HasBaseType("MikeRosoft.Models.ApplicationUser");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -416,20 +439,7 @@ namespace MikeRosoft.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstSurname")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
                     b.Property<string>("Province")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SecondSurname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -493,8 +503,13 @@ namespace MikeRosoft.Data.Migrations
 
             modelBuilder.Entity("MikeRosoft.Models.Ban", b =>
                 {
-                    b.HasOne("MikeRosoft.Models.Admin", "GetAdmin")
+                    b.HasOne("MikeRosoft.Models.Admin", null)
                         .WithMany("GetBans")
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("MikeRosoft.Models.ApplicationUser", "GetAdminId")
+                        .WithMany()
                         .HasForeignKey("GetAdminDNI")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
@@ -512,11 +527,15 @@ namespace MikeRosoft.Data.Migrations
                         .HasForeignKey("GetBanTypeName")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("MikeRosoft.Models.User", "GetUser")
-                        .WithMany("BanRecord")
+                    b.HasOne("MikeRosoft.Models.ApplicationUser", "GetUser")
+                        .WithMany()
                         .HasForeignKey("GetUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("MikeRosoft.Models.User", null)
+                        .WithMany("BanRecord")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("MikeRosoft.Models.Order", b =>
