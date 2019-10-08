@@ -17,7 +17,7 @@ namespace MikeRosoft.Design
 
 
 
-        //ATT NEEDED FOR UC_buyProduct
+        public virtual IList<ReturnRequest> ReturnRequests { get; set; }
         public virtual IList<Order> Orders { get; set; }
 
 

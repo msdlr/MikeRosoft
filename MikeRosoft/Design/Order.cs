@@ -18,6 +18,8 @@ namespace MikeRosoft.Models
         //
         public virtual IList<ProductOrder> ProductOrders { get; set; }
 
+        public virtual ReturnRequest ReturnRequest { get; set; }
+
 
         //
         public string userId { get; set; }
@@ -48,8 +50,5 @@ namespace MikeRosoft.Models
         public string cardCVC { get; set; }
 
         public DateTime cardExpiration { get; set; }
-
-
-
     }
 }
