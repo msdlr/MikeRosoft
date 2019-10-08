@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MikeRosoft.Models;
+using System.Collections.Generic;
 
 namespace MikeRosoft.Design
 {
@@ -17,9 +18,7 @@ namespace MikeRosoft.Design
 
 
         //ATT NEEDED FOR UC_buyProduct
-
-        //public virtual IList<Order> orders { get; set; }
-
+        public virtual IList<Order> Orders { get; set; }
 
 
 
