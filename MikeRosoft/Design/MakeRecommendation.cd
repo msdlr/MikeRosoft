@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MikeRosoft.Design.Admin">
+    <Position X="5.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAFAAAAAAAAEAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Admin.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Recommendations" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="MikeRosoft.Design.Product">
+    <Position X="1.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAgAAQAAAAAAAIAAAAAAAAAAAEIAAAAAAAAAAAgA=</HashCode>
+      <FileName>Product.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ProductRecommendations" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="MikeRosoft.Design.ProductRecommend">
+    <Position X="1.5" Y="0.5" Width="1.5" />
+    <AssociationLine Name="product" Type="MikeRosoft.Design.Product">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.795" Y="0.11" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAgAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>ProductRecommend.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="product" />
+      <Property Name="recommendation" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MikeRosoft.Design.Recommendation">
+    <Position X="5.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAYAAAAAAAAAEAAAAAAAAAAQAABAA=</HashCode>
+      <FileName>Recommendation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="admin" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="ProductRecommendations" />
+      <Property Name="UserRecommendations" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="MikeRosoft.Design.UserRecommend">
+    <Position X="8.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAABAAAAAQA=</HashCode>
+      <FileName>UserRecommend.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="recommendation" />
+      <Property Name="user" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MikeRosoft.Design.User">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAIAAAAIAAAAAAAIAAgAABAA=</HashCode>
+      <FileName>User.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="UserRecommendations" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
