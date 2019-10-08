@@ -8,8 +8,7 @@ namespace MikeRosoft.Models
 {
     public class Admin : ApplicationUser
     {
-        [Key]
-        public virtual int IdAdmin { get; set; }
+        public virtual int admin { get; set; }
 
         public virtual IList<Recommendation> Recommendations { get; set; }
 
