@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MikeRosoft.Models
+namespace MikeRosoft.Design
 {
     public class ProductOrder
     {
