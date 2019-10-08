@@ -1,15 +1,12 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotation;
-using System.ComponentModel.DataAnnotation.Schema;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 /// <summary>
 /// Summary description for Class1
 /// </summary>
-namespace MikeRosoft.Models {
+namespace MikeRosoft.Models
+{
     public class Recommendation
     {
         [Key]

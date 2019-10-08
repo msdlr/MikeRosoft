@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MikeRosoft.Design
@@ -17,7 +18,7 @@ namespace MikeRosoft.Design
 
         public virtual int stock { set; get; }
 
-        public virtual IList<ProductOrder> productOrders { get; set; }
+        //public virtual IList<ProductOrder> productOrders { get; set; }
 
         //MakeRecommendation
         public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
