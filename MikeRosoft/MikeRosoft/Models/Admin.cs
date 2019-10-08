@@ -8,6 +8,8 @@ namespace MikeRosoft.Models
 {
     public class Admin : ApplicationUser
     {
+        public virtual IList<Recommendation> Recommendations { get; set; }
+
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public virtual DateTime contractStarting { set; get; }
@@ -28,7 +30,7 @@ namespace MikeRosoft.Models
                 result = result && this.GetBans.ElementAt(i).Equals(otherAdmin.GetBans.ElementAt(i)) ;
             }
 
-            return base.Equals(obj);
+            return result;
         }
         public override int GetHashCode()
         {

@@ -1,10 +1,28 @@
-﻿using System;
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System;
 using System.Collections.Generic;
 
 namespace MikeRosoft.Design
 {
     public class Admin : ApplicationUser
     {
+        public virtual IList<Recommendation> Recommendations { get; set; }
+
         public virtual DateTime contractStarting { set; get; }
 
         public virtual DateTime contractEnding { set; get; }

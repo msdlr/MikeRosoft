@@ -12,6 +12,22 @@
     <Compile Remove="Data\Migrations\20191006202954_ClassesForBanUser.Designer.cs" />
     <Compile Remove="Data\Migrations\20191006203119_ClassesForBanUser.cs" />
     <Compile Remove="Data\Migrations\20191006203119_ClassesForBanUser.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191008155646_AddingRecommendation.cs" />
+    <Compile Remove="Data\Migrations\20191008155646_AddingRecommendation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191008155733_AddingUserRecommend.cs" />
+    <Compile Remove="Data\Migrations\20191008155733_AddingUserRecommend.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191008155846_AddingProductRecommend.cs" />
+    <Compile Remove="Data\Migrations\20191008155846_AddingProductRecommend.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191008155946_AddingAdmin.cs" />
+    <Compile Remove="Data\Migrations\20191008155946_AddingAdmin.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191008160005_AddingProduct.cs" />
+    <Compile Remove="Data\Migrations\20191008160005_AddingProduct.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191008160015_AddingUser.cs" />
+    <Compile Remove="Data\Migrations\20191008160015_AddingUser.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191008160406_AddingRelationAdminRecommendation.cs" />
+    <Compile Remove="Data\Migrations\20191008160406_AddingRelationAdminRecommendation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191008160529_AddingRelationRecommendationUser.cs" />
+    <Compile Remove="Data\Migrations\20191008160529_AddingRelationRecommendationUser.Designer.cs" />
   </ItemGroup>
 
 
@@ -20,7 +36,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

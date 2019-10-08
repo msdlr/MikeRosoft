@@ -37,7 +37,8 @@ namespace MikeRosoft.Models
         public virtual IList<Order> orders { get; set; }
 
 
-
+        //UC_MakeRecommendation
+        public virtual IList<UserRecommend> UserRecommendations { get; set; }
 
 
 
@@ -55,7 +56,7 @@ namespace MikeRosoft.Models
             {
                 result = result && (this.BanRecord.ElementAt(i).Equals(BanRecord.ElementAt(i)));
             }
-            return base.Equals(obj);
+            return result;
         }
         public override int GetHashCode()
         {

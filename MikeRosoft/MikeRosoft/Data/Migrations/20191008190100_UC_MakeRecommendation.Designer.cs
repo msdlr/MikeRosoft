@@ -10,8 +10,8 @@ using MikeRosoft.Data;
 namespace MikeRosoft.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191007172122_ClassesForBanUser")]
-    partial class ClassesForBanUser
+    [Migration("20191008190100_UC_MakeRecommendation")]
+    partial class UC_MakeRecommendation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -287,7 +287,7 @@ namespace MikeRosoft.Data.Migrations
                     b.Property<string>("TypeName")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<TimeSpan>("Duration")
+                    b.Property<TimeSpan>("DefaultDuration")
                         .HasColumnType("time");
 
                     b.HasKey("TypeName");
@@ -362,7 +362,7 @@ namespace MikeRosoft.Data.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("MikeRosoft.Models.ProductOrder", b =>
@@ -378,6 +378,76 @@ namespace MikeRosoft.Data.Migrations
                     b.HasIndex("productId");
 
                     b.ToTable("ProductOrder");
+                });
+
+            modelBuilder.Entity("MikeRosoft.Models.ProductRecommend", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("productid")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("recommendationIdRecommendation")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("productid");
+
+                    b.HasIndex("recommendationIdRecommendation");
+
+                    b.ToTable("ProductRecommendations");
+                });
+
+            modelBuilder.Entity("MikeRosoft.Models.Recommendation", b =>
+                {
+                    b.Property<int>("IdRecommendation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("adminId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(180)")
+                        .HasMaxLength(180);
+
+                    b.HasKey("IdRecommendation");
+
+                    b.HasIndex("adminId");
+
+                    b.ToTable("Recommendations");
+                });
+
+            modelBuilder.Entity("MikeRosoft.Models.UserRecommend", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("recommendationIdRecommendation")
+                        .HasColumnType("int");
+
+                    b.Property<string>("userId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("recommendationIdRecommendation");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("UserRecommendations");
                 });
 
             modelBuilder.Entity("MikeRosoft.Models.Admin", b =>
@@ -542,6 +612,41 @@ namespace MikeRosoft.Data.Migrations
                         .HasForeignKey("productId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MikeRosoft.Models.ProductRecommend", b =>
+                {
+                    b.HasOne("MikeRosoft.Models.Product", "product")
+                        .WithMany("ProductRecommendations")
+                        .HasForeignKey("productid")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("MikeRosoft.Models.Recommendation", "recommendation")
+                        .WithMany("ProductRecommendations")
+                        .HasForeignKey("recommendationIdRecommendation")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("MikeRosoft.Models.Recommendation", b =>
+                {
+                    b.HasOne("MikeRosoft.Models.Admin", "admin")
+                        .WithMany("Recommendations")
+                        .HasForeignKey("adminId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MikeRosoft.Models.UserRecommend", b =>
+                {
+                    b.HasOne("MikeRosoft.Models.Recommendation", "recommendation")
+                        .WithMany("UserRecommendations")
+                        .HasForeignKey("recommendationIdRecommendation")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("MikeRosoft.Models.User", "user")
+                        .WithMany("UserRecommendations")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }
