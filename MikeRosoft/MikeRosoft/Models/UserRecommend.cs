@@ -6,16 +6,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class UserRecommend
+namespace MikeRosoft.Models
 {
-    [Key]
-    public virtual int ID { get; set; }
+    public class UserRecommend
+    {
+        [Key]
+        public virtual int ID { get; set; }
 
-    public virtual Recommendation recommendation { get; set; }
+        public virtual Recommendation recommendation { get; set; }
 
-    public virtual User user { get; set; }
+        public virtual User user { get; set; }
 
-	public UserRecommend()
-	{
-	}
+        public UserRecommend()
+        {
+        }
+    }
 }

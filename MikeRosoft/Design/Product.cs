@@ -1,27 +1,30 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 
-public class Product
+namespace MikeRosoft.Design
 {
-    public virtual int id { set; get; }
+    public class Product
+    {
+        public virtual int id { set; get; }
 
-    public virtual string title { set; get; }
+        public virtual string title { set; get; }
 
-    public virtual string description { set; get; }
+        public virtual string description { set; get; }
 
-    public virtual string brand { set; get; }
+        public virtual string brand { set; get; }
 
-    public virtual float precio { set; get; }
+        public virtual float precio { set; get; }
 
-    public virtual int stock { set; get; }
+        public virtual int stock { set; get; }
 
-    public virtual IList<ProductOrder> productOrders { get; set; }
+        public virtual IList<ProductOrder> productOrders { get; set; }
 
-    //MakeRecommendation
-    public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
+        //MakeRecommendation
+        public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
 
-    public Product()
-	{
+        public Product()
+        {
 
+        }
     }
 }
