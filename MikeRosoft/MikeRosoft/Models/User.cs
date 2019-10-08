@@ -32,7 +32,7 @@ namespace MikeRosoft.Models
 
 
 
-        //ATT NEEDED FOR UC_buyProduct
+        public virtual IList<ReturnRequest> ReturnRequests { get; set; }
 
         public virtual IList<Order> orders { get; set; }
 

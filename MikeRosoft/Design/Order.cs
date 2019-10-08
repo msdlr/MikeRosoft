@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MikeRosoft.Design;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MikeRosoft.Models
+namespace MikeRosoft.Design
 {
     public class Order
     {
@@ -19,22 +20,18 @@ namespace MikeRosoft.Models
 
         public virtual ReturnRequest ReturnRequest { get; set; }
 
+
         //
         public string userId { get; set; }
-        [ForeignKey("userId")]
         public virtual User user { get; set; }
 
 
         //Momento en el que se realiza order
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime orderDate { get; set; }
 
 
 
         //Día en el que llegará order
-        [DataType(DataType.MultilineText)]
-        [Display(Name = "Delivery Address")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, set your address for delivery")]
         public DateTime arrivalDate { get; set; }
 
 
@@ -45,19 +42,13 @@ namespace MikeRosoft.Models
 
 
         //PAYMENT METHOD
-        [Display(Name = "Payment Method")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, select your payment method for delivery")]
-        public String PaymentMethod{ get; set; }
+       public String PaymentMethod{ get; set; }
 
         [CreditCard]
         public string Card { get; set; }
 
         public string cardCVC { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime cardExpiration { get; set; }
-
-
-
     }
 }
