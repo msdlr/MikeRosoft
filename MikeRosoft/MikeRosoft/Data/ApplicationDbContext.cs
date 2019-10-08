@@ -24,6 +24,12 @@ namespace MikeRosoft.Data
         public virtual DbSet<BanForUser> BanForUserList { get; set; }
         public virtual DbSet<BanType> BanTypeList { get; set; }
 
+        //MakeRecommendation
+        public virtual DbSet<Recommendation> Recommendations { get; set;}
+        public virtual DbSet<ProductRecommend> ProductRecommendations { get; set;}
+        public virtual DbSet<UserRecommend> UserRecommendations { get; set;}
+        public virtual DbSet<Product> Products { get; set;}
+
         //Claves primarias para las relaciones n-n
 
         protected override void OnModelCreating(ModelBuilder builder)
