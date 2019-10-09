@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="MikeRosoft.Design.Admin">
-    <Position X="5.5" Y="3.75" Width="1.5" />
+    <Position X="5.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAAAAAAAAAAAAAAAAFAAAAAAAAEAAAAAAAAAAAAAQA=</HashCode>
+      <HashCode>EAAAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
       <FileName>Admin.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -46,8 +46,8 @@
       <Property Name="admin" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="ProductRecommendations" />
       <Property Name="UserRecommendations" />
+      <Property Name="ProductRecommendations" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MikeRosoft.Design.UserRecommend">

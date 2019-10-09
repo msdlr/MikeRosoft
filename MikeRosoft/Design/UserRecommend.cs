@@ -6,7 +6,7 @@ namespace MikeRosoft.Design
 {
     public class UserRecommend
     {
-        [Key]
+        //[Key]
         public virtual int ID { get; set; }
 
         public virtual Recommendation recommendation { get; set; }
