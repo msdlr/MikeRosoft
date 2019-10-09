@@ -15,7 +15,7 @@ namespace MikeRosoft.Models
         [ForeignKey("RecommendationId")]
         public virtual Recommendation recommendation { get; set; }
 
-        public virtual int UserId { get; set; }
+        public virtual String UserId { get; set; }
         [ForeignKey("UserId")]
         public virtual User user { get; set; }
 
