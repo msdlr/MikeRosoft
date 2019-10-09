@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MikeRosoft.Models
+namespace MikeRosoft.Design
 {
     public class Order
     {
@@ -17,6 +17,8 @@ namespace MikeRosoft.Models
 
         //
         public virtual IList<ProductOrder> ProductOrders { get; set; }
+
+        public virtual ReturnRequest ReturnRequest { get; set; }
 
 
         //
@@ -48,8 +50,5 @@ namespace MikeRosoft.Models
         public string cardCVC { get; set; }
 
         public DateTime cardExpiration { get; set; }
-
-
-
     }
 }

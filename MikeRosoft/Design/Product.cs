@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MikeRosoft.Models
+namespace MikeRosoft.Design
 {
     public class Product
     {
@@ -30,6 +30,8 @@ namespace MikeRosoft.Models
 
 
         public virtual IList<ProductOrder> productOrders { get; set; }
+
+        public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
 
     }
 }

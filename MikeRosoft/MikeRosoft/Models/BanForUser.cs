@@ -35,7 +35,7 @@ namespace MikeRosoft.Models
             bool result = (this.ID == bfu.ID) && (this.GetBanID == bfu.GetBanID) && (this.GetUserId == bfu.GetUserId) && (this.GetBanTypeName == bfu.GetBanTypeName)
                             && (this.AdditionalComment.Equals(bfu.AdditionalComment)) && this.Start.Equals(bfu.Start) && (this.End.Equals(bfu.End));
 
-            return base.Equals(obj);
+            return result;
         }
 
         public override int GetHashCode()

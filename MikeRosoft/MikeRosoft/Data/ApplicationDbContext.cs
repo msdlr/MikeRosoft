@@ -24,6 +24,16 @@ namespace MikeRosoft.Data
         public virtual DbSet<BanForUser> BanForUserList { get; set; }
         public virtual DbSet<BanType> BanTypeList { get; set; }
 
+        //MakeRecommendation
+        public virtual DbSet<Recommendation> Recommendations { get; set;}
+        public virtual DbSet<ProductRecommend> ProductRecommendations { get; set;}
+        public virtual DbSet<UserRecommend> UserRecommendations { get; set;}
+        public virtual DbSet<Product> Products { get; set;}
+
+        //ReturnItem
+        public virtual DbSet<ReturnRequest> ReturnRequests { get; set; }
+        public virtual DbSet<ShippingCompany> ShippingCompanies { get; set; }
+
         //Claves primarias para las relaciones n-n
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -39,6 +49,10 @@ namespace MikeRosoft.Data
             .HasKey(pi => new { pi.orderId, pi.productId });
             builder.Entity<BanForUser>()
             .HasKey(pi => new { pi.GetBanID, pi.GetUserId });
+            builder.Entity<ProductRecommend>()
+            .HasKey(pi => new { pi.ProductId, pi.RecommendationId });
+            builder.Entity<UserRecommend>()
+            .HasKey(pi => new { pi.UserId, pi.RecommendationId });
         }
     }
 }
