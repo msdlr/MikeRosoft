@@ -31,8 +31,8 @@ namespace MikeRosoft.Models
 
 
 
-
-        public virtual IList<ReturnRequest> ReturnRequests { get; set; }
+        // UC Return Item
+        public virtual IList<UserRequest> userRequests { get; set; }
 
         public virtual IList<Order> orders { get; set; }
 
