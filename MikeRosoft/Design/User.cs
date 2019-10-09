@@ -15,6 +15,8 @@ namespace MikeRosoft.Design
 
 
 
+
+        public virtual IList<ReturnRequest> ReturnRequests { get; set; }
         public virtual IList<Order> Orders { get; set; }
 
 
@@ -27,7 +29,5 @@ namespace MikeRosoft.Design
 
         //MakeRecommendation
         public virtual IList<UserRecommend> UserRecommendations { get; set; }
-        // ReturnItem
-        public virtual IList<UserRequest> UserRequests { get; set; }
     }
 }
