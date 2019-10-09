@@ -32,7 +32,7 @@ namespace MikeRosoft.Models
 
 
 
-        //ATT NEEDED FOR UC_buyProduct
+        public virtual IList<ReturnRequest> ReturnRequests { get; set; }
 
         public virtual IList<Order> orders { get; set; }
 
@@ -56,7 +56,7 @@ namespace MikeRosoft.Models
             {
                 result = result && (this.BanRecord.ElementAt(i).Equals(BanRecord.ElementAt(i)));
             }
-            return base.Equals(obj);
+            return result;
         }
         public override int GetHashCode()
         {

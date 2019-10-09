@@ -30,6 +30,10 @@ namespace MikeRosoft.Data
         public virtual DbSet<UserRecommend> UserRecommendations { get; set;}
         public virtual DbSet<Product> Products { get; set;}
 
+        //ReturnItem
+        public virtual DbSet<ReturnRequest> ReturnRequests { get; set; }
+        public virtual DbSet<ShippingCompany> ShippingCompanies { get; set; }
+
         //Claves primarias para las relaciones n-n
 
         protected override void OnModelCreating(ModelBuilder builder)

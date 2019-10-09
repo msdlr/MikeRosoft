@@ -30,7 +30,7 @@ namespace MikeRosoft.Models
                 result = result && this.GetBans.ElementAt(i).Equals(otherAdmin.GetBans.ElementAt(i)) ;
             }
 
-            return base.Equals(obj);
+            return result;
         }
         public override int GetHashCode()
         {
