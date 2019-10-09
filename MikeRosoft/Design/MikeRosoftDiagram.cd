@@ -14,21 +14,21 @@
       <FileName>Admin.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="GetBans" />
       <Property Name="Recommendations" />
+      <Property Name="GetBans" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MikeRosoft.Design.User">
     <Position X="6.25" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAEAAAAAAAAAAAAIAAAAAIAAAAIAAAAAAAIAAgAEBAA=</HashCode>
+      <HashCode>gAEAAAAAAAAAAAAIAAAAAIAAAAIAAAAAAAIAAgAABAA=</HashCode>
       <FileName>User.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="BanRecord" />
       <Property Name="Orders" />
+      <Property Name="BanRecord" />
       <Property Name="UserRecommendations" />
-      <Property Name="ReturnRequests" />
+      <Property Name="UserRequests" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MikeRosoft.Design.BanForUser">
@@ -38,9 +38,9 @@
       <FileName>BanForUser.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
+      <Property Name="GetBan" />
       <Property Name="GetUser" />
       <Property Name="GetBanType" />
-      <Property Name="GetBan" />
     </ShowAsAssociation>
   </Class>
   <Class Name="MikeRosoft.Design.Ban">
@@ -74,10 +74,10 @@
     <AssociationLine Name="admin" Type="MikeRosoft.Design.Admin" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="11.25" Y="3" />
-        <Point X="7.693" Y="3" Type="JumpStart" />
-        <Point X="7.526" Y="3" Type="JumpEnd" />
         <Point X="7.49" Y="3" Type="JumpStart" />
         <Point X="7.323" Y="3" Type="JumpEnd" />
+        <Point X="6.677" Y="3" Type="JumpStart" />
+        <Point X="6.51" Y="3" Type="JumpEnd" />
         <Point X="5.333" Y="3" Type="JumpStart" />
         <Point X="5.167" Y="3" Type="JumpEnd" />
         <Point X="4.219" Y="3" />
@@ -85,7 +85,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAgAAAAAAAAAAYAAAAAAAAAEAAAAAAAAAAQAABAA=</HashCode>
+      <HashCode>AAAAAgAAAAAAAAAAYAAAAAAAAAEEAAAAAAAAAQAABAA=</HashCode>
       <FileName>Recommendation.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -103,8 +103,8 @@
       <FileName>Order.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="user" />
       <Property Name="ReturnRequest" />
+      <Property Name="user" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="ProductOrders" />
@@ -128,8 +128,8 @@
       <FileName>ProductOrder.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="orders" />
       <Property Name="products" />
+      <Property Name="orders" />
     </ShowAsAssociation>
   </Class>
   <Class Name="MikeRosoft.Design.ProductRecommend">
@@ -142,26 +142,26 @@
       <FileName>ProductRecommend.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="recommendation" />
       <Property Name="product" />
+      <Property Name="recommendation" />
     </ShowAsAssociation>
   </Class>
   <Class Name="MikeRosoft.Design.ReturnRequest">
-    <Position X="7.75" Y="7.25" Width="1.75" />
+    <Position X="9.75" Y="7.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAABQAAAgAAAIAAAAAAAACAAAAAAAAAAAAAAAQA=</HashCode>
+      <HashCode>gAAAAAABQAAAgAAAIAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ReturnRequest.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="user" />
       <Property Name="shippingCompany" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="orders" />
+      <Property Name="UserRequests" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MikeRosoft.Design.ShippingCompany">
-    <Position X="10.75" Y="7.25" Width="1.75" />
+    <Position X="12.75" Y="7.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAEAAAAAAAAAAAEAAA=</HashCode>
       <FileName>ShippingCompany.cs</FileName>
@@ -188,6 +188,17 @@
     <ShowAsAssociation>
       <Property Name="recommendation" />
       <Property Name="user" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MikeRosoft.Design.UserRequest">
+    <Position X="6.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAABAAAAAAACAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>UserRequest.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ReturnRequest" />
+      <Property Name="User" />
     </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
