@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -34,6 +34,8 @@
     <Compile Remove="Data\Migrations\20191008194225_UC_ReturnItem.Designer.cs" />
     <Compile Remove="Data\Migrations\20191009124416_UC_MakeRecommendation.cs" />
     <Compile Remove="Data\Migrations\20191009124416_UC_MakeRecommendation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191009183824_UC_ReturnItem.cs" />
+    <Compile Remove="Data\Migrations\20191009183824_UC_ReturnItem.Designer.cs" />
   </ItemGroup>
 
 
