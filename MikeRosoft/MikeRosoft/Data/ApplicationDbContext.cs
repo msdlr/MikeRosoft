@@ -30,6 +30,16 @@ namespace MikeRosoft.Data
         public virtual DbSet<UserRecommend> UserRecommendations { get; set;}
         public virtual DbSet<Product> Products { get; set;}
 
+
+
+        //BuyProduct
+        public virtual DbSet<Product> ProductList { get; set; }
+
+        public virtual DbSet<ProductOrder> ProductOrderList { get; set; }
+
+        public virtual DbSet<Order> OrderList { get; set; }
+
+
         //ReturnItem
         public virtual DbSet<ReturnRequest> ReturnRequests { get; set; }
         public virtual DbSet<ShippingCompany> ShippingCompanies { get; set; }
