@@ -44,7 +44,7 @@ namespace MikeRosoft.Design
         //PAYMENT METHOD
        public String PaymentMethod{ get; set; }
 
-        
+        [CreditCard]
         public string Card { get; set; }
 
         public string cardCVC { get; set; }

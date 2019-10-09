@@ -16,8 +16,6 @@ namespace MikeRosoft.Design
         public int orderId { get; set; }
         public virtual Order orders { get; set; }
 
-        public virtual int quantity { get; set; }
-
 
     }
 }
