@@ -19,6 +19,11 @@ namespace MikeRosoft.Data.Migrations
                 name: "Product",
                 newName: "Products");
 
+            migrationBuilder.AddColumn<int>(
+                name: "ReturnRequestID",
+                table: "Order",
+                nullable: true);
+
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Products",
                 table: "Products",
@@ -30,6 +35,7 @@ namespace MikeRosoft.Data.Migrations
                 {
                     IdRecommendation = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    name = table.Column<string>(maxLength: 50, nullable: false),
                     date = table.Column<DateTime>(nullable: false),
                     description = table.Column<string>(maxLength: 180, nullable: false),
                     adminId = table.Column<string>(nullable: false)
@@ -46,26 +52,37 @@ namespace MikeRosoft.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductRecommendations",
+                name: "ShippingCompanies",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    productid = table.Column<int>(nullable: true),
-                    recommendationIdRecommendation = table.Column<int>(nullable: true)
+                    name = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductRecommendations", x => x.ID);
+                    table.PrimaryKey("PK_ShippingCompanies", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductRecommendations",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(nullable: false),
+                    RecommendationId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductRecommendations", x => new { x.ProductId, x.RecommendationId });
                     table.ForeignKey(
-                        name: "FK_ProductRecommendations_Products_productid",
-                        column: x => x.productid,
+                        name: "FK_ProductRecommendations_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductRecommendations_Recommendations_recommendationIdRecommendation",
-                        column: x => x.recommendationIdRecommendation,
+                        name: "FK_ProductRecommendations_Recommendations_RecommendationId",
+                        column: x => x.RecommendationId,
                         principalTable: "Recommendations",
                         principalColumn: "IdRecommendation",
                         onDelete: ReferentialAction.Restrict);
@@ -75,22 +92,48 @@ namespace MikeRosoft.Data.Migrations
                 name: "UserRecommendations",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    recommendationIdRecommendation = table.Column<int>(nullable: true),
-                    userId = table.Column<string>(nullable: true)
+                    RecommendationId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRecommendations", x => x.ID);
+                    table.PrimaryKey("PK_UserRecommendations", x => new { x.UserId, x.RecommendationId });
                     table.ForeignKey(
-                        name: "FK_UserRecommendations_Recommendations_recommendationIdRecommendation",
-                        column: x => x.recommendationIdRecommendation,
+                        name: "FK_UserRecommendations_Recommendations_RecommendationId",
+                        column: x => x.RecommendationId,
                         principalTable: "Recommendations",
                         principalColumn: "IdRecommendation",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserRecommendations_AspNetUsers_userId",
+                        name: "FK_UserRecommendations_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReturnRequests",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    title = table.Column<string>(maxLength: 50, nullable: false),
+                    description = table.Column<string>(maxLength: 50, nullable: true),
+                    userId = table.Column<string>(nullable: false),
+                    shippingCompanyID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReturnRequests", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ReturnRequests_ShippingCompanies_shippingCompanyID",
+                        column: x => x.shippingCompanyID,
+                        principalTable: "ShippingCompanies",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ReturnRequests_AspNetUsers_userId",
                         column: x => x.userId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -98,14 +141,14 @@ namespace MikeRosoft.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductRecommendations_productid",
-                table: "ProductRecommendations",
-                column: "productid");
+                name: "IX_Order_ReturnRequestID",
+                table: "Order",
+                column: "ReturnRequestID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductRecommendations_recommendationIdRecommendation",
+                name: "IX_ProductRecommendations_RecommendationId",
                 table: "ProductRecommendations",
-                column: "recommendationIdRecommendation");
+                column: "RecommendationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Recommendations_adminId",
@@ -113,14 +156,27 @@ namespace MikeRosoft.Data.Migrations
                 column: "adminId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRecommendations_recommendationIdRecommendation",
-                table: "UserRecommendations",
-                column: "recommendationIdRecommendation");
+                name: "IX_ReturnRequests_shippingCompanyID",
+                table: "ReturnRequests",
+                column: "shippingCompanyID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRecommendations_userId",
-                table: "UserRecommendations",
+                name: "IX_ReturnRequests_userId",
+                table: "ReturnRequests",
                 column: "userId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRecommendations_RecommendationId",
+                table: "UserRecommendations",
+                column: "RecommendationId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Order_ReturnRequests_ReturnRequestID",
+                table: "Order",
+                column: "ReturnRequestID",
+                principalTable: "ReturnRequests",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_ProductOrder_Products_productId",
@@ -134,6 +190,10 @@ namespace MikeRosoft.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
+                name: "FK_Order_ReturnRequests_ReturnRequestID",
+                table: "Order");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_ProductOrder_Products_productId",
                 table: "ProductOrder");
 
@@ -141,14 +201,28 @@ namespace MikeRosoft.Data.Migrations
                 name: "ProductRecommendations");
 
             migrationBuilder.DropTable(
+                name: "ReturnRequests");
+
+            migrationBuilder.DropTable(
                 name: "UserRecommendations");
+
+            migrationBuilder.DropTable(
+                name: "ShippingCompanies");
 
             migrationBuilder.DropTable(
                 name: "Recommendations");
 
+            migrationBuilder.DropIndex(
+                name: "IX_Order_ReturnRequestID",
+                table: "Order");
+
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Products",
                 table: "Products");
+
+            migrationBuilder.DropColumn(
+                name: "ReturnRequestID",
+                table: "Order");
 
             migrationBuilder.RenameTable(
                 name: "Products",

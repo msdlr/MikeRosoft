@@ -307,6 +307,9 @@ namespace MikeRosoft.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ReturnRequestID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("arrivalDate")
                         .HasColumnType("datetime2");
 
@@ -326,6 +329,8 @@ namespace MikeRosoft.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("ReturnRequestID");
 
                     b.HasIndex("userId");
 
@@ -380,22 +385,15 @@ namespace MikeRosoft.Data.Migrations
 
             modelBuilder.Entity("MikeRosoft.Models.ProductRecommend", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("productid")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("recommendationIdRecommendation")
+                    b.Property<int>("RecommendationId")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("ProductId", "RecommendationId");
 
-                    b.HasIndex("productid");
-
-                    b.HasIndex("recommendationIdRecommendation");
+                    b.HasIndex("RecommendationId");
 
                     b.ToTable("ProductRecommendations");
                 });
@@ -419,6 +417,11 @@ namespace MikeRosoft.Data.Migrations
                         .HasColumnType("nvarchar(180)")
                         .HasMaxLength(180);
 
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
                     b.HasKey("IdRecommendation");
 
                     b.HasIndex("adminId");
@@ -426,24 +429,66 @@ namespace MikeRosoft.Data.Migrations
                     b.ToTable("Recommendations");
                 });
 
-            modelBuilder.Entity("MikeRosoft.Models.UserRecommend", b =>
+            modelBuilder.Entity("MikeRosoft.Models.ReturnRequest", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("recommendationIdRecommendation")
+                    b.Property<string>("description")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("shippingCompanyID")
                         .HasColumnType("int");
 
+                    b.Property<string>("title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
                     b.Property<string>("userId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("recommendationIdRecommendation");
+                    b.HasIndex("shippingCompanyID");
 
                     b.HasIndex("userId");
+
+                    b.ToTable("ReturnRequests");
+                });
+
+            modelBuilder.Entity("MikeRosoft.Models.ShippingCompany", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ShippingCompanies");
+                });
+
+            modelBuilder.Entity("MikeRosoft.Models.UserRecommend", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("RecommendationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RecommendationId");
+
+                    b.HasIndex("RecommendationId");
 
                     b.ToTable("UserRecommendations");
                 });
@@ -591,6 +636,11 @@ namespace MikeRosoft.Data.Migrations
 
             modelBuilder.Entity("MikeRosoft.Models.Order", b =>
                 {
+                    b.HasOne("MikeRosoft.Models.ReturnRequest", "ReturnRequest")
+                        .WithMany("orders")
+                        .HasForeignKey("ReturnRequestID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("MikeRosoft.Models.User", "user")
                         .WithMany("orders")
                         .HasForeignKey("userId")
@@ -616,13 +666,15 @@ namespace MikeRosoft.Data.Migrations
                 {
                     b.HasOne("MikeRosoft.Models.Product", "product")
                         .WithMany("ProductRecommendations")
-                        .HasForeignKey("productid")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("MikeRosoft.Models.Recommendation", "recommendation")
                         .WithMany("ProductRecommendations")
-                        .HasForeignKey("recommendationIdRecommendation")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("RecommendationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MikeRosoft.Models.Recommendation", b =>
@@ -634,17 +686,34 @@ namespace MikeRosoft.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MikeRosoft.Models.ReturnRequest", b =>
+                {
+                    b.HasOne("MikeRosoft.Models.ShippingCompany", "shippingCompany")
+                        .WithMany("ReturnRequests")
+                        .HasForeignKey("shippingCompanyID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MikeRosoft.Models.User", "user")
+                        .WithMany("ReturnRequests")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MikeRosoft.Models.UserRecommend", b =>
                 {
                     b.HasOne("MikeRosoft.Models.Recommendation", "recommendation")
                         .WithMany("UserRecommendations")
-                        .HasForeignKey("recommendationIdRecommendation")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("RecommendationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("MikeRosoft.Models.User", "user")
                         .WithMany("UserRecommendations")
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
