@@ -8,10 +8,10 @@ namespace MikeRosoft.Models
         //[Key]
         public virtual int ID { get; set; }
 
-        [ForeignKey("RecommendationId")]
+        //[ForeignKey("RecommendationId")]
         public virtual Recommendation recommendation { get; set; }
 
-        [ForeignKey("UserId")]
+        //[ForeignKey("UserId")]
         public virtual User user { get; set; }
 
         public UserRecommend()
