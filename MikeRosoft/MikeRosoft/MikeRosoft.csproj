@@ -32,6 +32,8 @@
     <Compile Remove="Data\Migrations\20191008190100_UC_MakeRecommendation.Designer.cs" />
     <Compile Remove="Data\Migrations\20191008194225_UC_ReturnItem.cs" />
     <Compile Remove="Data\Migrations\20191008194225_UC_ReturnItem.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191009124416_UC_MakeRecommendation.cs" />
+    <Compile Remove="Data\Migrations\20191009124416_UC_MakeRecommendation.Designer.cs" />
   </ItemGroup>
 
 
