@@ -10,7 +10,7 @@ namespace MikeRosoft.Models
         public virtual int requestID { get; set; }
         [ForeignKey("requestID")]
         public virtual ReturnRequest ReturnRequest { get; set; }
-        public virtual string userID { get; set; }
+        public virtual int userID { get; set; }
         [ForeignKey("userID")]
         public virtual User User { get; set; }
     }

@@ -43,7 +43,6 @@ namespace MikeRosoft.Data
         //ReturnItem
         public virtual DbSet<ReturnRequest> ReturnRequests { get; set; }
         public virtual DbSet<ShippingCompany> ShippingCompanies { get; set; }
-        public virtual DbSet<UserRequest> UserRequests { get; set; }
 
         //Claves primarias para las relaciones n-n
 
@@ -64,8 +63,6 @@ namespace MikeRosoft.Data
             .HasKey(pi => new { pi.ProductId, pi.RecommendationId });
             builder.Entity<UserRecommend>()
             .HasKey(pi => new { pi.UserId, pi.RecommendationId });
-            builder.Entity<UserRequest>()
-            .HasKey(pi => new { pi.userID, pi.requestID });
         }
     }
 }
