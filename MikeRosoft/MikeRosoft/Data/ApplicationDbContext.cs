@@ -49,6 +49,10 @@ namespace MikeRosoft.Data
             .HasKey(pi => new { pi.orderId, pi.productId });
             builder.Entity<BanForUser>()
             .HasKey(pi => new { pi.GetBanID, pi.GetUserId });
+            builder.Entity<ProductRecommend>()
+            .HasKey(pi => new { pi.ProductId, pi.RecommendationId });
+            builder.Entity<UserRecommend>()
+            .HasKey(pi => new { pi.UserId, pi.RecommendationId });
         }
     }
 }

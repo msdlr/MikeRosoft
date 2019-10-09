@@ -7,6 +7,8 @@ namespace MikeRosoft.Design
     {
         public virtual int IdRecommendation { get; set; }
 
+        public virtual String name { get; set; }
+
         public virtual DateTime date { get; set; }
 
         public virtual String description { get; set; }

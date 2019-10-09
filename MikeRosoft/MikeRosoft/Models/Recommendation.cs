@@ -13,12 +13,16 @@ namespace MikeRosoft.Models
         public virtual int IdRecommendation { get; set; }
 
         [Required]
+        [StringLength(50, MinimumLength = 1, ErrorMessage = "Name can not be empty or longer than 50 characters")]
+        public virtual String name { get; set; }
+
+        [Required]
         [DataType(DataType.Date)]
         public virtual DateTime date { get; set; }
         
         //Description about selected products
         [Required]
-        [StringLength(180, MinimumLength = 1, ErrorMessage = "Description cannot be longer than 180 characters")]
+        [StringLength(180, MinimumLength = 1, ErrorMessage = "Description can not be empty or longer than 180 characters")]
         public virtual String description { get; set;  }
         
         //Relacion con admin N-1
