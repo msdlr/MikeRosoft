@@ -16,14 +16,17 @@ namespace MikeRosoft.Models
         public virtual DateTime End { get; set; }
 
         //Relationships
+        [Required]
         public int GetBanID { get; set; }
         [ForeignKey("GetBanID")]
         public virtual Ban GetBan { get; set; }
 
+        [Required]
         public string GetUserId { get; set; }
         [ForeignKey("GetUserId")]
         public virtual User GetUser { get; set; }
 
+        [Required]
         public int GetBanTypeID { get; set; }
         [ForeignKey("GetBanTypeID")]
         public virtual BanType GetBanType { get; set; }
