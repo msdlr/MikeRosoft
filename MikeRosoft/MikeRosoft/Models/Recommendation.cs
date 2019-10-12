@@ -30,7 +30,7 @@ namespace MikeRosoft.Models
         public virtual Admin admin { get; set; }
         
         //Relacion con Usuarios N-N
-        public virtual IList<UserRecommend> UserRecommendations { get; set; }
+        //public virtual IList<UserRecommend> UserRecommendations { get; set; }
 
         //Relacion con Productos N-N
         public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
