@@ -29,6 +29,7 @@ namespace MikeRosoft.Data
         public virtual DbSet<ProductRecommend> ProductRecommendations { get; set;}
         //public virtual DbSet<UserRecommend> UserRecommendations { get; set;}
         public virtual DbSet<Product> Products { get; set;}
+        public virtual DbSet<Rate> Rates { get; set; }
 
         //ReturnItem
         public virtual DbSet<ReturnRequest> ReturnRequests { get; set; }
