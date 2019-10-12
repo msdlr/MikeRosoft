@@ -18,5 +18,21 @@ namespace MikeRosoft.Models
         public virtual String description { get; set; }
 
         public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
+
+        public override bool Equals(object Other)
+        {
+            Rate OtherRate = (Rate)Other;
+            bool result = (this.idRate == OtherRate.idRate) && (this.points == OtherRate.points)
+                && (this.description == OtherRate.description) && (this.ProductRecommendations.Count == OtherRate.ProductRecommendations.Count);
+            for (int i = 0; i < this.ProductRecommendations.Count; i++)
+            {
+                result = result && (this.ProductRecommendations.ElementAt(i).Equals(OtherRate.ProductRecommendations.ElementAt(i)));
+            }
+            return result;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
