@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 /// <summary>
 /// Summary description for Class1
@@ -24,9 +26,10 @@ namespace MikeRosoft.Models
         [Required]
         [StringLength(180, MinimumLength = 1, ErrorMessage = "Description can not be empty or longer than 180 characters")]
         public virtual String description { get; set;  }
-        
+
         //Relacion con admin N-1
-        [Required]
+        public string Adminid { get; set; }
+        [ForeignKey("AdminID")]
         public virtual Admin admin { get; set; }
         
         //Relacion con Usuarios N-N
@@ -35,9 +38,20 @@ namespace MikeRosoft.Models
         //Relacion con Productos N-N
         public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
 
-        public Recommendation()
+        public override bool Equals(object Other)
         {
-        
+            Recommendation OtherRec = (Recommendation)Other;
+            bool result = (this.IdRecommendation == OtherRec.IdRecommendation) && (this.Adminid == OtherRec.Adminid)
+                && (this.name == OtherRec.name) && (this.date == OtherRec.date) && (this.description == OtherRec.description) && (this.ProductRecommendations.Count == OtherRec.ProductRecommendations.Count);
+            for (int i = 0; i < this.ProductRecommendations.Count; i++)
+            {
+                result = result && (this.ProductRecommendations.ElementAt(i).Equals(OtherRec.ProductRecommendations.ElementAt(i)));
+            }
+            return result;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }
