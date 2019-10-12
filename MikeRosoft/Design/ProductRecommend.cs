@@ -13,6 +13,8 @@ namespace MikeRosoft.Design
 
         public virtual Recommendation recommendation { get; set; }
 
+        public virtual Rate rate { get; set; }
+
         public ProductRecommend()
         {
         }

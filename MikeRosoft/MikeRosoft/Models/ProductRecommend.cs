@@ -20,6 +20,8 @@ namespace MikeRosoft.Models
         [ForeignKey("RecommendationId")]
         public virtual Recommendation recommendation { get; set; }
 
+        public virtual Rate rate { get; set; }
+
         public ProductRecommend()
         {
         }
