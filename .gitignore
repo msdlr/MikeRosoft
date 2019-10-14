@@ -338,4 +338,7 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
-/MikeRosoft/Design/ReturnItemDiagram.cd
+
+
+#Ignore migrations
+MikeRosoft/MikeRosoft/Data/Migrations/

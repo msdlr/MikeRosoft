@@ -6,8 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.cs" />
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs" />
     <Compile Remove="Data\Migrations\20191006112310_test.cs" />
     <Compile Remove="Data\Migrations\20191006112310_test.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191006112622_bbdd_buyProduct.cs" />
+    <Compile Remove="Data\Migrations\20191006112622_bbdd_buyProduct.Designer.cs" />
     <Compile Remove="Data\Migrations\20191006202954_ClassesForBanUser.cs" />
     <Compile Remove="Data\Migrations\20191006202954_ClassesForBanUser.Designer.cs" />
     <Compile Remove="Data\Migrations\20191006203119_ClassesForBanUser.cs" />
@@ -28,12 +32,18 @@
     <Compile Remove="Data\Migrations\20191008160406_AddingRelationAdminRecommendation.Designer.cs" />
     <Compile Remove="Data\Migrations\20191008160529_AddingRelationRecommendationUser.cs" />
     <Compile Remove="Data\Migrations\20191008160529_AddingRelationRecommendationUser.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191008185455_UC_BanUser.cs" />
+    <Compile Remove="Data\Migrations\20191008185455_UC_BanUser.Designer.cs" />
     <Compile Remove="Data\Migrations\20191008190100_UC_MakeRecommendation.cs" />
     <Compile Remove="Data\Migrations\20191008190100_UC_MakeRecommendation.Designer.cs" />
     <Compile Remove="Data\Migrations\20191008194225_UC_ReturnItem.cs" />
     <Compile Remove="Data\Migrations\20191008194225_UC_ReturnItem.Designer.cs" />
     <Compile Remove="Data\Migrations\20191009124416_UC_MakeRecommendation.cs" />
     <Compile Remove="Data\Migrations\20191009124416_UC_MakeRecommendation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191009145105_UC_MakeRecommendation.cs" />
+    <Compile Remove="Data\Migrations\20191009145105_UC_MakeRecommendation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191009213243_UC_ReturnItem.cs" />
+    <Compile Remove="Data\Migrations\20191009213243_UC_ReturnItem.Designer.cs" />
   </ItemGroup>
 
 
@@ -46,6 +56,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>
