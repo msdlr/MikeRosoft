@@ -341,4 +341,4 @@ healthchecksdb
 
 
 #Ignore migrations
-MikeRosoft/MikeRosoft/Data/Migrations/
+MikeRosoft/MikeRosoft/Data/Migrations/20*.cs
