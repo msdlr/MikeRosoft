@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MikeRosoft.Data;
 using MikeRosoft.Models;
+using MikeRosoft.Models.BanViewModels;
 
 namespace MikeRosoft.Controllers
 {
+    //[Authorize(Roles = "Admin")]
     public class BansController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,7 +25,8 @@ namespace MikeRosoft.Controllers
         // GET: Bans
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Bans.ToListAsync());
+            //return View(await _context.Bans.ToListAsync());
+            return View(_context.Bans.Include(b => b.GetAdmin).Where(a => a.GetAdmin.Equals(User.Identity)));
         }
 
         // GET: Bans/Details/5
@@ -148,6 +152,17 @@ namespace MikeRosoft.Controllers
         private bool BanExists(int id)
         {
             return _context.Bans.Any(e => e.ID == id);
+        }
+
+        public IActionResult SelectUsersToBan(string user)
+        {
+            SelectUsersToBanViewModel selectUsers = new SelectUsersToBanViewModel();
+            //Search for users where no banForUser has an end date later than today
+            selectUsers.UserList = _context.Users.Include(user => user.BanRecord).Where(user=> !user.BanRecord.Any(banforuser=>banforuser.End.Date > DateTime.Now));
+
+            //Populate user list
+            selectUsers.UserList.ToList();
+            return View(selectUsers);
         }
     }
 }
