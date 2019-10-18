@@ -18,11 +18,11 @@ namespace MikeRosoft.Data
 
         //Creo que van aquí las listas
 
-        public virtual DbSet<User> UserList { get; set; }
-        public virtual DbSet<Admin> AdminList { get; set; }
-        public virtual DbSet<Ban> BanList { get; set; }
-        public virtual DbSet<BanForUser> BanForUserList { get; set; }
-        public virtual DbSet<BanType> BanTypeList { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Admin> Admins { get; set; }
+        public virtual DbSet<Ban> Bans { get; set; }
+        public virtual DbSet<BanForUser> BanForUsers { get; set; }
+        public virtual DbSet<BanType> BanTypes { get; set; }
 
         //MakeRecommendation
         public virtual DbSet<Recommendation> Recommendations { get; set;}
