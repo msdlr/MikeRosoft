@@ -189,5 +189,25 @@ namespace MikeRosoft.Controllers
             selectUsers.UserList.ToList();
             return View(selectUsers);
         }
+
+        //Post method
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SelectUsersToBan(SelectedUsersToBanViewModel model)
+        {
+            if (model.IdsToAdd != null)
+            {
+                return RedirectToAction("Create", model);
+            }
+            else
+            {
+                //If no users are selected
+                ModelState.AddModelError(string.Empty, "You must select at least one movie");
+                SelectUsersToBanViewModel select = new SelectUsersToBanViewModel();
+                select.UserList = _context.Users.Include(user => user.BanRecord).Where(user => !user.BanRecord.Any(banforuser => banforuser.End.Date > DateTime.Now));
+
+                return View(select);
+            }        
+        }
     }
 }
