@@ -154,11 +154,36 @@ namespace MikeRosoft.Controllers
             return _context.Bans.Any(e => e.ID == id);
         }
 
-        public IActionResult SelectUsersToBan(string user)
+        //Get method
+        public IActionResult SelectUsersToBan(string NameSelected, string sur1Selected, string sur2Selected, string IdSelected)
         {
             SelectUsersToBanViewModel selectUsers = new SelectUsersToBanViewModel();
             //Search for users where no banForUser has an end date later than today
             selectUsers.UserList = _context.Users.Include(user => user.BanRecord).Where(user=> !user.BanRecord.Any(banforuser=>banforuser.End.Date > DateTime.Now));
+
+            //filter by name
+            if (NameSelected != null)
+            {
+                selectUsers.UserList = selectUsers.UserList.Where(u => u.Name.Contains(NameSelected));
+            }
+            
+            //filter by 1st surname
+            if (NameSelected != null)
+            {
+                selectUsers.UserList = selectUsers.UserList.Where(u => u.FirstSurname.Contains(sur1Selected));
+            }
+            
+            //filter by 2nd surname
+            if (NameSelected != null)
+            {
+                selectUsers.UserList = selectUsers.UserList.Where(u => u.SecondSurname.Contains(sur2Selected));
+            }
+            
+            //filter by ID
+            if (NameSelected != null)
+            {
+                selectUsers.UserList = selectUsers.UserList.Where(u => u.Id.Contains(IdSelected));
+            }
 
             //Populate user list
             selectUsers.UserList.ToList();
