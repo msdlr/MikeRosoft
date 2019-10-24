@@ -155,7 +155,7 @@ namespace MikeRosoft.Controllers
         }
 
         //Get method
-        public IActionResult SelectUsersToBan(string NameSelected, string sur1Selected, string sur2Selected, string IdSelected)
+        public IActionResult SelectUsersToBan(string NameSelected, string sur1Selected, string sur2Selected, string userDNI)
         {
             SelectUsersToBanViewModel selectUsers = new SelectUsersToBanViewModel();
             //Search for users where no banForUser has an end date later than today
@@ -168,21 +168,21 @@ namespace MikeRosoft.Controllers
             }
 
             //filter by 1st surname
-            if (NameSelected != null)
+            if (sur1Selected != null)
             {
                 selectUsers.Users = selectUsers.Users.Where(u => u.FirstSurname.Contains(sur1Selected));
             }
 
             //filter by 2nd surname
-            if (NameSelected != null)
+            if (sur2Selected != null)
             {
                 selectUsers.Users = selectUsers.Users.Where(u => u.SecondSurname.Contains(sur2Selected));
             }
 
-            //filter by ID
-            if (NameSelected != null)
+            //filter by DNI
+            if (userDNI != null)
             {
-                selectUsers.Users = selectUsers.Users.Where(u => u.Id.Contains(IdSelected));
+                selectUsers.Users = selectUsers.Users.Where(u => u.DNI.Contains(userDNI));
             }
 
             //Populate user list
