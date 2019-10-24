@@ -159,34 +159,34 @@ namespace MikeRosoft.Controllers
         {
             SelectUsersToBanViewModel selectUsers = new SelectUsersToBanViewModel();
             //Search for users where no banForUser has an end date later than today
-            selectUsers.UserList = _context.Users.Include(user => user.BanRecord).Where(user=> !user.BanRecord.Any(banforuser=>banforuser.End.Date > DateTime.Now));
-
+            selectUsers.Users = _context.Users.Include(user => user.BanRecord).Where(user=> !user.BanRecord.Any(banforuser=>banforuser.End.Date > DateTime.Now)).ToList();
+            
             //filter by name
             if (NameSelected != null)
             {
-                selectUsers.UserList = selectUsers.UserList.Where(u => u.Name.Contains(NameSelected));
+                selectUsers.Users = selectUsers.Users.Where(u => u.Name.Contains(NameSelected));
             }
             
             //filter by 1st surname
             if (NameSelected != null)
             {
-                selectUsers.UserList = selectUsers.UserList.Where(u => u.FirstSurname.Contains(sur1Selected));
+                selectUsers.Users = selectUsers.Users.Where(u => u.FirstSurname.Contains(sur1Selected));
             }
             
             //filter by 2nd surname
             if (NameSelected != null)
             {
-                selectUsers.UserList = selectUsers.UserList.Where(u => u.SecondSurname.Contains(sur2Selected));
+                selectUsers.Users = selectUsers.Users.Where(u => u.SecondSurname.Contains(sur2Selected));
             }
             
             //filter by ID
             if (NameSelected != null)
             {
-                selectUsers.UserList = selectUsers.UserList.Where(u => u.Id.Contains(IdSelected));
+                selectUsers.Users = selectUsers.Users.Where(u => u.Id.Contains(IdSelected));
             }
 
             //Populate user list
-            selectUsers.UserList.ToList();
+            selectUsers.Users.ToList();
             return View(selectUsers);
         }
 
@@ -204,7 +204,7 @@ namespace MikeRosoft.Controllers
                 //If no users are selected
                 ModelState.AddModelError(string.Empty, "You must select at least one movie");
                 SelectUsersToBanViewModel select = new SelectUsersToBanViewModel();
-                select.UserList = _context.Users.Include(user => user.BanRecord).Where(user => !user.BanRecord.Any(banforuser => banforuser.End.Date > DateTime.Now));
+                select.Users = _context.Users.Include(user => user.BanRecord).Where(user => !user.BanRecord.Any(banforuser => banforuser.End.Date > DateTime.Now));
 
                 return View(select);
             }        
