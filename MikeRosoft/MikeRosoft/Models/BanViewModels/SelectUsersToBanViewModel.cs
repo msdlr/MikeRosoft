@@ -9,7 +9,7 @@ namespace MikeRosoft.Models.BanViewModels
     public class SelectUsersToBanViewModel
     {
         //List of users
-        public IEnumerable<User> UserList { get; set; }
+        public IEnumerable<User> Users { get; set; }
 
         //Filtering 
         [Display(Name = "Name")]
