@@ -155,12 +155,12 @@ namespace MikeRosoft.Controllers
         }
 
         //Get method
-        public IActionResult SelectUsersToBan(string NameSelected, string sur1Selected, string sur2Selected, string userDNI)
+        public IActionResult SelectUsersToBan(string NameSelected, string userSurname1, string userSurname2, string userDNI)
         {
             SelectUsersToBanViewModel selectUsers = new SelectUsersToBanViewModel();
             //Search for users where no banForUser has an end date later than today
-            selectUsers.Users = _context.Users.Include(user => user.BanRecord).Where(user => !user.BanRecord.Any(banforuser => banforuser.End.Date > DateTime.Now)).ToList();
-
+            //selectUsers.Users = _context.Users.Include(user => user.BanRecord).Where(user => !user.BanRecord.Any(banforuser => banforuser.End.Date > DateTime.Now)).ToList();
+            selectUsers.Users = _context.Users;
             //filter by name
             if (NameSelected != null)
             {
@@ -168,15 +168,15 @@ namespace MikeRosoft.Controllers
             }
 
             //filter by 1st surname
-            if (sur1Selected != null)
+            if (userSurname1 != null)
             {
-                selectUsers.Users = selectUsers.Users.Where(u => u.FirstSurname.Contains(sur1Selected));
+                selectUsers.Users = selectUsers.Users.Where(u => u.FirstSurname.Contains(userSurname1));
             }
 
             //filter by 2nd surname
-            if (sur2Selected != null)
+            if (userSurname2 != null)
             {
-                selectUsers.Users = selectUsers.Users.Where(u => u.SecondSurname.Contains(sur2Selected));
+                selectUsers.Users = selectUsers.Users.Where(u => u.SecondSurname.Contains(userSurname2));
             }
 
             //filter by DNI

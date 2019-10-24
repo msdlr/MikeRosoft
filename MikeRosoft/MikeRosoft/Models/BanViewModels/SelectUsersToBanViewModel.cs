@@ -13,7 +13,7 @@ namespace MikeRosoft.Models.BanViewModels
 
         //Filtering 
         [Display(Name = "Name")]
-        public string userName { get; set; }
+        public string NameSelected { get; set; }
         [Display(Name = "1st surname")]
         public string userSurname1 { get; set; }
         [Display(Name = "2nd surname")]
