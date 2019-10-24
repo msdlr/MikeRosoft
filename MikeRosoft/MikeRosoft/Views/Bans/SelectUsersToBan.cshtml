@@ -52,6 +52,38 @@
                     2nd Surname
                 </th>
            </thead>
+
+                <tbody>
+                    @if (Model.Users.Count() == 0)
+                    {
+                        <tr><td colspan="3">No users left to ban!</td></tr>
+                    }
+                    else
+                    {
+                        foreach (var item in Model.Users)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(m => item.DNI)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.Name)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(m => item.FirstSurname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.SecondSurname)
+                                </td>
+
+                                <td width="10%">
+                                    <input type="checkbox" name="IdsToAdd" value="@item.Id">
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
     </table>
 
     <button type="submit" class="btn btn-primary">Save</button>
