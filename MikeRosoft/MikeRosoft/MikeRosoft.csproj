@@ -46,10 +46,6 @@
     <Compile Remove="Data\Migrations\20191009213243_UC_ReturnItem.Designer.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="Views\Bans\SelectUsersToBan.cshtml" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0" />

@@ -27,11 +27,6 @@ namespace MikeRosoft.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please select a country")]
         public string Country { get; set;}
 
-        [System.ComponentModel.DataAnnotations.DataType(DataType.MultilineText)]
-        [Display(Name = "DNI")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Missing DNI")]
-        [RegularExpression(@"\d{8})([-]?) ([A - Z]{1})")]
-        public string DNI { get; set; }
 
 
 

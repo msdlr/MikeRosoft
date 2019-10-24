@@ -8,51 +8,55 @@
     ViewData["Title"] = "Select Users To Ban";
 }
 
-<h1>Select Users For Ban</h1>
+<h1>SelectUsersForBan</h1>
 
-<form asp-controller="Repairs" class="form-horizontal" aspaction="SelectUsersToBan" method="get">
-    <p>
-        <div>
-            <!-- FILTERING -->
-            <label asp-for="userID"></label>
-            <input asp-for="userID" size="10" />
-            <span asp-validation-for="userID" class="text-danger"></span>
+<h1>Index</h1>
 
-            <label asp-for="userName"></label>
-            <input asp-for="userName" size="10" />
-            <span asp-validation-for="userName" class="text-danger"></span>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserList)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
 
-            <label asp-for="userSurname1"></label>
-            <input asp-for="userSurname1" size="10" />
-            <span asp-validation-for="userSurname1" class="text-danger"></span>
+        @foreach (var item in Model.UserList)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
 
-            <label asp-for="userSurname1"></label>
-            <input asp-for="userSurname1" size="10" />
-            <span asp-validation-for="userSurname1" class="text-danger"></span>
-        </div>
-    </p>
-</form>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
 
-<!-- POST -->
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstSurname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondSurname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
 
-<form asp-action="SelectUsersToBan" method="post">
-    <table class="table"
-           <thead> <!-- cabeceras de la tabla -->
-                <th>
-                    User ID
-                </th>
-                <th>
-                    Name
-                </th>
-                <th>
-                    1st Surname
-                </th>
-                <th>
-                    2nd Surname
-                </th>
-           </thead>
-    </table>
-
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="SelectUsersToBan" class="btn btn-default">Cancel</a>
-</form>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
