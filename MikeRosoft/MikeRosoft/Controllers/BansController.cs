@@ -235,7 +235,7 @@ namespace MikeRosoft.Controllers
             else
             {
                 //If no users are selected
-                ModelState.AddModelError(string.Empty, "You must select at least one movie");
+                ModelState.AddModelError(string.Empty, "You must select at least one user");
                 SelectUsersToBanViewModel select = new SelectUsersToBanViewModel();
                 select.Users = _context.Users.Include(user => user.BanRecord).Where(user => !user.BanRecord.Any(banforuser => banforuser.End.Date > DateTime.Now));
 
