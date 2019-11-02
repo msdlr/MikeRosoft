@@ -159,8 +159,7 @@ namespace MikeRosoft.Controllers
         {
             SelectUsersToBanViewModel selectUsers = new SelectUsersToBanViewModel();
             //Search for users where no banForUser has an end date later than today
-            //selectUsers.Users = _context.Users.Include(user => user.BanRecord).Where(user => !user.BanRecord.Any(banforuser => banforuser.End.Date > DateTime.Now)).ToList();
-            selectUsers.Users = _context.Users;
+            selectUsers.Users = _context.Users.Include(user => user.BanRecord).Where(user => !user.BanRecord.Any(banforuser => banforuser.End.Date > DateTime.Now)).ToList();
             //filter by name
             if (NameSelected != null)
             {
