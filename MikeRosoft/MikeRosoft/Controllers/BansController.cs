@@ -12,7 +12,7 @@ using MikeRosoft.Models.BanViewModels;
 
 namespace MikeRosoft.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class BansController : Controller
     {
         private readonly ApplicationDbContext _context;
