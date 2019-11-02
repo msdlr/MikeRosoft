@@ -49,9 +49,10 @@ namespace AppForMovies.Data
         public static void SeedUsers(UserManager<IdentityUser> userManager, List<string> roles)
         {
             //first, it checks the user does not already exist in the DB
+            
             if (userManager.FindByNameAsync("ms@uclm.es").Result == null)
             {
-                ApplicationUser user = new ApplicationUser();
+                ApplicationUser user = new Admin();
                 user.UserName = "ms@uclm.es";
                 user.Email = "ms@uclm.es";
                 user.Name = "Miguel";
@@ -68,28 +69,28 @@ namespace AppForMovies.Data
                 }
             }
 
-            if (userManager.FindByNameAsync("namesurname@uclm.com").Result == null)
+            if (userManager.FindByNameAsync("elena@uclm.com").Result == null)
             {
                 ApplicationUser user = new ApplicationUser();
-                user.UserName = "namesurname@uclm.com";
-                user.Email = "namesurname@uclm.com";
-                user.Name = "Gregorio";
-                user.FirstSurname = "Diaz";
-                user.SecondSurname = "Descalzo";
+                user.UserName = "elena@uclm.com";
+                user.Email = "elena@uclm.com";
+                user.Name = "Elena";
+                user.FirstSurname = "Navarro";
+                user.SecondSurname = "Martínez";
 
-                IdentityResult result = userManager.CreateAsync(user, "APassword1234%").Result;
+                IdentityResult result = userManager.CreateAsync(user, "Password1234%").Result;
 
                 if (result.Succeeded)
                 {
-                    //Employee role
-                    userManager.AddToRoleAsync(user, roles[1]).Wait();
+                    //administrator role
+                    userManager.AddToRoleAsync(user, roles[0]).Wait();
                     user.EmailConfirmed = true;
                 }
             }
 
             if (userManager.FindByNameAsync("namesurname@uclm.com").Result == null)
             {
-                ApplicationUser user = new ApplicationUser();
+                ApplicationUser user = new Admin();
                 user.UserName = "namesurname@uclm.com";
                 user.Email = "namesurname@uclm.com";
                 user.Name = "Name";
