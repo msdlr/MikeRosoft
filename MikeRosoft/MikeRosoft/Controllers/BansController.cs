@@ -51,7 +51,7 @@ namespace MikeRosoft.Controllers
         public IActionResult Create(SelectedUsersToBanViewModel model)
         {
             CreateBanViewModel BanToCreate = new CreateBanViewModel();
-            BanToCreate.IdsToAdd = model.IdsToAdd;
+            BanToCreate.UserIds = model.IdsToAdd;
 
             return View(BanToCreate);
         }
