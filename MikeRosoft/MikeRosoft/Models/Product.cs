@@ -33,7 +33,6 @@ namespace MikeRosoft.Models
         [Range(0, 5, ErrorMessage = "Integer points between 0 and 5")]
         public virtual int rate { set; get; }
 
-        public string BrandId { get; set; }
         [ForeignKey("Brandid")]
         public virtual Brand brand{ get; set; }
 
@@ -46,7 +45,7 @@ namespace MikeRosoft.Models
         {
             Product OtherPro = (Product)Other;
             bool result = (this.id == OtherPro.id) && (this.title == OtherPro.title)
-                && (this.description == OtherPro.description) && (this.BrandId == OtherPro.BrandId) && (this.stock == OtherPro.stock) && (this.precio == OtherPro.precio) && (this.ProductRecommendations.Count == OtherPro.ProductRecommendations.Count) && (this.productOrders.Count == OtherPro.productOrders.Count);
+                && (this.description == OtherPro.description) && (this.brand == OtherPro.brand) && (this.stock == OtherPro.stock) && (this.precio == OtherPro.precio) && (this.ProductRecommendations.Count == OtherPro.ProductRecommendations.Count) && (this.productOrders.Count == OtherPro.productOrders.Count);
             for (int i = 0; i < this.ProductRecommendations.Count; i++)
             {
                 result = result && (this.ProductRecommendations.ElementAt(i).Equals(OtherPro.ProductRecommendations.ElementAt(i)));

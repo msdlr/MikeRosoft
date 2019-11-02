@@ -57,5 +57,9 @@ namespace MikeRosoft.Data
             builder.Entity<UserRequest>()
             .HasKey(pi => new { pi.userID, pi.requestID });
         }
+
+        //Claves primarias para las relaciones n-n
+
+        public DbSet<MikeRosoft.Models.Brand> Brand { get; set; }
     }
 }

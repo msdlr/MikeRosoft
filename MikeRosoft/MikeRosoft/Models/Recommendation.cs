@@ -28,7 +28,6 @@ namespace MikeRosoft.Models
         public virtual String description { get; set;  }
 
         //Relacion con admin N-1
-        public string Adminid { get; set; }
         [ForeignKey("AdminID")]
         public virtual Admin admin { get; set; }
         
@@ -41,7 +40,7 @@ namespace MikeRosoft.Models
         public override bool Equals(object Other)
         {
             Recommendation OtherRec = (Recommendation)Other;
-            bool result = (this.IdRecommendation == OtherRec.IdRecommendation) && (this.Adminid == OtherRec.Adminid)
+            bool result = (this.IdRecommendation == OtherRec.IdRecommendation) && (this.admin == OtherRec.admin)
                 && (this.name == OtherRec.name) && (this.date == OtherRec.date) && (this.description == OtherRec.description) && (this.ProductRecommendations.Count == OtherRec.ProductRecommendations.Count);
             for (int i = 0; i < this.ProductRecommendations.Count; i++)
             {
