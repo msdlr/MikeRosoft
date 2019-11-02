@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MikeRosoft.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +8,17 @@ namespace MikeRosoft.Models.BanViewModels
 {
     public class CreateBanViewModel
     {
-        public string[] IdsToAdd { get; set; }
-        public virtual IEnumerable<BanForUser> BansForThis { get; set; }
+        //IDs of users to ban
+        public string[] UserIds { get; set; }
+
+        //Ban type
+        public BanType GetBanType { get; set; }
+
+        //End and start date for each BanForUser
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+
+        //Comment for each BanForUser
+        public string[] AdditionalComment { set; get; }
     }
 }

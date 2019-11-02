@@ -17,7 +17,7 @@ namespace MikeRosoft.Models.BanViewModels
         [Display(Name = "1st surname")]
         public string userSurname1 { get; set; }
         [Display(Name = "2nd surname")]
-        public string userSurname2 { get; set; }     
+        public string userSurname2 { get; set; }
         [Display(Name = "DNI")]
         public string userDNI { get; set; }
     }

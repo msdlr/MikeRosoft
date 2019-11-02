@@ -25,8 +25,7 @@ namespace MikeRosoft.Controllers
         // GET: Bans
         public async Task<IActionResult> Index()
         {
-            //return View(await _context.Bans.ToListAsync());
-            return View(_context.Bans.Include(b => b.GetAdmin).Where(a => a.GetAdmin.Equals(User.Identity)));
+            return View(await _context.Bans.ToListAsync());
         }
 
         // GET: Bans/Details/5
@@ -48,25 +47,60 @@ namespace MikeRosoft.Controllers
         }
 
         // GET: Bans/Create
-        public IActionResult Create()
+
+        public IActionResult Create(SelectedUsersToBanViewModel model)
         {
-            return View();
+            CreateBanViewModel BanToCreate = new CreateBanViewModel();
+            BanToCreate.IdsToAdd = model.IdsToAdd;
+
+            return View(BanToCreate);
         }
+
 
         // POST: Bans/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,GetAdminId,BanTime")] Ban ban)
+        public async Task<IActionResult> Create(CreateBanViewModel cm, String BanTypeName, DateTime[] StartDate, DateTime[] EndDate, string[] AdditionalComment)
         {
-            if (ModelState.IsValid)
+            //Create ban
+            Ban ban = new Ban
             {
-                _context.Add(ban);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                GetAdmin = _context.Users.OfType<Admin>().FirstOrDefault<Admin>(u => u.UserName.Equals(User.Identity.Name)),
+                BanTime = DateTime.UtcNow
+            };
+
+            //Fill the list of BanForUsers
+            for (int i = 0; i<cm.UserIds.Count(); i++)
+            {
+                //Create a BanForUser for each selected  Id
+                BanForUser bfu = new BanForUser
+                {
+                    //Relationship with ban
+                    GetBan = ban,
+
+                    //Relationship with BanType
+                    GetBanType = _context.Users.OfType<BanType>().FirstOrDefault<BanType>(u => u.TypeName.Equals(BanTypeName)),
+
+                    //Relationship with User
+                    GetUser = _context.Users.OfType<User>().FirstOrDefault<User>(u => u.Id.Equals(cm.UserIds[i])),
+
+                    //Start and end dates
+                    Start = StartDate[i],
+                    End = EndDate[i],
+
+                    //Additional comments
+                    AdditionalComment = AdditionalComment[i]
+
+                };
+                _context.BanForUsers.Add(bfu);
+                
             }
-            return View(ban);
+
+            await _context.SaveChangesAsync();
+            //Details of the transaction
+            return RedirectToAction("Details", new { id = ban.ID });
         }
 
         // GET: Bans/Edit/5
