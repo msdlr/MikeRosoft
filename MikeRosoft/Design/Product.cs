@@ -28,6 +28,7 @@ namespace MikeRosoft.Design
         
         public virtual int stock { set; get; }
 
+        public virtual int rate { set; get; }
 
         public virtual IList<ProductOrder> productOrders { get; set; }
 

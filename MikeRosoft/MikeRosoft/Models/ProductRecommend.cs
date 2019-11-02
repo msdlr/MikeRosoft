@@ -22,13 +22,11 @@ namespace MikeRosoft.Models
 
         public virtual int RateId { get; set; }
         [ForeignKey("RateID")]
-        public virtual Rate rate { get; set; }
 
         public override bool Equals(object Other)
         {
             ProductRecommend ProdRec = (ProductRecommend)Other;
-            bool result = (this.ProductId == ProdRec.ProductId) && (this.RecommendationId == ProdRec.RecommendationId)
-                && (this.RateId == ProdRec.RateId);
+            bool result = (this.ProductId == ProdRec.ProductId) && (this.RecommendationId == ProdRec.RecommendationId);
             return result;
         }
         public override int GetHashCode()

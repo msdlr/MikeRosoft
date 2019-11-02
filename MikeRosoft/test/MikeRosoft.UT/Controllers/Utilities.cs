@@ -19,19 +19,19 @@ namespace MikeRosoft.UT.Controllers
             // Create a new options instance telling the context to use an
             // InMemory database and the new service provider.
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            builder.UseInMemoryDatabase("AppForMovies")
+            builder.UseInMemoryDatabase("MikeRosoft")
                     .UseInternalServiceProvider(serviceProvider);
             return builder.Options;
         }
 
-        //public static void InitializeDbGenresForTests(ApplicationDbContext db)
-        //{
-        //    db.Genre.Add(new Genre { Name = "Comedy" });
-        //    db.Genre.Add(new Genre { Name = "Drama" });
-        //    db.Genre.Add(new Genre { Name = "Sitcom" });
-        //    db.SaveChanges();
+        /*public static void InitializeDbProductsForTests(ApplicationDbContext db)
+        {
+            db.Products.Add(new Models.Product { title = "Mouse" });
+            db.Products.Add(new Models.Product { title = "Screen" });
+            db.Products.Add(new Models.Product { title = "Keyboard" });
+            db.SaveChanges();
 
-        //}
+        }*/
 
         //public static void ReInitializeDbGenresForTests(ApplicationDbContext db)
         //{
