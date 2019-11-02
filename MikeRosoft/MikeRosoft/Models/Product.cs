@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,11 +20,6 @@ namespace MikeRosoft.Models
         [StringLength(500, MinimumLength = 50)]
         public virtual string description { set; get; }
 
-
-        [Required]
-        public virtual string brand { set; get; }
-
-
         [Required]
         [Range(1, int.MaxValue)]
         public virtual float precio { set; get; }
@@ -37,6 +33,9 @@ namespace MikeRosoft.Models
         [Range(0, 5, ErrorMessage = "Integer points between 0 and 5")]
         public virtual int rate { set; get; }
 
+        public string BrandId { get; set; }
+        [ForeignKey("Brandid")]
+        public virtual Brand brand{ get; set; }
 
         public virtual IList<ProductOrder> productOrders { get; set; }
 
@@ -47,7 +46,7 @@ namespace MikeRosoft.Models
         {
             Product OtherPro = (Product)Other;
             bool result = (this.id == OtherPro.id) && (this.title == OtherPro.title)
-                && (this.description == OtherPro.description) && (this.brand == OtherPro.brand) && (this.stock == OtherPro.stock) && (this.precio == OtherPro.precio) && (this.ProductRecommendations.Count == OtherPro.ProductRecommendations.Count) && (this.productOrders.Count == OtherPro.productOrders.Count);
+                && (this.description == OtherPro.description) && (this.BrandId == OtherPro.BrandId) && (this.stock == OtherPro.stock) && (this.precio == OtherPro.precio) && (this.ProductRecommendations.Count == OtherPro.ProductRecommendations.Count) && (this.productOrders.Count == OtherPro.productOrders.Count);
             for (int i = 0; i < this.ProductRecommendations.Count; i++)
             {
                 result = result && (this.ProductRecommendations.ElementAt(i).Equals(OtherPro.ProductRecommendations.ElementAt(i)));
