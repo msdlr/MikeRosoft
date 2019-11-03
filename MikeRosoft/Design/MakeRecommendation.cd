@@ -13,7 +13,7 @@
   <Class Name="MikeRosoft.Design.Product">
     <Position X="4" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAEAAgAAQAAAAAAAIAAABAAAAAAAEIAAAAAAAAAAAgA=</HashCode>
+      <HashCode>AAEAAkAAQAAAAAAAIAAABAAAAAAAEIAAAAAAAAAAAgA=</HashCode>
       <FileName>Product.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -28,13 +28,12 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAgAAgAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAgAAgAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
       <FileName>ProductRecommend.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="product" />
       <Property Name="recommendation" />
-      <Property Name="rate" />
     </ShowAsAssociation>
   </Class>
   <Class Name="MikeRosoft.Design.Recommendation">
@@ -46,16 +45,6 @@
     <ShowAsAssociation>
       <Property Name="admin" />
     </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Property Name="ProductRecommendations" />
-    </ShowAsCollectionAssociation>
-  </Class>
-  <Class Name="MikeRosoft.Design.Rate">
-    <Position X="1" Y="0.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAgCAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
-      <FileName>Rate.cs</FileName>
-    </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="ProductRecommendations" />
     </ShowAsCollectionAssociation>

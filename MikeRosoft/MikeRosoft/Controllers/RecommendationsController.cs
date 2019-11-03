@@ -34,7 +34,10 @@ namespace MikeRosoft.Controllers
             }
 
             var recommendation = await _context.Recommendations
-                .FirstOrDefaultAsync(m => m.IdRecommendation == id);
+                .Include(m => m.ProductRecommendations).ThenInclude(m => m.product)
+                .Include(m => m.admin)
+                .FirstAsync(m => m.IdRecommendation == id);
+                //.FirstOrDefaultAsync(m => m.IdRecommendation == id);
             if (recommendation == null)
             {
                 return NotFound();

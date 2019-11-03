@@ -29,6 +29,24 @@
             @Html.DisplayFor(model => model.description)
         </dd>
     </dl>
+    <table>
+        <tbody>
+            @for (int i = 0; i < Model.ProductRecommendations.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).product.title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).product.precio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).product.stock)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.IdRecommendation">Edit</a> |

@@ -10,33 +10,33 @@ namespace MikeRosoft.Models
     public class Product
     {
         [Key]
-        public virtual int id { set; get; }
+        public virtual int Id { set; get; }
 
         [Required]
         [StringLength(50, MinimumLength = 1)]
-        public virtual string title { set; get; }
+        public virtual string Title { set; get; }
 
         
         [StringLength(500, MinimumLength = 50)]
-        public virtual string description { set; get; }
+        public virtual string Description { set; get; }
 
         [Required]
         [Range(1, int.MaxValue)]
-        public virtual float precio { set; get; }
+        public virtual float Price { set; get; }
 
         
         [Required]
         [Range(0, int.MaxValue)]
-        public virtual int stock { set; get; }
+        public virtual int Stock { set; get; }
 
         [Required]
         [Range(0, 5, ErrorMessage = "Integer points between 0 and 5")]
-        public virtual int rate { set; get; }
+        public virtual int Rate { set; get; }
 
         [ForeignKey("Brandid")]
         public virtual Brand brand{ get; set; }
 
-        public virtual IList<ProductOrder> productOrders { get; set; }
+        public virtual IList<ProductOrder> ProductOrders { get; set; }
 
         //MakeRecommendation
         public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
@@ -44,13 +44,13 @@ namespace MikeRosoft.Models
         public override bool Equals(object Other)
         {
             Product OtherPro = (Product)Other;
-            bool result = (this.id == OtherPro.id) && (this.title == OtherPro.title)
-                && (this.description == OtherPro.description) && (this.brand == OtherPro.brand) && (this.stock == OtherPro.stock) && (this.precio == OtherPro.precio) && (this.ProductRecommendations.Count == OtherPro.ProductRecommendations.Count) && (this.productOrders.Count == OtherPro.productOrders.Count);
+            bool result = (this.Id == OtherPro.Id) && (this.Title == OtherPro.Title)
+                && (this.Description == OtherPro.Description) && (this.brand == OtherPro.brand) && (this.Stock == OtherPro.Stock) && (this.Price == OtherPro.Price) && (this.ProductRecommendations.Count == OtherPro.ProductRecommendations.Count) && (this.ProductOrders.Count == OtherPro.ProductOrders.Count);
             for (int i = 0; i < this.ProductRecommendations.Count; i++)
             {
                 result = result && (this.ProductRecommendations.ElementAt(i).Equals(OtherPro.ProductRecommendations.ElementAt(i)));
             }
-            for (int i = 0; i < this.productOrders.Count; i++)
+            for (int i = 0; i < this.ProductOrders.Count; i++)
             {
                 result = result && (this.ProductRecommendations.ElementAt(i).Equals(OtherPro.ProductRecommendations.ElementAt(i)));
             }
