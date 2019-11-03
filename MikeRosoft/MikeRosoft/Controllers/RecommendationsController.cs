@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MikeRosoft.Data;
 using MikeRosoft.Models;
+using MikeRosoft.Models.RecommendationViewModels;
 
 namespace MikeRosoft.Controllers
 {
@@ -151,6 +152,41 @@ namespace MikeRosoft.Controllers
         private bool RecommendationExists(int id)
         {
             return _context.Recommendations.Any(e => e.IdRecommendation == id);
+        }
+
+        public IActionResult SelectProductsForRecommendation(string productTitle, int productPrice, string productBrandSelected, int productRate = -1)
+        {
+            SelectProductsForRecommendationViewModel selectProducts = new SelectProductsForRecommendationViewModel();
+            //It will be used to fill in a drop-down control
+            selectProducts.Brands = new SelectList(_context.Brand.Select(g => g.Name).ToList());
+            //It will filter that product that have enough quantity in stock
+            selectProducts.Products = _context.Products.Include(m => m.brand).Where(m => m.Stock > 0);
+            //For title
+            if(productTitle != null)
+            {
+                selectProducts.Products = selectProducts.Products.Where(m => m.Title.Contains(productTitle));
+
+            }
+            //For price
+            if (productPrice > 0)
+            {
+                selectProducts.Products = selectProducts.Products.Where(m => m.Price <= productPrice);
+
+            }
+            //For rate
+            if (productRate >= 0)
+            {
+                selectProducts.Products = selectProducts.Products.Where(m => m.Rate >= productRate);
+
+            }
+
+            if (productBrandSelected != null)
+            {
+                selectProducts.Products = selectProducts.Products.Where(m => m.brand.Name.Contains(productBrandSelected));
+
+            }
+            selectProducts.Products.ToList();
+            return View(selectProducts);
         }
     }
 }

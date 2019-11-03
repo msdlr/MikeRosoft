@@ -13,14 +13,14 @@ namespace MikeRosoft.Models
 
         [Required]
         [StringLength(50, MinimumLength = 1)]
-        public virtual string name { set; get; }
+        public virtual string Name { set; get; }
 
         public virtual IList<Product> Products { get; set; }
 
         public override bool Equals(object Other)
         {
             Brand Otherbrand = (Brand)Other;
-            bool result = (this.Brandid == Otherbrand.Brandid) && (this.name == Otherbrand.name) && (this.Products.Count == Otherbrand.Products.Count);
+            bool result = (this.Brandid == Otherbrand.Brandid) && (this.Name == Otherbrand.Name) && (this.Products.Count == Otherbrand.Products.Count);
             for (int i = 0; i < this.Products.Count; i++)
             {
                 result = result && (this.Products.ElementAt(i).Equals(Otherbrand.Products.ElementAt(i)));

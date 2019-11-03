@@ -10,7 +10,7 @@ namespace MikeRosoft.Design
     {
         public virtual int Brandid { set; get; }
 
-        public virtual string name { set; get; }
+        public virtual string Name { set; get; }
 
         public virtual IList<Product> Products { get; set; }
 
