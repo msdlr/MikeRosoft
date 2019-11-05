@@ -49,10 +49,6 @@ namespace MikeRosoft.Models
             bool result = (this.Id.Equals(otherUser.Id)) && (this.Street.Equals(otherUser.Street)) && (this.City.Equals(otherUser.City))
                 && (this.Province.Equals(otherUser.Province)) && (this.Country.Equals(otherUser.Country));
 
-            for (int i = 0; i < this.BanRecord.Count; i++)
-            {
-                result = result && (this.BanRecord.ElementAt(i).Equals(BanRecord.ElementAt(i)));
-            }
             return result;
         }
         public override int GetHashCode()

@@ -23,12 +23,8 @@ namespace MikeRosoft.Models
         public override bool Equals(object obj)
         {
             Admin otherAdmin = (Admin) obj;
-            bool result = this.Id.Equals(otherAdmin.Id) && (this.contractStarting.Equals(otherAdmin.contractStarting)) 
+            bool result = this.Id.Equals(otherAdmin.Id) && (this.contractStarting.Equals(otherAdmin.contractStarting))
                 && (this.contractEnding.Equals(otherAdmin.contractEnding)) && (this.GetBans.Count == otherAdmin.GetBans.Count);
-            for(int i=0; i<this.GetBans.Count; i++)
-            {
-                result = result && this.GetBans.ElementAt(i).Equals(otherAdmin.GetBans.ElementAt(i)) ;
-            }
 
             return result;
         }
