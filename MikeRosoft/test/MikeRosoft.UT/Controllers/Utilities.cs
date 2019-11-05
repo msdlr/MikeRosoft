@@ -27,9 +27,9 @@ namespace MikeRosoft.UT.Controllers
 
         public static void InitializeBanTypes(ApplicationDbContext db)
         {
-            db.BanTypes.Add(new Models.BanType { TypeName = "Inappropiate behaviour", DefaultDuration = TimeSpan.FromHours(5)} );
-            db.BanTypes.Add(new Models.BanType { TypeName = "Unpaid orders", DefaultDuration = TimeSpan.FromDays(7) });
-            db.BanTypes.Add(new Models.BanType { TypeName = "Fraudulent information", DefaultDuration = TimeSpan.FromDays(99) });
+            db.BanTypes.Add(new Models.BanType { TypeID = 1, TypeName = "Inappropiate behaviour", DefaultDuration = TimeSpan.FromHours(5)} );
+            db.BanTypes.Add(new Models.BanType { TypeID = 2, TypeName = "Unpaid orders", DefaultDuration = TimeSpan.FromDays(7) });
+            db.BanTypes.Add(new Models.BanType { TypeID = 3, TypeName = "Fraudulent information", DefaultDuration = TimeSpan.FromDays(99) });
         }
 
         public static void InitializeUsersToBan(ApplicationDbContext db)

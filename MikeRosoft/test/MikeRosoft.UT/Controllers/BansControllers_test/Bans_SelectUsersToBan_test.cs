@@ -4,7 +4,6 @@ using MikeRosoft.Data;
 using System;
 using System.Threading.Tasks;
 using Xunit;
-
 using MikeRosoft.Controllers;
 using MikeRosoft.Models;
 using MikeRosoft.Models.BanViewModels;
@@ -73,7 +72,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 var controller = new BansController(context);
                 controller.ControllerContext.HttpContext = banContext;
 
-                //Create the user
+                //Create the expected user
                 User expected1 = new User();
                 expected1.UserName = "elena@uclm.com";
                 expected1.Email = "elena@uclm.com";
@@ -119,7 +118,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 var controller = new BansController(context);
                 controller.ControllerContext.HttpContext = banContext;
 
-                //Create the user
+                //Create the expected user
                 User expected1 = new User();
                 expected1.UserName = "elena@uclm.com";
                 expected1.Email = "elena@uclm.com";
@@ -155,7 +154,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 var controller = new BansController(context);
                 controller.ControllerContext.HttpContext = banContext;
 
-                //Create the user
+                //Create the expected user
                 User expected1 = new User();
                 expected1.UserName = "elena@uclm.com";
                 expected1.Email = "elena@uclm.com";
@@ -191,7 +190,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 var controller = new BansController(context);
                 controller.ControllerContext.HttpContext = banContext;
 
-                //Create the user
+                //Create the expected user
                 User expected1 = new User();
                 expected1.UserName = "elena@uclm.com";
                 expected1.Email = "elena@uclm.com";
@@ -227,7 +226,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 var controller = new BansController(context);
                 controller.ControllerContext.HttpContext = banContext;
 
-                //Create the user
+                //Create the expected user
                 User expected1 = new User();
                 expected1.UserName = "elena@uclm.com";
                 expected1.Email = "elena@uclm.com";

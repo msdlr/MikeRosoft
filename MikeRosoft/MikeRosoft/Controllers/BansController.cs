@@ -15,6 +15,21 @@ namespace MikeRosoft.Controllers
     [Authorize(Roles = "Admin")]
     public class BansController : Controller
     {
+        private int banCounter = 0; 
+        private int banForUserCounter = 0;
+
+        public int nextBanCounter()
+        {
+            this.banCounter++;
+            return this.banCounter;
+        }
+
+        public int nextBanForUserCounter()
+        {
+            this.banForUserCounter++;
+            return this.banForUserCounter;
+        }
+
         private readonly ApplicationDbContext _context;
 
         public BansController(ApplicationDbContext context)
@@ -47,12 +62,34 @@ namespace MikeRosoft.Controllers
         }
 
         // GET: Bans/Create
-
         public IActionResult Create(SelectedUsersToBanViewModel model)
         {
             CreateBanViewModel BanToCreate = new CreateBanViewModel();
             BanToCreate.UserIds = model.IdsToAdd;
 
+            if (model.IdsToAdd == null)
+                ModelState.AddModelError("NoUsersSelected", "You should select at least a user to be banned, please");
+            else
+            {
+                //Create the Ban object
+                Ban banToReturn = new Ban()
+                {
+                    ID = this.nextBanCounter(),
+                    BanTime = DateTime.Today,
+                    GetAdmin = _context.Users.OfType<Admin>().FirstOrDefault<Admin>(u => u.UserName.Equals(User.Identity.Name)),
+                };
+
+                //Create a BanItem for each user ID
+                foreach (string st in model.IdsToAdd)
+                {
+                    BanForUser banForThisUser = new BanForUser
+                    {
+                        GetUser = _context.Users.OfType<User>().FirstOrDefault<User>(u => u.Id.Equals(st)),
+                        ID = this.nextBanCounter()
+                    };
+                    BanToCreate.BansForUsers.Add(banForThisUser);
+                }
+            }
             return View(BanToCreate);
         }
 
@@ -62,13 +99,14 @@ namespace MikeRosoft.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateBanViewModel cm, String BanTypeName, DateTime[] StartDate, DateTime[] EndDate, string[] AdditionalComment)
+        public async Task<IActionResult> Create(CreateBanViewModel cm, String[] BanTypeName, DateTime[] StartDate, DateTime[] EndDate, string[] AdditionalComment)
         {
             //Create ban
             Ban ban = new Ban
             {
                 GetAdmin = _context.Users.OfType<Admin>().FirstOrDefault<Admin>(u => u.UserName.Equals(User.Identity.Name)),
-                BanTime = DateTime.UtcNow
+                BanTime = DateTime.UtcNow,
+                ID = this.nextBanCounter()
             };
 
             //Fill the list of BanForUsers
