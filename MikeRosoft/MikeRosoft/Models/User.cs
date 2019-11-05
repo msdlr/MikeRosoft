@@ -46,11 +46,11 @@ namespace MikeRosoft.Models
         public override bool Equals(object obj)
         {
             return obj is User user &&
-                   base.Equals(obj) &&
+                   base.Equals( (ApplicationUser) obj) &&
                    Street == user.Street &&
                    City == user.City &&
                    Province == user.Province &&
-                   Country == user.Country && base.Equals((ApplicationUser)obj);
+                   Country == user.Country;
         }
 
         public override int GetHashCode()

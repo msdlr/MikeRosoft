@@ -29,12 +29,16 @@ namespace MikeRosoft.Models
 
         public override bool Equals(object obj)
         {
-            ApplicationUser OtherUser = (ApplicationUser) obj;
-            return (this.Id.Equals(OtherUser.Id) && this.Name.Equals(OtherUser.Name) && this.FirstSurname.Equals(OtherUser.SecondSurname));
+            return obj is ApplicationUser user &&
+                   Name == user.Name &&
+                   FirstSurname == user.FirstSurname &&
+                   SecondSurname == user.SecondSurname &&
+                   DNI == user.DNI;
         }
+
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(Name, FirstSurname, SecondSurname, DNI);
         }
     }
 }

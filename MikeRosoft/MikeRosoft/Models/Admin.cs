@@ -23,9 +23,9 @@ namespace MikeRosoft.Models
         public override bool Equals(object obj)
         {
             return obj is Admin admin &&
-                   base.Equals(obj) &&
+                   base.Equals( (ApplicationUser) obj) &&
                    contractStarting == admin.contractStarting &&
-                   contractEnding == admin.contractEnding && base.Equals((ApplicationUser)obj);
+                   contractEnding == admin.contractEnding;
         }
 
         public override int GetHashCode()
