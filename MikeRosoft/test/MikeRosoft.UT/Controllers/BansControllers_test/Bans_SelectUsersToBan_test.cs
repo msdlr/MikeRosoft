@@ -63,6 +63,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
             banContext.User = identity;
         }
 
+        /*   GET   */
         [Fact]
         public async Task SelectUsersToBan_GET_NoFilter()
         {
@@ -251,6 +252,78 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 var viewResult = Assert.IsType<ViewResult>(result); // Check the controller returns a view
                 SelectUsersToBanViewModel model = viewResult.Model as SelectUsersToBanViewModel;
                 Assert.Equal(expectedUser, model.Users, Comparer.Get<User>((p1, p2) => p1.Id.Equals(p2.Id)));
+            }
+        }
+
+        /*   POST   */
+
+        [Fact]
+        public async Task SelectUsersToBan_POST_NoFilter()
+        {
+            using (context)
+            {
+                //Arrange
+                
+                //Act
+
+                //Assert
+                
+            }
+        }
+
+        [Fact]
+        public async Task SelectUsersToBan_POST_FilterByName()
+        {
+            using (context)
+            {
+                //Arrange
+
+                //Act
+
+                //Assert
+
+            }
+        }
+
+        [Fact]
+        public async Task SelectUsersToBan_POST_FilterByFirstSurame()
+        {
+            using (context)
+            {
+                //Arrange
+
+                //Act
+
+                //Assert
+
+            }
+        }
+
+        [Fact]
+        public async Task SelectUsersToBan_POST_FilterBySecondSurame()
+        {
+            using (context)
+            {
+                //Arrange
+
+                //Act
+
+                //Assert
+
+            }
+        }
+
+        [Fact]
+        public async Task SelectUsersToBan_POST_FilterByDNI()
+        {
+            using (context)
+            {
+                //Arrange
+
+                //Act
+
+                //Assert
+
             }
         }
     }
