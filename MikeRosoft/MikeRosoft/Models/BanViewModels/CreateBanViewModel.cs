@@ -1,4 +1,5 @@
-﻿using MikeRosoft.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using MikeRosoft.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,9 @@ namespace MikeRosoft.Models.BanViewModels
         public string[] UserIds { get; set; }
 
         //Ban type
-        public BanType GetBanType { get; set; }
+        public SelectList BanTypesAvailable { get; set; }
+        public string banTypeName { get; set; }
+        public int GetBanTypeID { get; set; }
 
         //End and start date for each BanForUser
         public DateTime StartDate { get; set; }
