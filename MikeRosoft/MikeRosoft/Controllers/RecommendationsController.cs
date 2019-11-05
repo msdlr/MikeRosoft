@@ -188,5 +188,22 @@ namespace MikeRosoft.Controllers
             selectProducts.Products.ToList();
             return View(selectProducts);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SelectProductsForRecommendation(SelectedProductsForRecommendationViewModel selectedProducts)
+        {
+            if (selectedProducts.IdsToAdd != null)
+            {
+                return RedirectToAction("Create", selectedProducts);
+            }
+            //a message error will be shown to the admin in case no products were selected
+            ModelState.AddModelError(string.Empty, "You must select at least one product");
+            //we will recreate the view model again
+            SelectProductsForRecommendationViewModel selectProducts = new SelectProductsForRecommendationViewModel();
+            selectProducts.Brands = new SelectList(_context.Brand.Select(g => g.Name).ToList());
+            selectProducts.Products = _context.Products.Include(m => m.brand).Where(m => m.Stock > 0).ToList();
+            return View(selectProducts);
+        }
     }
 }

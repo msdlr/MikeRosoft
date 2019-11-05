@@ -34,7 +34,7 @@ namespace MikeRosoft.Controllers
             }
 
             var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace MikeRosoft.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id,title,description,precio,stock,rate")] Product product)
         {
-            if (id != product.id)
+            if (id != product.Id)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace MikeRosoft.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.id))
+                    if (!ProductExists(product.Id))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace MikeRosoft.Controllers
             }
 
             var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace MikeRosoft.Controllers
 
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.id == id);
+            return _context.Products.Any(e => e.Id == id);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace MikeRosoft.Controllers
             if (!String.IsNullOrEmpty(SearchString))
             {
                 //Searching Brands whose name contains SearchString
-                var Brands = _context.Brand.Where(s => s.name.Contains(SearchString));
+                var Brands = _context.Brand.Where(s => s.Name.Contains(SearchString));
                 //Calling the view with the result
                 return View(await Brands.ToListAsync());
             }
