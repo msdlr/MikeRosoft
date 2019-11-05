@@ -29,7 +29,7 @@ namespace MikeRosoft.Models
 
         public override bool Equals(object obj)
         {
-            return obj is ApplicationUser user &&
+            return obj is ApplicationUser user && base.Equals( (IdentityUser) obj ) &&
                    Name == user.Name &&
                    FirstSurname == user.FirstSurname &&
                    SecondSurname == user.SecondSurname &&
