@@ -27,9 +27,9 @@ namespace MikeRosoft.Models
         [RegularExpression(@"(\d{8})([-]?)([A-Z]{1})")]
         public string DNI { get; set; }
 
-        public override bool Equals(object obj)
+        public bool Equals(ApplicationUser obj)
         {
-            return obj is ApplicationUser user && base.Equals( (IdentityUser) obj ) &&
+            return obj is ApplicationUser user && this.Id.Equals( obj.Id ) &&
                    Name == user.Name &&
                    FirstSurname == user.FirstSurname &&
                    SecondSurname == user.SecondSurname &&
