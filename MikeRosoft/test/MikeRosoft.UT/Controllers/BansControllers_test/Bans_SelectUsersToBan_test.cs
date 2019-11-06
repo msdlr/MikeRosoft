@@ -8,6 +8,7 @@ using MikeRosoft.Controllers;
 using MikeRosoft.Models;
 using MikeRosoft.Models.BanViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
 
 namespace MikeRosoft.UT.Controllers.BansControllers_test
 {
@@ -312,11 +313,19 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
             using (context)
             {
                 //Arrange
+                var controller = new BansController(context);
+                controller.ControllerContext.HttpContext = banContext;
+
+                //Viewmodel with the Id of the selected users
+                SelectedUsersToBanViewModel selected = new SelectedUsersToBanViewModel { IdsToAdd = new String[] { "7ba98196-c2bf-4d6e-9d87-bdca85e81a0a", "092435f8-ac5b-4c8f-81a9-c7b52a598e02" } };
 
                 //Act
+                var result = controller.SelectUsersToBan(selected);
 
                 //Assert
-
+                var viewResult = Assert.IsType<RedirectToActionResult>(result);
+                var currentUsers = viewResult.RouteValues.Values.First();
+                Assert.Equal(selected.IdsToAdd, currentUsers);
             }
         }
     }
