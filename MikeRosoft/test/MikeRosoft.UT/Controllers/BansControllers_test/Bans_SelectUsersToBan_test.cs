@@ -7,17 +7,17 @@ using Xunit;
 using MikeRosoft.Controllers;
 using MikeRosoft.Models;
 using MikeRosoft.Models.BanViewModels;
-
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MikeRosoft.UT.Controllers.BansControllers_test
 {
-    public class SelectUsersToBan_GET_UT
+    public class Bans_SelectUsersToBan_test
     {
         private DbContextOptions<ApplicationDbContext> _contextOptions;
         private ApplicationDbContext context;
         Microsoft.AspNetCore.Http.DefaultHttpContext banContext;
 
-        public SelectUsersToBan_GET_UT()
+        public Bans_SelectUsersToBan_test()
         {
             //Initialize the Database
             _contextOptions = Utilities.CreateNewContextOptions();
@@ -72,7 +72,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 var controller = new BansController(context);
                 controller.ControllerContext.HttpContext = banContext;
 
-                //Create the expected user
+                //Create the expected users
                 User expected1 = new User();
                 expected1.UserName = "elena@uclm.com";
                 expected1.Email = "elena@uclm.com";
@@ -92,7 +92,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 expected2.Id = "092435f8-ac5b-4c8f-81a9-c7b52a598e02";
 
                 //The user to be shown should be the same
-                var expectedUser = new User[]
+                var expectedUsers = new User[]
                 {
                     expected1, expected2
                 };
@@ -105,7 +105,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 //Assert
                 var viewResult = Assert.IsType<ViewResult>(result); // Check the controller returns a view
                 SelectUsersToBanViewModel model = viewResult.Model as SelectUsersToBanViewModel;
-                Assert.Equal(expectedUser, model.Users, Comparer.Get<User>((p1, p2) => p1.Id.Equals(p2.Id)));
+                Assert.Equal(expectedUsers, model.Users, Comparer.Get<User>((p1, p2) => p1.Id.Equals(p2.Id)));
             }
         }
 
@@ -129,7 +129,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 expected1.Id = "7ba98196-c2bf-4d6e-9d87-bdca85e81a0a";
 
                 //The user to be shown should be the same
-                var expectedUser = new User[]
+                var expectedUsers = new User[]
                 {
                     expected1
                 };
@@ -142,7 +142,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 //Assert
                 var viewResult = Assert.IsType<ViewResult>(result); // Check the controller returns a view
                 SelectUsersToBanViewModel model = viewResult.Model as SelectUsersToBanViewModel;
-                Assert.Equal(expectedUser, model.Users, Comparer.Get<User>((p1, p2) => p1.Id.Equals(p2.Id)));
+                Assert.Equal(expectedUsers, model.Users, Comparer.Get<User>((p1, p2) => p1.Id.Equals(p2.Id)));
             }
         }
         [Fact]
@@ -165,7 +165,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 expected1.Id = "7ba98196-c2bf-4d6e-9d87-bdca85e81a0a";
 
                 //The user to be shown should be the same
-                var expectedUser = new User[]
+                var expectedUsers = new User[]
                 {
                     expected1
                 };
@@ -178,7 +178,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 //Assert
                 var viewResult = Assert.IsType<ViewResult>(result); // Check the controller returns a view
                 SelectUsersToBanViewModel model = viewResult.Model as SelectUsersToBanViewModel;
-                Assert.Equal(expectedUser, model.Users, Comparer.Get<User>((p1, p2) => p1.Id.Equals(p2.Id)));
+                Assert.Equal(expectedUsers, model.Users, Comparer.Get<User>((p1, p2) => p1.Id.Equals(p2.Id)));
             }
         }
         [Fact]
@@ -201,7 +201,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 expected1.Id = "7ba98196-c2bf-4d6e-9d87-bdca85e81a0a";
 
                 //The user to be shown should be the same
-                var expectedUser = new User[]
+                var expectedUsers = new User[]
                 {
                     expected1
                 };
@@ -214,7 +214,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 //Assert
                 var viewResult = Assert.IsType<ViewResult>(result); // Check the controller returns a view
                 SelectUsersToBanViewModel model = viewResult.Model as SelectUsersToBanViewModel;
-                Assert.Equal(expectedUser, model.Users, Comparer.Get<User>((p1, p2) => p1.Id.Equals(p2.Id)));
+                Assert.Equal(expectedUsers, model.Users, Comparer.Get<User>((p1, p2) => p1.Id.Equals(p2.Id)));
             }
         }
         [Fact]
@@ -237,7 +237,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 expected1.Id = "7ba98196-c2bf-4d6e-9d87-bdca85e81a0a";
 
                 //The user to be shown should be the same
-                var expectedUser = new User[]
+                var expectedUsers = new User[]
                 {
                     expected1
                 };
@@ -250,7 +250,73 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 //Assert
                 var viewResult = Assert.IsType<ViewResult>(result); // Check the controller returns a view
                 SelectUsersToBanViewModel model = viewResult.Model as SelectUsersToBanViewModel;
-                Assert.Equal(expectedUser, model.Users, Comparer.Get<User>((p1, p2) => p1.Id.Equals(p2.Id)));
+                Assert.Equal(expectedUsers, model.Users, Comparer.Get<User>((p1, p2) => p1.Id.Equals(p2.Id)));
+            }
+        }
+
+        /*     POST    */
+        
+        //Succesful selection
+        [Fact]
+        public async Task SelectUsersToBan_POST_WithoutUsers()
+        {
+            using (context)
+            {
+                //Arrange
+                var controller = new BansController(context);
+                controller.ControllerContext.HttpContext = banContext;
+
+                User expected1 = new User();
+                expected1.UserName = "elena@uclm.com";
+                expected1.Email = "elena@uclm.com";
+                expected1.Name = "Elena";
+                expected1.FirstSurname = "Navarro";
+                expected1.SecondSurname = "Martínez";
+                expected1.DNI = "48484848B";
+                expected1.Id = "7ba98196-c2bf-4d6e-9d87-bdca85e81a0a";
+
+                User expected2 = new User();
+                expected2.UserName = "test@uclm.com";
+                expected2.Email = "test@uclm.com";
+                expected2.Name = "Antonio";
+                expected2.FirstSurname = "Martinez";
+                expected2.SecondSurname = "Jimenez";
+                expected2.DNI = "84172168P";
+                expected2.Id = "092435f8-ac5b-4c8f-81a9-c7b52a598e02";
+
+                //The user to be shown should be the same
+                var expectedUsers = new User[]
+                {
+                    expected1, expected2
+                };
+
+                //Viewmodel with no users selected
+                SelectedUsersToBanViewModel selected = new SelectedUsersToBanViewModel {IdsToAdd= null };
+
+                //Act
+                var result = controller.SelectUsersToBan(selected);
+
+                //Assert
+                var viewResult = Assert.IsType<ViewResult>(result); // Check the controller returns a view
+                SelectUsersToBanViewModel model = viewResult.Model as SelectUsersToBanViewModel;
+
+
+                Assert.Equal(expectedUsers, model.Users, Comparer.Get<User>((p1, p2) => p1.Equals(p2)));
+            }
+        }
+
+        //Succesful selection
+        [Fact]
+        public async Task SelectUsersToBan_POST_WithUsers()
+        {
+            using (context)
+            {
+                //Arrange
+
+                //Act
+
+                //Assert
+
             }
         }
     }
