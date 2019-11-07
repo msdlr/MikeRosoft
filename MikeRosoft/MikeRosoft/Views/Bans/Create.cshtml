@@ -1,0 +1,91 @@
+﻿@model MikeRosoft.Models.BanViewModels.CreateBanViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Ban</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            User
+                        </th>
+
+                        <th>
+                            Start date
+                        </th>
+
+                        <th>
+                            End date
+                        </th>
+
+                        <th width="50%">
+                            Additional comment
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (int i = 0; i < this.Model.UserIds.Count(); i++)
+                    {
+                        <tr>
+                            @Html.Display(Model.UserIds[i])
+                            <td>
+                                <label asp-for="UserIds[i]"></label>
+                                <input asp-for="UserIds[i]" required size="50" />
+                                <span asp-validation-for="UserIds[i]" class="text-danger"></span>
+                            </td>
+
+                            <td>
+                                <label asp-for="StartDate"></label>
+                                <input asp-for="StartDate" required size="50" />
+                                <span asp-validation-for="StartDate" class="text-danger"></span>
+                            </td>
+
+                            <td>
+                                <label asp-for="EndDate"></label>
+                                <input asp-for="EndDate" required size="50" />
+                                <span asp-validation-for="EndDate" class="text-danger"></span>
+                            </td>
+
+                            <div class="form-group">
+                                <label asp-for="banTypeName"></label>
+                                <select asp-for="banTypeName" asp-items="Model.BanTypesAvailable"></select>
+                            </div>
+
+                            <td>
+                                <label asp-for="AdditionalComment[i]"></label>
+                                <input asp-for="AdditionalComment[i]" required size="50" />
+                                <span asp-validation-for="AdditionalComment[i]" class="text-danger"></span>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+                @foreach (var ID in Model.UserIds)
+                {
+                    <input type="hidden" name="ids" value="@ID" />
+                }
+            </div>
+        </form>
+
+    </div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

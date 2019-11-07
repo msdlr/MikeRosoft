@@ -9,12 +9,6 @@ namespace MikeRosoft.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        [Key]
-        //[Required]
-        [StringLength(9)]
-        override
-        public string Id { get; set; }
-
         [Required(AllowEmptyStrings = false, ErrorMessage = "Enter name")]
         [StringLength(50, MinimumLength = 1)]
         public virtual string Name { get; set; }
@@ -27,14 +21,24 @@ namespace MikeRosoft.Models
         [Display(Name = "Second Surname")]
         public virtual string SecondSurname { get; set; }
 
-        public override bool Equals(object obj)
+        [System.ComponentModel.DataAnnotations.DataType(DataType.MultilineText)]
+        [Display(Name = "DNI")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "No DNI")]
+        [RegularExpression(@"(\d{8})([-]?)([A-Z]{1})")]
+        public string DNI { get; set; }
+
+        public bool Equals(ApplicationUser obj)
         {
-            ApplicationUser OtherUser = (ApplicationUser) obj;
-            return (this.Id.Equals(OtherUser.Id) && this.Name.Equals(OtherUser.Name) && this.FirstSurname.Equals(OtherUser.SecondSurname));
+            return obj is ApplicationUser user && this.Id.Equals( obj.Id ) &&
+                   Name == user.Name &&
+                   FirstSurname == user.FirstSurname &&
+                   SecondSurname == user.SecondSurname &&
+                   DNI == user.DNI;
         }
+
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(Name, FirstSurname, SecondSurname, DNI);
         }
     }
 }
