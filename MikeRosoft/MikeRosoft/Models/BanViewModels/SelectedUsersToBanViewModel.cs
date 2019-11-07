@@ -8,5 +8,7 @@ namespace MikeRosoft.Models.BanViewModels
     public class SelectedUsersToBanViewModel
     {
         public string[] IdsToAdd { get; set; }
+
+        public IList<string> info { get; set; }
     }
 }

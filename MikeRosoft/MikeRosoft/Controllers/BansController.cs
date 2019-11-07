@@ -268,6 +268,13 @@ namespace MikeRosoft.Controllers
         {
             if (model.IdsToAdd != null)
             {
+                //Have some info regarding the user
+                for (int i = 0; i < model.IdsToAdd.Length; i++)
+                {
+                    var user = _context.Users.First(u => u.Id.Equals(model.IdsToAdd[i]));
+                    model.info[i] = user.Name + " " + user.FirstSurname + " (" + user.DNI + ")";
+                }
+
                 return RedirectToAction("Create", model);
             }
             else
