@@ -10,7 +10,9 @@ namespace MikeRosoft.Models
     {
         [Key]
         public virtual int ID { get; set; }
-        public virtual IList<ReturnRequest> ReturnRequests { get; set; }
+        [Required]
+        public virtual IList<ReturnRequest> userRequests { get; set; }
+
         [Required]
         [StringLength(50, MinimumLength = 1)]
         public virtual string name { get; set; }

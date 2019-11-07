@@ -8,7 +8,7 @@ namespace MikeRosoft.Design
     {
         // attributes
         public virtual int ID { get; set; }
-        public virtual IList<ReturnRequest> ReturnRequests { get; set; }
+        public virtual IList<UserRequest> userRequests { get; set; }
         public virtual string name { get; set; }
     }
 }

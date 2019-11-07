@@ -12,15 +12,11 @@ namespace MikeRosoft.Models
         public virtual int ID { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 1)]
-        public virtual string title       { get; set; }
-        [StringLength(50, MinimumLength = 1)]
-        public virtual string description { get; set; }
+        public virtual string title { get; set; }
 
         // relationships
         [Required]
         public virtual IList<UserRequest> userRequests { get; set; }
-        [Required]
-        public virtual ShippingCompany shippingCompany { get; set; }
         [Required]
         public virtual IList<Order> orders { get; set; }
     }
