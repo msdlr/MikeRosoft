@@ -52,7 +52,7 @@ namespace AppForMovies.Data
             
             if (userManager.FindByNameAsync("ms@uclm.es").Result == null)
             {
-                ApplicationUser user = new Admin();
+                Admin user = new Admin();
                 user.UserName = "ms@uclm.es";
                 user.Email = "ms@uclm.es";
                 user.Name = "Miguel";
@@ -71,7 +71,7 @@ namespace AppForMovies.Data
 
             if (userManager.FindByNameAsync("elena@uclm.com").Result == null)
             {
-                ApplicationUser user = new User();
+                User user = new User();
                 user.UserName = "elena@uclm.com";
                 user.Email = "elena@uclm.com";
                 user.Name = "Elena";
@@ -91,7 +91,7 @@ namespace AppForMovies.Data
 
             if (userManager.FindByNameAsync("namesurname@uclm.com").Result == null)
             {
-                ApplicationUser user = new User();
+                User user = new User();
                 user.UserName = "namesurname@uclm.com";
                 user.Email = "namesurname@uclm.com";
                 user.Name = "Name";
@@ -110,7 +110,7 @@ namespace AppForMovies.Data
 
             if (userManager.FindByNameAsync("ABC@uclm.com").Result == null)
             {
-                ApplicationUser user = new User();
+                User user = new User();
                 user.UserName = "ABC@uclm.com";
                 user.Email = "ABC@uclm.com";
                 user.Name = "A";
