@@ -12,6 +12,8 @@ namespace MikeRosoft.Models.BanViewModels
         //IDs of users to ban
         public string[] UserIds { get; set; }
 
+        public string[] infoAboutUser { get; set; }
+
         //List of BanForUser
         public IList<BanForUser> BansForUsers { get; set; }
 
