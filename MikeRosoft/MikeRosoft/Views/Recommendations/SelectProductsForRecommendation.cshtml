@@ -4,7 +4,7 @@
     ViewData["Title"] = "Select Products";
 }
 
-<h1>Select Product for Recommendation</h1>
+<h2>Select Product for Recommendation</h2>
 
 <form asp-controller="Recommendations" class="form-horizontal" asp-action="SelectProductsForRecommendation" method="get">
     <p>
@@ -31,53 +31,53 @@
 </form>
 <div asp-validation-summary="All" class="text-danger"></div>
 <form asp-action="SelectProductsForRecommendation" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="50%">
+                    Title
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Rate
+                </th>
+                <th align="center" width="10%">
+                    Select Product
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Products.Count() == 0)
+            {
+                <tr><td colspan="3">There are no products available</td></tr>
+            }
+            else
+            {
+                @foreach (var item in Model.Products)
+                {
+                    <tr>
+                        <td width="50%">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.brand.Name)
+                        </td>
+                        <td align="center" width="10%">
+                            <input type="checkbox" name="IdsToAdd" value="@item.Id" />
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
     <button type="submit" class="btn btn-primary">Save</button>
     <a asp-action="Index" class="btn btn-default">Cancel</a>
 </form>
-<table class="table">
-    <thead>
-        <tr>
-            <th width="50%">
-                Title
-            </th>
-            <th>
-                Price
-            </th>
-            <th>
-                Rate
-            </th>
-            <th width="10%">
-                Select Product
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.Products.Count() == 0)
-        {
-            <tr><td colspan="3">There are no products available</td></tr>
-        }
-        else
-        {
-            @foreach (var item in Model.Products)
-            {
-                <tr>
-                    <td width="50%">
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Rate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.brand.Name)
-                    </td>
-                    <td width="10%">
-                        <input type="checkbox" name="IdsToAdd" value="@item.Id" />
-                    </td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>

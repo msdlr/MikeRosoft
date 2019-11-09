@@ -154,7 +154,8 @@ namespace MikeRosoft.Controllers
             return _context.Recommendations.Any(e => e.IdRecommendation == id);
         }
 
-        public IActionResult SelectProductsForRecommendation(string productTitle, int productPrice, string productBrandSelected, int productRate = -1)
+        //GET: Recommendations/SelectProductsForRecommendation
+        public IActionResult SelectProductsForRecommendation(string productTitle, string productBrandSelected, int productPrice = -1, int productRate = -1)
         {
             SelectProductsForRecommendationViewModel selectProducts = new SelectProductsForRecommendationViewModel();
             //It will be used to fill in a drop-down control
@@ -189,6 +190,7 @@ namespace MikeRosoft.Controllers
             return View(selectProducts);
         }
 
+        //POST: Recommendations/SelectProductForRecommendation
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult SelectProductsForRecommendation(SelectedProductsForRecommendationViewModel selectedProducts)

@@ -19,9 +19,11 @@ namespace MikeRosoft.Models.RecommendationViewModels
         public string productTitle { get; set; }
         //Used to filter by price of product
         [Display(Name = "Price")]
+        [Range(1,int.MaxValue, ErrorMessage = "Introduce a price bigger than 0")]
         public int productPrice { get; set; }
         //Used to filter by rate of product
         [Display(Name = "Rate")]
+        [Range(1,5,ErrorMessage ="Rate between 1 and 5")]
         public int productRate { get; set; }
     }
 }
