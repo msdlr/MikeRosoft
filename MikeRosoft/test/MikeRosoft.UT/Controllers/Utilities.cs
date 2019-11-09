@@ -53,22 +53,24 @@ namespace MikeRosoft.UT.Controllers
             db.Users.Add(banned2);
         }
 
-        //public static void InitializeDbGenresForTests(ApplicationDbContext db)
-        //{
-        //    db.Genre.Add(new Genre { Name = "Comedy" });
-        //    db.Genre.Add(new Genre { Name = "Drama" });
-        //    db.Genre.Add(new Genre { Name = "Sitcom" });
-        //    db.SaveChanges();
+        //Recommendations
+        public static void InitializeDbProductsForTest(ApplicationDbContext db)
+        {
+            var brand = new Brand { Name = "HP" };
+            db.Brand.Add(brand);
+            db.Products.Add(new Product { Id = 1, Title = "Gamer Mouse", Description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 20, Stock = 100, Rate = 4 });
+            db.Products.Add(new Product { Id = 2, Title = "Dark Keyboard", Description = "2Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 25, Stock = 50, Rate = 3 });
+            db.Products.Add(new Product { Id = 3, Title = "Silence Mouse", Description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 25, Stock = 89, Rate = 5 });
 
-        //}
+            db.SaveChanges();
+        }
 
-        //public static void ReInitializeDbGenresForTests(ApplicationDbContext db)
-        //{
-        //    db.Genre.RemoveRange(db.Genre);
-        //    db.SaveChanges();
-        //}
-
-
+        public static void ReInitializeDbProductsForTests(ApplicationDbContext db)
+        {
+            db.Brand.RemoveRange(db.Brand);
+            db.Products.RemoveRange(db.Products);
+            db.SaveChanges();
+        }
 
 
     }
