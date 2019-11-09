@@ -72,6 +72,14 @@ namespace MikeRosoft.Controllers
 
             //Fill the lest of BanTypes in the SelectList
             BanToCreate.BanTypesAvailable = new SelectList(_context.BanTypes.Select(g => g.TypeName).ToList());
+            //Get default duration for each type (Exception if 0)
+            if(_context.BanTypes.Select(g => g.TypeName).ToList().Count != 0)
+            BanToCreate.defaultDuration = new TimeSpan[_context.BanTypes.Select(g => g.TypeName).ToList().Count];
+
+            for (int i=0; i< BanToCreate.BanTypesAvailable.Count();i++)
+            {
+                BanToCreate.defaultDuration[i] = _context.BanTypes.Select(g => g.DefaultDuration).ToList().ElementAt(i);
+            }
 
             if (model.IdsToAdd == null)
                 ModelState.AddModelError("NoUsersSelected", "You should select at least a user to be banned, please");
@@ -84,18 +92,7 @@ namespace MikeRosoft.Controllers
                     BanToCreate.infoAboutUser[i] = user.Name + " " + user.FirstSurname + " (" + user.DNI + ")";
                 }
             }
-            /*
-            else
-            {
-                //Create the Ban object
-                Ban banToReturn = new Ban()
-                {
-                    ID = this.nextBanCounter(),
-                    BanTime = DateTime.Today,
-                    GetAdmin = _context.Admins.OfType<Admin>().FirstOrDefault<Admin>(u => u.Name.Equals(User.Identity.Name)),
-                };
-            }
-            */
+           
             return View(BanToCreate);
         }
 
@@ -105,16 +102,17 @@ namespace MikeRosoft.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateBanViewModel cm)
+        public async Task<IActionResult> Create(CreateBanViewModel cm, IList<BanForUser> bfus)
         {
             //Create ban
             Ban ban = new Ban
             {
-                GetAdmin = _context.Users.OfType<Admin>().FirstOrDefault<Admin>(u => u.DNI.Equals(((Admin)User.Identity).DNI)),
+                //GetAdmin = _context.Admins.OfType<Admin>().FirstOrDefault<Admin>(u => u.Name.Equals(User.Identity.Name)),
                 BanTime = DateTime.UtcNow,
                 ID = this.nextBanCounter()
             };
 
+            _context.Bans.Add(ban);
             //Fill the list of BanForUsers
             for (int i = 0; i<cm.UserIds.Count(); i++)
             {
@@ -131,8 +129,8 @@ namespace MikeRosoft.Controllers
                     GetUser = _context.Users.OfType<User>().FirstOrDefault<User>(u => u.Id.Equals(cm.UserIds[i])),
 
                     //Start and end dates
-                    Start = cm.StartDate[i],
-                    End = cm.EndDate[i],
+                    Start = Convert.ToDateTime(cm.StartDate[i]),
+                    End = Convert.ToDateTime(cm.EndDate[i]),
 
                     //Additional comments
                     AdditionalComment = cm.AdditionalComment[i]
