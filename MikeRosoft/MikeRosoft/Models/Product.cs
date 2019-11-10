@@ -17,7 +17,7 @@ namespace MikeRosoft.Models
         public virtual string Title { set; get; }
 
         
-        [StringLength(500, MinimumLength = 50)]
+        [StringLength(500, MinimumLength = 50, ErrorMessage = "Cannot be longer than 50 characters.")]
         public virtual string Description { set; get; }
 
         [Required]

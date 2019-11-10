@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -41,8 +42,7 @@ namespace MikeRosoft.Controllers
                 return NotFound();
             }
 
-            var brand = await _context.Brand
-                .FirstOrDefaultAsync(m => m.Brandid == id);
+            var brand = await _context.Brand.SingleOrDefaultAsync(m => m.Brandid == id);
             if (brand == null)
             {
                 return NotFound();
@@ -68,12 +68,13 @@ namespace MikeRosoft.Controllers
             {
                 _context.Add(brand);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             return View(brand);
         }
 
         // GET: Brands/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,7 +82,7 @@ namespace MikeRosoft.Controllers
                 return NotFound();
             }
 
-            var brand = await _context.Brand.FindAsync(id);
+            var brand = await _context.Brand.SingleOrDefaultAsync(m => m.Brandid == id);
             if (brand == null)
             {
                 return NotFound();
@@ -119,7 +120,7 @@ namespace MikeRosoft.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             return View(brand);
         }
@@ -132,8 +133,7 @@ namespace MikeRosoft.Controllers
                 return NotFound();
             }
 
-            var brand = await _context.Brand
-                .FirstOrDefaultAsync(m => m.Brandid == id);
+            var brand = await _context.Brand.SingleOrDefaultAsync(m => m.Brandid == id);
             if (brand == null)
             {
                 return NotFound();
@@ -147,10 +147,20 @@ namespace MikeRosoft.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var brand = await _context.Brand.FindAsync(id);
+            var brand = await _context.Brand.SingleOrDefaultAsync(m => m.Brandid == id);
             _context.Brand.Remove(brand);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        public IActionResult VerifyName(Brand brand)
+        {
+            if(_context.Brand.Any(g => g.Name.Equals(brand.Name) && (g.Brandid != brand.Brandid)))
+            {
+                return Json(data: $"Name {brand.Name} is already in use.");
+            }
+            return Json(data: true);
         }
 
         private bool BrandExists(int id)

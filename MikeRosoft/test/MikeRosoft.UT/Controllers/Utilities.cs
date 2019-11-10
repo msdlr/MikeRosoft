@@ -58,11 +58,9 @@ namespace MikeRosoft.UT.Controllers
         {
             var brand = new Brand { Name = "HP" };
             db.Brand.Add(brand);
-            db.Products.Add(new Product { Id = 1, Title = "Gamer Mouse", Description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 20, Stock = 100, Rate = 4 });
-            db.Products.Add(new Product { Id = 2, Title = "Dark Keyboard", Description = "2Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 25, Stock = 50, Rate = 3 });
-            db.Products.Add(new Product { Id = 3, Title = "Silence Mouse", Description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 25, Stock = 89, Rate = 5 });
-
-            db.SaveChanges();
+            db.Products.Add(new Product { Id = 1, Title = "Gamer Mouse", Description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 20, Stock = 100, Rate = 4 });
+            db.Products.Add(new Product { Id = 2, Title = "Dark Keyboard", Description = "2Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 25, Stock = 50, Rate = 3 });
+            db.Products.Add(new Product { Id = 3, Title = "Silence Mouse", Description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 25, Stock = 89, Rate = 5 });
         }
 
         public static void ReInitializeDbProductsForTests(ApplicationDbContext db)
@@ -72,6 +70,12 @@ namespace MikeRosoft.UT.Controllers
             db.SaveChanges();
         }
 
-
+        /*public static void InitializeDbBrandsForTests(ApplicationDbContext db)
+        {
+            db.Brand.Add(new Brand { Name = "Toshiba" });
+            db.Brand.Add(new Brand { Name = "Microsoft" });
+            db.Brand.Add(new Brand { Name = "Lenovo" });
+            db.SaveChanges();
+        }*/
     }
 }

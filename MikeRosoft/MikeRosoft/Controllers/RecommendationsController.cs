@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using MikeRosoft.Models.RecommendationViewModels;
 
 namespace MikeRosoft.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RecommendationsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -199,13 +201,16 @@ namespace MikeRosoft.Controllers
             {
                 return RedirectToAction("Create", selectedProducts);
             }
-            //a message error will be shown to the admin in case no products were selected
-            ModelState.AddModelError(string.Empty, "You must select at least one product");
-            //we will recreate the view model again
-            SelectProductsForRecommendationViewModel selectProducts = new SelectProductsForRecommendationViewModel();
-            selectProducts.Brands = new SelectList(_context.Brand.Select(g => g.Name).ToList());
-            selectProducts.Products = _context.Products.Include(m => m.brand).Where(m => m.Stock > 0).ToList();
-            return View(selectProducts);
+            else
+            {
+                //a message error will be shown to the admin in case no products were selected
+                ModelState.AddModelError(string.Empty, "You must select at least one product");
+                //we will recreate the view model again
+                SelectProductsForRecommendationViewModel selectProducts = new SelectProductsForRecommendationViewModel();
+                selectProducts.Brands = new SelectList(_context.Brand.Select(g => g.Name).ToList());
+                selectProducts.Products = _context.Products.Include(m => m.brand).Where(m => m.Stock > 0).ToList();
+                return View(selectProducts);
+            }
         }
     }
 }
