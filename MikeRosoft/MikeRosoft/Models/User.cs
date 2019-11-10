@@ -28,9 +28,6 @@ namespace MikeRosoft.Models
         public string Country { get; set;}
 
 
-
-
-
         // UC Return Item
         public virtual IList<UserRequest> userRequests { get; set; }
 

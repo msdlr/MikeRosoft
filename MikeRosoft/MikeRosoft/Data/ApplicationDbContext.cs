@@ -62,6 +62,11 @@ namespace MikeRosoft.Data
             .HasKey(pi => new { pi.UserId, pi.RecommendationId });
             builder.Entity<UserRequest>()
             .HasKey(pi => new { pi.userID, pi.requestID });
+
+            //unique constraints
+            builder.Entity<ApplicationUser>()
+            .HasIndex(u => u.DNI)
+            .IsUnique();
         }
     }
 }

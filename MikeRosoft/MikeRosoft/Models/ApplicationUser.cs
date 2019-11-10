@@ -9,12 +9,6 @@ namespace MikeRosoft.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        [Key]
-        //[Required]
-        [StringLength(9)]
-        override
-        public string Id { get; set; }
-
         [Required(AllowEmptyStrings = false, ErrorMessage = "Enter name")]
         [StringLength(50, MinimumLength = 1)]
         public virtual string Name { get; set; }
@@ -26,6 +20,12 @@ namespace MikeRosoft.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Enter second surname")]
         [Display(Name = "Second Surname")]
         public virtual string SecondSurname { get; set; }
+
+        [System.ComponentModel.DataAnnotations.DataType(DataType.MultilineText)]
+        [Display(Name = "DNI")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "No DNI")]
+        [RegularExpression(@"(\d{8})([-]?)([A-Z]{1})")]
+        public string DNI { get; set; }
 
         public override bool Equals(object obj)
         {

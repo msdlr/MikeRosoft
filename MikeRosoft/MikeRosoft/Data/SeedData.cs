@@ -6,8 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using MikeRosoft.Data;
 
-namespace MikeRosoft.Data
+namespace AppForMovies.Data
 {
     public static class SeedData
     {
@@ -15,17 +16,17 @@ namespace MikeRosoft.Data
         //            RoleManager<IdentityRole> roleManager)
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            //var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            //var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+            var role = serviceProvider.GetRequiredService(typeof(RoleManager<IdentityRole>));
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
 
 
-            //List<string> rolesNames = new List<string> { "Manager", "Customer" };
+            List<string> rolesNames = new List<string> { "Admin", "User" };
 
-            //SeedRoles(roleManager, rolesNames);
-            //SeedUsers(userManager, rolesNames);
-            ////SeedBoats_Rentals(dbContext);
-            SeedProducts(dbContext);
+            SeedRoles(roleManager, rolesNames);
+            SeedUsers(userManager, rolesNames);
         }
 
         public static void SeedRoles(RoleManager<IdentityRole> roleManager, List<string> roles)
@@ -45,50 +46,68 @@ namespace MikeRosoft.Data
 
         }
 
-        public static void SeedUsers(UserManager<ApplicationUser> userManager, List<string> roles)
+        public static void SeedUsers(UserManager<IdentityUser> userManager, List<string> roles)
         {
-
-        }
-
-
-        public static void SeedProducts(ApplicationDbContext dbContext)
-        {
-            Product product_1 = new Product()
+            //first, it checks the user does not already exist in the DB
+            
+            if (userManager.FindByNameAsync("ms@uclm.es").Result == null)
             {
-                id = 1,
-                title = "Memoria RAM",
-                description = "8 GB",
-                brand = "Kingston",
-                precio = 130,
-                stock = 3
-            };
-            dbContext.Products.Add(product_1);
+                ApplicationUser user = new Admin();
+                user.UserName = "ms@uclm.es";
+                user.Email = "ms@uclm.es";
+                user.Name = "Miguel";
+                user.FirstSurname = "Sanchez";
+                user.SecondSurname = "De la Rosa";
 
-            Product product_2 = new Product()
+                IdentityResult result = userManager.CreateAsync(user, "Password1234%").Result;
+
+                if (result.Succeeded)
+                {
+                    //administrator role
+                    userManager.AddToRoleAsync(user, roles[0]).Wait();
+                    user.EmailConfirmed = true;
+                }
+            }
+
+            if (userManager.FindByNameAsync("elena@uclm.com").Result == null)
             {
-                id = 2,
-                title = "Memoria RAM",
-                description = "16 GB",
-                brand = "Kingston",
-                precio = 130,
-                stock = 0
-            };
-            dbContext.Products.Add(product_2);
+                ApplicationUser user = new ApplicationUser();
+                user.UserName = "elena@uclm.com";
+                user.Email = "elena@uclm.com";
+                user.Name = "Elena";
+                user.FirstSurname = "Navarro";
+                user.SecondSurname = "Martínez";
 
-            Product product_3 = new Product()
+                IdentityResult result = userManager.CreateAsync(user, "Password1234%").Result;
+
+                if (result.Succeeded)
+                {
+                    //administrator role
+                    userManager.AddToRoleAsync(user, roles[0]).Wait();
+                    user.EmailConfirmed = true;
+                }
+            }
+
+            if (userManager.FindByNameAsync("namesurname@uclm.com").Result == null)
             {
-                id = 3,
-                title = "Memoria RAM",
-                description = "325 GB",
-                brand = "Kingston",
-                precio = 130,
-                stock = 2
-            };
-            dbContext.Products.Add(product_3);
+                ApplicationUser user = new Admin();
+                user.UserName = "namesurname@uclm.com";
+                user.Email = "namesurname@uclm.com";
+                user.Name = "Name";
+                user.FirstSurname = "Surname";
+                user.SecondSurname = "SurSurname";
 
-            dbContext.SaveChanges();
+                IdentityResult result = userManager.CreateAsync(user, "APassword1234%").Result;
+
+                if (result.Succeeded)
+                {
+                    //Employee role
+                    userManager.AddToRoleAsync(user, roles[1]).Wait();
+                    user.EmailConfirmed = true;
+                }
+            }
         }
     }
-
 }
+
 
