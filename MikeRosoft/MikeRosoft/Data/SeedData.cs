@@ -52,7 +52,7 @@ namespace AppForMovies.Data
             
             if (userManager.FindByNameAsync("ms@uclm.es").Result == null)
             {
-                ApplicationUser user = new Admin();
+                Admin user = new Admin();
                 user.UserName = "ms@uclm.es";
                 user.Email = "ms@uclm.es";
                 user.Name = "Miguel";
@@ -71,37 +71,57 @@ namespace AppForMovies.Data
 
             if (userManager.FindByNameAsync("elena@uclm.com").Result == null)
             {
-                ApplicationUser user = new ApplicationUser();
+                User user = new User();
                 user.UserName = "elena@uclm.com";
                 user.Email = "elena@uclm.com";
                 user.Name = "Elena";
                 user.FirstSurname = "Navarro";
                 user.SecondSurname = "Martínez";
+                user.DNI = "48484848B";
 
                 IdentityResult result = userManager.CreateAsync(user, "Password1234%").Result;
 
                 if (result.Succeeded)
                 {
-                    //administrator role
-                    userManager.AddToRoleAsync(user, roles[0]).Wait();
+                    //User role
+                    userManager.AddToRoleAsync(user, roles[1]).Wait();
                     user.EmailConfirmed = true;
                 }
             }
 
             if (userManager.FindByNameAsync("namesurname@uclm.com").Result == null)
             {
-                ApplicationUser user = new Admin();
+                User user = new User();
                 user.UserName = "namesurname@uclm.com";
                 user.Email = "namesurname@uclm.com";
                 user.Name = "Name";
                 user.FirstSurname = "Surname";
                 user.SecondSurname = "SurSurname";
+                user.DNI = "48484848C";
 
                 IdentityResult result = userManager.CreateAsync(user, "APassword1234%").Result;
 
                 if (result.Succeeded)
                 {
-                    //Employee role
+                    userManager.AddToRoleAsync(user, roles[1]).Wait();
+                    user.EmailConfirmed = true;
+                }
+            }
+
+            if (userManager.FindByNameAsync("ABC@uclm.com").Result == null)
+            {
+                User user = new User();
+                user.UserName = "ABC@uclm.com";
+                user.Email = "ABC@uclm.com";
+                user.Name = "A";
+                user.FirstSurname = "B";
+                user.SecondSurname = "C";
+                user.DNI = "12345678J";
+
+                IdentityResult result = userManager.CreateAsync(user, "APassword1234%").Result;
+
+                if (result.Succeeded)
+                {
                     userManager.AddToRoleAsync(user, roles[1]).Wait();
                     user.EmailConfirmed = true;
                 }

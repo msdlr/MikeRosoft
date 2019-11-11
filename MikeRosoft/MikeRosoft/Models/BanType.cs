@@ -12,6 +12,7 @@ namespace MikeRosoft.Models
     {
         //Attributes
         [Key]
+        public virtual int TypeID { set; get; }
         public virtual string TypeName { set; get; }
         public TimeSpan DefaultDuration { get; set; }
 

@@ -27,14 +27,18 @@ namespace MikeRosoft.Models
         [RegularExpression(@"(\d{8})([-]?)([A-Z]{1})")]
         public string DNI { get; set; }
 
-        public override bool Equals(object obj)
+        public bool Equals(ApplicationUser obj)
         {
-            ApplicationUser OtherUser = (ApplicationUser) obj;
-            return (this.Id.Equals(OtherUser.Id) && this.Name.Equals(OtherUser.Name) && this.FirstSurname.Equals(OtherUser.SecondSurname));
+            return obj is ApplicationUser user && this.Id.Equals( obj.Id ) &&
+                   Name == user.Name &&
+                   FirstSurname == user.FirstSurname &&
+                   SecondSurname == user.SecondSurname &&
+                   DNI == user.DNI;
         }
+
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(Name, FirstSurname, SecondSurname, DNI);
         }
     }
 }
