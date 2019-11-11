@@ -150,7 +150,8 @@ namespace MikeRosoft.Controllers
 
         // GET: SELECT
 
-        public IActionResult SelectProductsForBuy(string productName, string productBrand)
+        //titleSelected y brandSelected se llaman asi porque tienen que ser como el de viewModel
+        public IActionResult SelectProductsForBuy(string titleSelected, string brandSelected)
         {
             
             SelectProductsForBuyViewModel selectProducts = new SelectProductsForBuyViewModel();
@@ -158,12 +159,12 @@ namespace MikeRosoft.Controllers
             selectProducts.Products = _context.Products.Where(p => p.stock > 0);
 
             //Para filtrar por nombre
-            if (productName != null)
-                selectProducts.Products = selectProducts.Products.Where(p => p.title.Contains(productName));
+            if (titleSelected != null)
+                selectProducts.Products = selectProducts.Products.Where(p => p.title.Contains(titleSelected));
 
             //Para filtrar por brand
-            if (productBrand != null)
-                selectProducts.Products = selectProducts.Products.Where(p => p.brand.Contains(productBrand));
+            if (brandSelected != null)
+                selectProducts.Products = selectProducts.Products.Where(p => p.brand.Contains(brandSelected));
 
             selectProducts.Products.ToList();
 
@@ -177,7 +178,7 @@ namespace MikeRosoft.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult SelectProductsForBuy(SelectedProductsForBuyViewModel selectedProducts)
         {
-            if (selectedProducts != null)
+            if (selectedProducts.IdsToAdd != null)
                 return RedirectToAction("Create", selectedProducts);
 
             ModelState.AddModelError(string.Empty, "You must select at least one product");
