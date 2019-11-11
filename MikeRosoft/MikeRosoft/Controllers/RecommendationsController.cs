@@ -173,7 +173,7 @@ namespace MikeRosoft.Controllers
             //For price
             if (productPrice > 0)
             {
-                selectProducts.Products = selectProducts.Products.Where(m => m.Price <= productPrice);
+                selectProducts.Products = selectProducts.Products.Where(m => m.Price >= productPrice);
 
             }
             //For rate

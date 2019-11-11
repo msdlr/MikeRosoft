@@ -31,6 +31,9 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
             //Seed the database with test data
             Utilities.InitializeDbProductsForTest(context);
 
+            context.Admins.Add(new Admin { contractEnding = new DateTime(2020, 10, 10), contractStarting = new DateTime(2018, 12, 6), Name = "Juan", FirstSurname = "Lopez", SecondSurname = "Ortiz", DNI = "12345678D" });
+            context.SaveChanges();
+
             //how to simulate the connection of a user
             System.Security.Principal.GenericIdentity user = new System.Security.Principal.GenericIdentity("peter@uclm.com");
             System.Security.Claims.ClaimsPrincipal identity = new System.Security.Claims.ClaimsPrincipal(user);
@@ -76,7 +79,8 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
                 Brand brand = new Brand { Name = "HP" };
                 var brands = new List<Brand> { brand };
                 var expectedBrands = new SelectList(brands.Select(g => g.Name).ToList());
-                var expectedProducts = new Product[1] { new Product { Id = 1, Title = "Gamer Mouse", Description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 20, Stock = 100, Rate = 4 } };
+                var expectedProducts = new Product[2] { new Product { Id = 1, Title = "Gamer Mouse", Description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 20, Stock = 100, Rate = 4 },
+                                                        new Product { Id = 3, Title = "Silence Mouse", Description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 30, Stock = 89, Rate = 5 }};
 
                 //Act
                 var result = controller.SelectProductsForRecommendation("Mouse", null, -1, -1);
