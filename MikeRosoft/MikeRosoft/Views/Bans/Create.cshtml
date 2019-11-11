@@ -1,0 +1,86 @@
+﻿@model MikeRosoft.Models.BanViewModels.CreateBanViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-horizontal">
+        <h4>Ban</h4>
+        <hr />
+    </div>
+
+    <table class="table" width="200%">
+        <!-- Headers -->
+        <thead>
+            <tr>
+                <th>
+                    User(s)
+                </th>
+                <th>
+                    Ban type
+                </th>
+                <th width="35%">
+                    Start date <lb/>
+                    dd/MM/yyyy HH:mm
+                </th>
+                <th width="35%">
+                    End date <lb />
+                    dd/MM/yyyy HH:mm
+                </th>
+                <th width="30%">
+                    Additional comment
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (int i = 0; i < Model.UserIds.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => m.infoAboutUser[i]);
+                    </td>
+                    <td>
+                        <select asp-for="banTypeName" asp-items="Model.BanTypesAvailable">
+                        </select>
+
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input asp-for="StartDate[i]" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" value="@DateTime.Now"/>
+                                <span asp-validation-for="StartDate[i]" class="text-danger" />
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        End date
+                    </td>
+                    <td width="50%">
+                        <div class="form-group">
+
+                            <div class="col-md-10">
+                                <input asp-for="AdditionalComment[i]" class="form-control" height="20" />
+                                <span asp-validation-for="AdditionalComment[i]" class="text-danger" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+        <!-- Content -->
+
+    </table>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-default">Cancel</a>
+
+</form>
+
+<div>
+    <a asp-action="SelectUsersToBan">Back to List</a>
+</div>
