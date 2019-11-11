@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MikeRosoft.Data;
+using MikeRosoft.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

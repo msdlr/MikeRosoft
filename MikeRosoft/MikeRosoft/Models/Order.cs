@@ -42,6 +42,9 @@ namespace MikeRosoft.Models
         public virtual float totalprice { get; set; }
 
 
+        //Dirección a la que se debe enviar
+        public virtual String shippingAddress { get; set; }
+
 
 
         //PAYMENT METHOD

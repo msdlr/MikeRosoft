@@ -24,6 +24,12 @@ namespace MikeRosoft.Data
         public virtual DbSet<BanForUser> BanForUserList { get; set; }
         public virtual DbSet<BanType> BanTypeList { get; set; }
 
+        //Buy Products
+        public virtual DbSet<Order> Order { get; set; }
+
+        public virtual DbSet<ProductOrder> ProductOrder { get; set; }
+
+
         //MakeRecommendation
         public virtual DbSet<Recommendation> Recommendations { get; set;}
         public virtual DbSet<ProductRecommend> ProductRecommendations { get; set;}
