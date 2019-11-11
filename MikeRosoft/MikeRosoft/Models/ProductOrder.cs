@@ -18,6 +18,9 @@ namespace MikeRosoft.Models
         [ForeignKey("orderId")]
         public virtual Order orders { get; set; }
 
+        // moved from Order
+        public virtual ReturnRequest returnRequest { get; set; }
+
 
     }
 }

@@ -18,6 +18,6 @@ namespace MikeRosoft.Models
         [Required]
         public virtual IList<UserRequest> userRequests { get; set; }
         [Required]
-        public virtual IList<Order> orders { get; set; }
+        public virtual IList<ProductOrder> productOrders { get; set; }
     }
 }

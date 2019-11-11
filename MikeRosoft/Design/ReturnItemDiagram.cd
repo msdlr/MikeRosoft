@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="MikeRosoft.Design.User">
-    <Position X="0.75" Y="0.5" Width="1.75" />
+    <Position X="0.5" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>gAEAAAAAAAAAAAAIAAAAAIAAAAIAAAAAAAIAAgAABAA=</HashCode>
       <FileName>User.cs</FileName>
@@ -10,35 +10,30 @@
       <Property Name="UserRequests" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="MikeRosoft.Design.Order">
-    <Position X="9" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AABBABAAAAAAAAAACAAAAABAAAQACAAAAAAgAAgAAwA=</HashCode>
-      <FileName>Order.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="MikeRosoft.Design.ReturnRequest">
     <Position X="6.25" Y="0.5" Width="1.5" />
     <AssociationLine Name="userRequests" Type="MikeRosoft.Design.UserRequest" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="6.25" Y="1.426" />
-        <Point X="4.812" Y="1.426" />
-        <Point X="4.812" Y="3.75" />
+        <Point X="6.25" Y="1.306" />
+        <Point X="5.875" Y="1.306" />
+        <Point X="5.875" Y="1.312" />
+        <Point X="5" Y="1.312" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.307" Y="2.06" />
+        <Position X="0.102" Y="-0.234" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAABQAAAgAAAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <HashCode>AAAAAAAAQAAAgAAAAAAABAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
       <FileName>ReturnRequest.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="userRequests" />
+      <Property Name="productOrders" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MikeRosoft.Design.ShippingCompany">
-    <Position X="6.5" Y="3.75" Width="1.5" />
+    <Position X="3.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAEAAAAAAAAAIAAAAA=</HashCode>
       <FileName>ShippingCompany.cs</FileName>
@@ -48,21 +43,35 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MikeRosoft.Design.UserRequest">
-    <Position X="3.5" Y="3.75" Width="1.5" />
-    <AssociationLine Name="user" Type="MikeRosoft.Design.User" FixedFromPoint="true" FixedToPoint="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <AssociationLine Name="user" Type="MikeRosoft.Design.User" FixedToPoint="true">
       <Path>
-        <Point X="3.75" Y="3.75" />
-        <Point X="3.75" Y="1.693" />
-        <Point X="2.5" Y="1.693" />
+        <Point X="3.5" Y="2" />
+        <Point X="2.25" Y="2" />
       </Path>
+    </AssociationLine>
+    <AssociationLine Name="shippingCompany" Type="MikeRosoft.Design.ShippingCompany">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.398" Y="0.089" />
+      </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAJAAAAAAACAAAAAAACCAAAAAAAAAAAQAAgQA=</HashCode>
       <FileName>UserRequest.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
+      <Property Name="returnRequest" />
       <Property Name="user" />
       <Property Name="shippingCompany" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MikeRosoft.Design.ProductOrder">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABABIAAAAAAAAAAAAAAAAAAAAAAAAAAABBAAAAA=</HashCode>
+      <FileName>ProductOrder.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
       <Property Name="returnRequest" />
     </ShowAsAssociation>
   </Class>

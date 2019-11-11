@@ -17,7 +17,7 @@ namespace MikeRosoft.Models
         //
         public virtual IList<ProductOrder> ProductOrders { get; set; }
 
-        public virtual ReturnRequest ReturnRequest { get; set; }
+        // returnRequest moved to ProductOrder
 
         //
         public string userId { get; set; }
