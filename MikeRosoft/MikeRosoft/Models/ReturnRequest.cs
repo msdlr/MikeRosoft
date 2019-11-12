@@ -18,7 +18,7 @@ namespace MikeRosoft.Models
 
         // relationships
         [Required]
-        public virtual User user { get; set; }
+        public virtual IList<UserRequest> userRequests { get; set; }
         [Required]
         public virtual ShippingCompany shippingCompany { get; set; }
         [Required]

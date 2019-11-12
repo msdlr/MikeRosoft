@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MikeRosoft.Data;
 
-namespace MikeRosoft.Data.Migrations
+namespace MikeRosoft.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191009145105_UC_MakeRecommendation")]
-    partial class UC_MakeRecommendation
+    [Migration("20191111164231_CreateDB")]
+    partial class CreateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -324,6 +324,9 @@ namespace MikeRosoft.Data.Migrations
                     b.Property<DateTime>("orderDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("shippingAddress")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<float>("totalprice")
                         .HasColumnType("real");
 
@@ -450,15 +453,9 @@ namespace MikeRosoft.Data.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<string>("userId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("ID");
 
                     b.HasIndex("shippingCompanyID");
-
-                    b.HasIndex("userId");
 
                     b.ToTable("ReturnRequests");
                 });
@@ -495,9 +492,28 @@ namespace MikeRosoft.Data.Migrations
                     b.ToTable("UserRecommendations");
                 });
 
-            modelBuilder.Entity("MikeRosoft.Models.Admin", b =>
+            modelBuilder.Entity("MikeRosoft.Models.UserRequest", b =>
+                {
+                    b.Property<string>("userID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("requestID")
+                        .HasColumnType("int");
+
+                    b.HasKey("userID", "requestID");
+
+                    b.HasIndex("requestID");
+
+                    b.ToTable("UserRequests");
+                });
+
+            modelBuilder.Entity("MikeRosoft.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("DNI")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstSurname")
                         .IsRequired()
@@ -511,6 +527,17 @@ namespace MikeRosoft.Data.Migrations
                     b.Property<string>("SecondSurname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("DNI")
+                        .IsUnique()
+                        .HasFilter("[DNI] IS NOT NULL");
+
+                    b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
+            modelBuilder.Entity("MikeRosoft.Models.Admin", b =>
+                {
+                    b.HasBaseType("MikeRosoft.Models.ApplicationUser");
 
                     b.Property<DateTime>("contractEnding")
                         .HasColumnType("datetime2");
@@ -523,7 +550,7 @@ namespace MikeRosoft.Data.Migrations
 
             modelBuilder.Entity("MikeRosoft.Models.User", b =>
                 {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+                    b.HasBaseType("MikeRosoft.Models.ApplicationUser");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -533,20 +560,7 @@ namespace MikeRosoft.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstSurname")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
                     b.Property<string>("Province")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SecondSurname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -695,12 +709,6 @@ namespace MikeRosoft.Data.Migrations
                         .HasForeignKey("shippingCompanyID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("MikeRosoft.Models.User", "user")
-                        .WithMany("ReturnRequests")
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("MikeRosoft.Models.UserRecommend", b =>
@@ -714,6 +722,21 @@ namespace MikeRosoft.Data.Migrations
                     b.HasOne("MikeRosoft.Models.User", "user")
                         .WithMany("UserRecommendations")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MikeRosoft.Models.UserRequest", b =>
+                {
+                    b.HasOne("MikeRosoft.Models.ReturnRequest", "ReturnRequest")
+                        .WithMany("userRequests")
+                        .HasForeignKey("requestID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MikeRosoft.Models.User", "User")
+                        .WithMany("userRequests")
+                        .HasForeignKey("userID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

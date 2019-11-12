@@ -24,25 +24,22 @@ namespace MikeRosoft.Data
         public virtual DbSet<BanForUser> BanForUserList { get; set; }
         public virtual DbSet<BanType> BanTypeList { get; set; }
 
+        //Buy Products
+        public virtual DbSet<Order> Order { get; set; }
+
+        public virtual DbSet<ProductOrder> ProductOrder { get; set; }
+
+
         //MakeRecommendation
         public virtual DbSet<Recommendation> Recommendations { get; set;}
         public virtual DbSet<ProductRecommend> ProductRecommendations { get; set;}
         public virtual DbSet<UserRecommend> UserRecommendations { get; set;}
         public virtual DbSet<Product> Products { get; set;}
 
-
-
-        //BuyProduct
-        public virtual DbSet<Product> ProductList { get; set; }
-
-        public virtual DbSet<ProductOrder> ProductOrderList { get; set; }
-
-        public virtual DbSet<Order> OrderList { get; set; }
-
-
         //ReturnItem
         public virtual DbSet<ReturnRequest> ReturnRequests { get; set; }
         public virtual DbSet<ShippingCompany> ShippingCompanies { get; set; }
+        public virtual DbSet<UserRequest> UserRequests { get; set; }
 
         //Claves primarias para las relaciones n-n
 
@@ -63,6 +60,13 @@ namespace MikeRosoft.Data
             .HasKey(pi => new { pi.ProductId, pi.RecommendationId });
             builder.Entity<UserRecommend>()
             .HasKey(pi => new { pi.UserId, pi.RecommendationId });
+            builder.Entity<UserRequest>()
+            .HasKey(pi => new { pi.userID, pi.requestID });
+
+            //unique constraints
+            builder.Entity<ApplicationUser>()
+            .HasIndex(u => u.DNI)
+            .IsUnique();
         }
     }
 }
