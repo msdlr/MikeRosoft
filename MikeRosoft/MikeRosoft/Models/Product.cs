@@ -39,5 +39,12 @@ namespace MikeRosoft.Models
         //MakeRecommendation
         public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
 
+        public Boolean equals(Product p2)
+        {
+            if (this.id == p2.id && this.title == p2.title && this.brand == p2.brand && this.description == p2.description && this.precio == p2.precio && this.stock == p2.stock) return true;
+            else return false;
+              
+        }
+
     }
 }

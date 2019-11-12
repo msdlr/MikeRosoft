@@ -8,7 +8,7 @@ using System.Linq;
 using System.Collections.Generic;
 using MikeRosoft.Data;
 
-namespace AppForMovies.Data
+namespace MikeRosoft.Data
 {
     public static class SeedData
     {
