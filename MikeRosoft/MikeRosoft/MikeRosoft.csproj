@@ -46,6 +46,10 @@
     <Compile Remove="Data\Migrations\20191009213243_UC_ReturnItem.Designer.cs" />
     <Compile Remove="Migrations\20191102101218_AllUC.cs" />
     <Compile Remove="Migrations\20191102101218_AllUC.Designer.cs" />
+    <Compile Remove="Migrations\20191112105056_AllUcMigration.cs" />
+    <Compile Remove="Migrations\20191112105056_AllUcMigration.Designer.cs" />
+    <Compile Remove="Migrations\20191112110126_AllUcMigration.cs" />
+    <Compile Remove="Migrations\20191112110126_AllUcMigration.Designer.cs" />
   </ItemGroup>
 
 
@@ -65,6 +69,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

@@ -20,7 +20,7 @@ namespace MikeRosoft.Models.ProductViewModels
         public virtual string Description { set; get; }
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Cannot be smaller than 1.")]
+        [Range(0, float.MaxValue, ErrorMessage = "Cannot be smaller than 1.")]
         [Display(Name = "Price")]
         public virtual float Price { set; get; }
 

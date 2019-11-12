@@ -21,7 +21,7 @@ namespace MikeRosoft.Models
         public virtual string Description { set; get; }
 
         [Required]
-        [Range(1, int.MaxValue)]
+        [Range(0, float.MaxValue)]
         public virtual float Price { set; get; }
 
         

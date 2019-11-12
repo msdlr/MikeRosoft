@@ -12,7 +12,7 @@ using MikeRosoft.Models.RecommendationViewModels;
 
 namespace MikeRosoft.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class RecommendationsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -157,7 +157,7 @@ namespace MikeRosoft.Controllers
         }
 
         //GET: Recommendations/SelectProductsForRecommendation
-        public IActionResult SelectProductsForRecommendation(string productTitle, string productBrandSelected, int productPrice = -1, int productRate = -1)
+        public IActionResult SelectProductsForRecommendation(string productTitle, string productBrandSelected, float productPrice = -1, int productRate = -1)
         {
             SelectProductsForRecommendationViewModel selectProducts = new SelectProductsForRecommendationViewModel();
             //It will be used to fill in a drop-down control
