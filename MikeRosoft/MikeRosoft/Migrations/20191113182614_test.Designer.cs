@@ -10,8 +10,8 @@ using MikeRosoft.Data;
 namespace MikeRosoft.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191113154136_all")]
-    partial class all
+    [Migration("20191113182614_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -370,6 +370,10 @@ namespace MikeRosoft.Migrations
 
                     b.Property<int?>("Brandid")
                         .HasColumnType("int");
+
+                    b.Property<string>("brand_string")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(500)")
