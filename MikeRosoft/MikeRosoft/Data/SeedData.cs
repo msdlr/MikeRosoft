@@ -69,21 +69,21 @@ namespace MikeRosoft.Data
                 }
             }
 
-            if (userManager.FindByNameAsync("elena@uclm.com").Result == null)
+            if (userManager.FindByNameAsync("llanos@uclm.com").Result == null)
             {
-                ApplicationUser user = new ApplicationUser();
-                user.UserName = "elena@uclm.com";
-                user.Email = "elena@uclm.com";
-                user.Name = "Elena";
-                user.FirstSurname = "Navarro";
-                user.SecondSurname = "Martínez";
+                ApplicationUser user = new User();
+                user.UserName = "llanos@uclm.com";
+                user.Email = "llanos@uclm.com";
+                user.Name = "Llanos";
+                user.FirstSurname = "Vergara";
+                user.SecondSurname = "Picazo";
 
-                IdentityResult result = userManager.CreateAsync(user, "Password1234%").Result;
+                IdentityResult result = userManager.CreateAsync(user, "APassword1234%").Result;
 
                 if (result.Succeeded)
                 {
-                    //administrator role
-                    userManager.AddToRoleAsync(user, roles[0]).Wait();
+                    //user role
+                    userManager.AddToRoleAsync(user, roles[1]).Wait();
                     user.EmailConfirmed = true;
                 }
             }
