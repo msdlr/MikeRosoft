@@ -12,6 +12,8 @@ namespace MikeRosoft.Models.BanViewModels
         //IDs of users to ban
         public string[] UserIds { get; set; }
 
+        public string[] infoAboutUser { get; set; }
+
         //List of BanForUser
         public IList<BanForUser> BansForUsers { get; set; }
 
@@ -19,6 +21,7 @@ namespace MikeRosoft.Models.BanViewModels
         public SelectList BanTypesAvailable { get; set; }
         public string[] banTypeName { get; set; }
         public int[] GetBanTypeID { get; set; }
+        public TimeSpan[] defaultDuration { get; set; }
 
         //End and start date for each BanForUser
         public DateTime[] StartDate { get; set; }

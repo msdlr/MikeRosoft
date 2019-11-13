@@ -11,8 +11,10 @@ namespace MikeRosoft.Models
         public virtual int ID { get; set; }
         public virtual string AdditionalComment { get; set; }
         [Required(ErrorMessage = "Enter valid date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         public virtual DateTime Start { get; set; }
         [Required(ErrorMessage = "Enter valid date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         public virtual DateTime End { get; set; }
 
         //Relationships
