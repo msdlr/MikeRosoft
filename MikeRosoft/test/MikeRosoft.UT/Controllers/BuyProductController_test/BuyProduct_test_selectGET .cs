@@ -66,7 +66,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
             context.SaveChanges();
 
             //how to simulate the connection of a user
-            System.Security.Principal.GenericIdentity user = new System.Security.Principal.GenericIdentity("carolina.ordono@uclm.com");
+            System.Security.Principal.GenericIdentity user = new System.Security.Principal.GenericIdentity("llanos@uclm.com");
             System.Security.Claims.ClaimsPrincipal identity = new System.Security.Claims.ClaimsPrincipal(user);
             ordersContext = new Microsoft.AspNetCore.Http.DefaultHttpContext();
             ordersContext.User = identity;
@@ -81,13 +81,16 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
             using (context)
             {
 
+
                 // Arrange
                 var controller = new ProductsController(context);
                 controller.ControllerContext.HttpContext = ordersContext;
 
+                Brand brand1 = new Brand { Brandid = 1, Name = "Kingston" };
+                Brand brand2 = new Brand { Brandid = 2, Name = "Samsung" };
 
-                IEnumerable<Product> expectedItems = new Product[2] { new Product {id = 4, title = "Memoria RAM", description ="8 GB", brand_string ="kingston", precio = 130, stock=3 },
-                                                  new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand_string = "samsung", precio = 130, stock = 456 }};
+                IEnumerable<Product> expectedItems = new Product[2] { new Product {id = 4, title = "Memoria RAM", description ="8 GB", brand =brand1, precio = 130, stock=3 },
+                                                  new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand = brand2, precio = 130, stock = 456 }};
 
                 // Act             
                 var result = controller.SelectProductsForBuy(null, null);
@@ -116,8 +119,10 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 var controller = new ProductsController(context);
                 controller.ControllerContext.HttpContext = ordersContext;
 
+                Brand bran1 = new Brand { Brandid = 1, Name = "Kingston" };
+                Brand bran2 = new Brand { Brandid = 2, Name = "Samsung" };
 
-                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand_string = "kingston", precio = 130, stock = 3 },};
+                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand = bran1, precio = 130, stock = 3 },};
 
                 // Act             
                 var result = controller.SelectProductsForBuy("RAM", null);
