@@ -13,7 +13,7 @@ using MikeRosoft.Models.OrderViewModels;
 
 namespace MikeRosoft.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "User")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
