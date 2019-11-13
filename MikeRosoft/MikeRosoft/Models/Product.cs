@@ -53,7 +53,7 @@ namespace MikeRosoft.Models
                    precio == product.precio &&
                    stock == product.stock &&
                    rate == product.rate &&
-                   EqualityComparer<Brand>.Default.Equals(brand, product.brand);
+                   (brand.Brandid == product.brand.Brandid && brand.Name == product.brand.Name);
         }
     }
 }

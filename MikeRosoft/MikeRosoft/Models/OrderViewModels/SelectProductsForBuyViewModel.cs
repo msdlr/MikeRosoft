@@ -15,8 +15,10 @@ namespace MikeRosoft.Models.OrderViewModels
         [Display(Name = "Title")]
         public string titleSelected { get; set; }
 
+        public SelectList Brands;
         [Display(Name = "Brand")]
         public string brandSelected { get; set; }
+
 
     }
 }
