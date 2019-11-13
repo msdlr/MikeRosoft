@@ -33,7 +33,7 @@ namespace MikeRosoft.Data
         //MakeRecommendation
         public virtual DbSet<Recommendation> Recommendations { get; set;}
         public virtual DbSet<ProductRecommend> ProductRecommendations { get; set;}
-        public virtual DbSet<UserRecommend> UserRecommendations { get; set;}
+        //public virtual DbSet<UserRecommend> UserRecommendations { get; set;}
         public virtual DbSet<Product> Products { get; set;}
 
         //ReturnItem
@@ -58,8 +58,8 @@ namespace MikeRosoft.Data
             .HasKey(pi => new { pi.GetBanID, pi.GetUserId });
             builder.Entity<ProductRecommend>()
             .HasKey(pi => new { pi.ProductId, pi.RecommendationId });
-            builder.Entity<UserRecommend>()
-            .HasKey(pi => new { pi.UserId, pi.RecommendationId });
+            /*builder.Entity<UserRecommend>()
+            .HasKey(pi => new { pi.UserId, pi.RecommendationId });*/
             builder.Entity<UserRequest>()
             .HasKey(pi => new { pi.userID, pi.requestID });
 
@@ -68,5 +68,9 @@ namespace MikeRosoft.Data
             .HasIndex(u => u.DNI)
             .IsUnique();
         }
+
+        //Claves primarias para las relaciones n-n
+
+        public DbSet<MikeRosoft.Models.Brand> Brand { get; set; }
     }
 }

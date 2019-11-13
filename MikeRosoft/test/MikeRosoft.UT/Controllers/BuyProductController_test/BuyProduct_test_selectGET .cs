@@ -44,9 +44,9 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
             _contextOptions = CreateNewContextOptions();
             context = new ApplicationDbContext(_contextOptions);
             // Insert seed data into the database using one instance of the context
-            context.Products.Add(new Product { id = 4, title = "Memoria RAM", description ="8 GB", brand ="kingston", precio = 130, stock=3 });
-            context.Products.Add(new Product { id = 5, title = "Memoria RAM", description = "16 GB", brand = "samsung", precio = 130, stock = 0 });
-            context.Products.Add(new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand = "samsung", precio = 130, stock = 456 });
+            context.Products.Add(new Product { id = 4, title = "Memoria RAM", description ="8 GB", brand_string ="kingston", precio = 130, stock=3 });
+            context.Products.Add(new Product { id = 5, title = "Memoria RAM", description = "16 GB", brand_string = "samsung", precio = 130, stock = 0 });
+            context.Products.Add(new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand_string = "samsung", precio = 130, stock = 456 });
 
             context.Users.Add(new User { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García" });
 
@@ -77,8 +77,8 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 controller.ControllerContext.HttpContext = ordersContext;
 
 
-                IEnumerable<Product> expectedItems = new Product[2] { new Product {id = 4, title = "Memoria RAM", description ="8 GB", brand ="kingston", precio = 130, stock=3 },
-                                                  new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand = "samsung", precio = 130, stock = 456 }};
+                IEnumerable<Product> expectedItems = new Product[2] { new Product {id = 4, title = "Memoria RAM", description ="8 GB", brand_string ="kingston", precio = 130, stock=3 },
+                                                  new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand_string = "samsung", precio = 130, stock = 456 }};
 
                 // Act             
                 var result = controller.SelectProductsForBuy(null, null);
@@ -88,7 +88,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 SelectProductsForBuyViewModel model = viewResult.Model as SelectProductsForBuyViewModel;
 
 
-                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.equals(p2)));
+                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.Equals(p2)));
                 // Check that both collections (expected and result returned) have the same elements with the same name
 
             }
@@ -108,7 +108,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 controller.ControllerContext.HttpContext = ordersContext;
 
 
-                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand = "kingston", precio = 130, stock = 3 },};
+                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand_string = "kingston", precio = 130, stock = 3 },};
 
                 // Act             
                 var result = controller.SelectProductsForBuy("RAM", null);
@@ -118,7 +118,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 SelectProductsForBuyViewModel model = viewResult.Model as SelectProductsForBuyViewModel;
 
 
-                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.equals(p2)));
+                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.Equals(p2)));
                 // Check that both collections (expected and result returned) have the same elements with the same name
 
             }
@@ -127,7 +127,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
 
 
         [Fact]
-        public async Task SelectItem_withFilterBrand()
+        public async Task SelectItem_withFilterbrand_string()
         {
             using (context)
             {
@@ -138,7 +138,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 controller.ControllerContext.HttpContext = ordersContext;
 
 
-                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand = "kingston", precio = 130, stock = 3 }};
+                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand_string = "kingston", precio = 130, stock = 3 }};
 
                 // Act             
                 var result = controller.SelectProductsForBuy(null, "king");
@@ -148,14 +148,14 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 SelectProductsForBuyViewModel model = viewResult.Model as SelectProductsForBuyViewModel;
 
 
-                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.equals(p2)));
+                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.Equals(p2)));
                 // Check that both collections (expected and result returned) have the same elements with the same name
 
             }
         }
 
         [Fact]
-        public async Task SelectItem_withFilterTitleandBrand()
+        public async Task SelectItem_withFilterTitleandbrand_string()
         {
             using (context)
             {
@@ -166,7 +166,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 controller.ControllerContext.HttpContext = ordersContext;
 
 
-                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand = "kingston", precio = 130, stock = 3 } };
+                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand_string = "kingston", precio = 130, stock = 3 } };
 
                 // Act             
                 var result = controller.SelectProductsForBuy("RAM", "king");
@@ -176,7 +176,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 SelectProductsForBuyViewModel model = viewResult.Model as SelectProductsForBuyViewModel;
 
 
-                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.equals(p2)));
+                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.Equals(p2)));
                 // Check that both collections (expected and result returned) have the same elements with the same name
 
             }

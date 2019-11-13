@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,7 @@ using MikeRosoft.Models.OrderViewModels;
 
 namespace MikeRosoft.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -164,7 +167,7 @@ namespace MikeRosoft.Controllers
 
             //Para filtrar por brand
             if (brandSelected != null)
-                selectProducts.Products = selectProducts.Products.Where(p => p.brand.Contains(brandSelected));
+                selectProducts.Products = selectProducts.Products.Where(p => p.brand_string.Contains(brandSelected));
 
             selectProducts.Products.ToList();
 

@@ -44,9 +44,9 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
             _contextOptions = CreateNewContextOptions();
             context = new ApplicationDbContext(_contextOptions);
             // Insert seed data into the database using one instance of the context
-            context.Products.Add(new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand = "kingston", precio = 130, stock = 3 });
-            context.Products.Add(new Product { id = 5, title = "Memoria RAM", description = "16 GB", brand = "samsung", precio = 130, stock = 0 });
-            context.Products.Add(new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand = "samsung", precio = 130, stock = 456 });
+            context.Products.Add(new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand_string = "kingston", precio = 130, stock = 3 });
+            context.Products.Add(new Product { id = 5, title = "Memoria RAM", description = "16 GB", brand_string = "samsung", precio = 130, stock = 0 });
+            context.Products.Add(new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand_string = "samsung", precio = 130, stock = 456 });
 
             context.Users.Add(new User { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García" });
 
@@ -84,8 +84,8 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
 
                 SelectedProductsForBuyViewModel selectedProducts = new SelectedProductsForBuyViewModel();
 
-                IEnumerable<Product> expectedItems = new Product[2] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand = "kingston", precio = 130, stock = 3 },
-                                                  new Product { id = 6, title = "Memoria SDD", description = "32 GB", brand = "samsung", precio = 130, stock = 456 }};
+                IEnumerable<Product> expectedItems = new Product[2] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand_string = "kingston", precio = 130, stock = 3 },
+                                                  new Product { id = 6, title = "Memoria SDD", description = "32 GB", brand_string = "samsung", precio = 130, stock = 456 }};
 
 
 
