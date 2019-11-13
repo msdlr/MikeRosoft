@@ -127,6 +127,57 @@ namespace AppForMovies.Data
                 }
             }
         }
+        public static void SeedProducts(ApplicationDbContext dbContext)
+        {
+            //Genres and movies are created so that they are available whenever the system is run
+            Product product;
+            Brand brand = dbContext.Brand.FirstOrDefault(m => m.Name.Contains("HP"));
+            if (brand == null)
+            {
+                brand = new Brand()
+                {
+                    Name = "HP"
+                };
+                dbContext.Brand.Add(brand);
+            }
+
+            if (!dbContext.Products.Any(m => m.title.Contains("Gaming Mouse")))
+            {
+                product = new Product { title = "Gaming Mouse", description = "Upgrade your computer setup with this ENHANCE Voltaic wired gaming mouse. Three DPI settings let you customize the sensitivity to your liking for better precision, and six easy-to-reach programmable buttons makes common tasks quicker. This ENHANCE Voltaic wired gaming mouse has a plug-and-play design for easy compatibility and quick installation.", brand = brand, precio = 20, stock = 100, rate = 4 };
+                dbContext.Products.Add(product);
+            }
+
+            brand = dbContext.Brand.FirstOrDefault(m => m.Name.Contains("Toshiba"));
+            if (brand == null)
+            {
+                brand = new Brand()
+                {
+                    Name = "Toshiba"
+                };
+                dbContext.Brand.Add(brand);
+            }
+            if (!dbContext.Products.Any(m => m.title.Contains("Silent Mouse")))
+            {
+                product = new Product { title = "Silent Mouse", description = "Quickly input commands with this Logitech M510 910-001822 mouse that features laser technology for precision tracking on most surfaces. The Logitech unifying receiver allows simple wireless connectivity.Make navigation simple. The zoom function lets you magnify images (requires Logitech SetPoint software for Windows or Logitech Control Center software for Mac OS X; download required).", brand = brand, precio = 30, stock = 89, rate = 5 };
+
+            dbContext.Products.Add(product);
+            }
+            brand = dbContext.Brand.FirstOrDefault(m => m.Name.Contains("Lenovo"));
+            if (brand == null)
+            {
+                brand = new Brand()
+                {
+                    Name = "Lenovo"
+                };
+                dbContext.Brand.Add(brand);
+            }
+            if (!dbContext.Products.Any(m => m.title.Contains("Dark Keyboard")))
+            {
+                product = new Product { title = "Dark Keyboard", description = "Add color to your gaming rig with this Corsair Strafe mechanical gaming keyboard. It has 100 percent cherry MX RGB key-switches for up to 30 percent less noise during key presses and dedicated volume and multimedia controls, so you can quickly make adjustments. This Corsair Strafe mechanical gaming keyboard has a USB port for use with peripherals.", brand = brand, precio = 25, stock = 50, rate = 3 };
+                dbContext.Products.Add(product);
+            }
+            dbContext.SaveChanges();
+        }
     }
 }
 
