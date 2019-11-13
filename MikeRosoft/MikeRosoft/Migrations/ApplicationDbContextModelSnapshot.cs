@@ -369,6 +369,10 @@ namespace MikeRosoft.Migrations
                     b.Property<int?>("Brandid")
                         .HasColumnType("int");
 
+                    b.Property<string>("brand_string")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);

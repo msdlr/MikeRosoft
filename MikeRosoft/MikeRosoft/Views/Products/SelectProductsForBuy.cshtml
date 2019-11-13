@@ -1,0 +1,78 @@
+﻿@model MikeRosoft.Models.OrderViewModels.SelectProductsForBuyViewModel
+
+
+@{
+    ViewData["Title"] = "Select Products";
+}
+
+<h2>Buy Products</h2>
+
+
+
+<form asp-controller="Products" class="form-horizontal" asp-action="SelectProductsForBuy" method="get">
+    <p>
+        <div>
+            <label asp-for="titleSelected"></label>
+            <input asp-for="titleSelected" size="50" />
+            <span asp-validation-for="titleSelected" class="text-danger"></span>
+
+            <label asp-for="brandSelected"></label>
+            <input asp-for="brandSelected" size="50" />
+            <span asp-validation-for="brandSelected" class="text-danger"></span>
+
+            <input type="submit" value="Filter" />
+        </div>
+
+    </p>
+</form>
+
+
+<div asp-validation-summary="All" class="text-danger"></div>
+<form asp-action="SelectProductsForBuy" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="50%">
+                    Title
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Brand
+                </th>
+                <th align="center" width="10%">
+                    Select Product
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Products.Count() == 0)
+            {
+                <tr><td colspan="3">There are no products available</td></tr>
+            }
+            else
+            {
+                @foreach (var item in Model.Products)
+                {
+                    <tr>
+                        <td width="50%">
+                            @Html.DisplayFor(modelItem => item.title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.precio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.brand_string)
+                        </td>
+                        <td align="center" width="10%">
+                            <input type="checkbox" name="IdsToAdd" value="@item.id" class="form-control">
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">BUY</button>
+    <a asp-action="Index" class="btn btn-default">Cancel</a>
+</form>

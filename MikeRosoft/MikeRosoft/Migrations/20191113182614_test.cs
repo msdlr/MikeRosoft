@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MikeRosoft.Migrations
 {
-    public partial class all : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -257,7 +257,8 @@ namespace MikeRosoft.Migrations
                     precio = table.Column<float>(nullable: false),
                     stock = table.Column<int>(nullable: false),
                     rate = table.Column<int>(nullable: false),
-                    Brandid = table.Column<int>(nullable: true)
+                    Brandid = table.Column<int>(nullable: true),
+                    brand_string = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

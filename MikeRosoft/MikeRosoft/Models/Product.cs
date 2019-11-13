@@ -36,30 +36,24 @@ namespace MikeRosoft.Models
         [ForeignKey("Brandid")]
         public virtual Brand brand{ get; set; }
 
+        [Required]
+        public virtual string brand_string { get; set; }
+
         public virtual IList<ProductOrder> ProductOrders { get; set; }
 
         //MakeRecommendation
         public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
 
-        public override bool Equals(object Other)
+        public override bool Equals(object obj)
         {
-            Product OtherPro = (Product)Other;
-            bool result = (this.id == OtherPro.id) && (this.title == OtherPro.title)
-                && (this.description == OtherPro.description) && (this.brand == OtherPro.brand) && (this.stock == OtherPro.stock) && (this.precio == OtherPro.precio) && (this.ProductRecommendations.Count == OtherPro.ProductRecommendations.Count) && (this.ProductOrders.Count == OtherPro.ProductOrders.Count);
-            for (int i = 0; i < this.ProductRecommendations.Count; i++)
-            {
-                result = result && (this.ProductRecommendations.ElementAt(i).Equals(OtherPro.ProductRecommendations.ElementAt(i)));
-            }
-            for (int i = 0; i < this.ProductOrders.Count; i++)
-            {
-                result = result && (this.ProductRecommendations.ElementAt(i).Equals(OtherPro.ProductRecommendations.ElementAt(i)));
-            }
-            return result;
+            return obj is Product product &&
+                   id == product.id &&
+                   title == product.title &&
+                   description == product.description &&
+                   precio == product.precio &&
+                   stock == product.stock &&
+                   rate == product.rate &&
+                   EqualityComparer<Brand>.Default.Equals(brand, product.brand);
         }
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
     }
 }
