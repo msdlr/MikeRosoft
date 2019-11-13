@@ -20,8 +20,15 @@ namespace MikeRosoft.Models
         [ForeignKey("RecommendationId")]
         public virtual Recommendation recommendation { get; set; }
 
-        public ProductRecommend()
+        public override bool Equals(object Other)
         {
+            ProductRecommend ProdRec = (ProductRecommend)Other;
+            bool result = (this.ProductId == ProdRec.ProductId) && (this.RecommendationId == ProdRec.RecommendationId);
+            return result;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

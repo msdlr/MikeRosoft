@@ -15,7 +15,7 @@ namespace MikeRosoft.Design
 
         public virtual Admin admin { get; set; }
 
-        public virtual IList<UserRecommend> UserRecommendations { get; set; }
+       // public virtual IList<UserRecommend> UserRecommendations { get; set; }
 
         public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
 
