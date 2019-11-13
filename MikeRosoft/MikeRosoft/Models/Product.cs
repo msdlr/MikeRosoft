@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,11 +16,16 @@ namespace MikeRosoft.Models
         public virtual string title { set; get; }
 
         
-        [StringLength(500, MinimumLength = 50, ErrorMessage = "Cannot be longer than 50 characters.")]
+        [StringLength(500, MinimumLength = 50)]
         public virtual string description { set; get; }
 
+
         [Required]
-        [Range(0, float.MaxValue)]
+        public virtual string brand { set; get; }
+
+
+        [Required]
+        [Range(1, int.MaxValue)]
         public virtual float precio { set; get; }
 
         
@@ -29,36 +33,19 @@ namespace MikeRosoft.Models
         [Range(0, int.MaxValue)]
         public virtual int stock { set; get; }
 
-        [Required]
-        [Range(0, 5, ErrorMessage = "Integer points between 0 and 5")]
-        public virtual int rate { set; get; }
 
-        [ForeignKey("Brandid")]
-        public virtual Brand brand{ get; set; }
-
-        public virtual IList<ProductOrder> ProductOrders { get; set; }
+        public virtual IList<ProductOrder> productOrders { get; set; }
 
         //MakeRecommendation
         public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
 
-        public override bool Equals(object Other)
+        public Boolean equals(Product p2)
         {
-            Product OtherPro = (Product)Other;
-            bool result = (this.id == OtherPro.id) && (this.title == OtherPro.title)
-                && (this.description == OtherPro.description) && (this.brand == OtherPro.brand) && (this.stock == OtherPro.stock) && (this.precio == OtherPro.precio) && (this.ProductRecommendations.Count == OtherPro.ProductRecommendations.Count) && (this.ProductOrders.Count == OtherPro.ProductOrders.Count);
-            for (int i = 0; i < this.ProductRecommendations.Count; i++)
-            {
-                result = result && (this.ProductRecommendations.ElementAt(i).Equals(OtherPro.ProductRecommendations.ElementAt(i)));
-            }
-            for (int i = 0; i < this.ProductOrders.Count; i++)
-            {
-                result = result && (this.ProductRecommendations.ElementAt(i).Equals(OtherPro.ProductRecommendations.ElementAt(i)));
-            }
-            return result;
-        }
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
+            if (this.id == p2.id && this.title == p2.title && this.brand == p2.brand 
+                && this.description == p2.description && this.precio == p2.precio 
+                && this.stock == p2.stock) return true;
+            else return false;
+              
         }
 
     }
