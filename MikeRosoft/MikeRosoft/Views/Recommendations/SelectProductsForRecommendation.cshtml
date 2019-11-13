@@ -60,19 +60,19 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Title)
+                            @Html.DisplayFor(modelItem => item.title)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Price)
+                            @Html.DisplayFor(modelItem => item.precio)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Rate)
+                            @Html.DisplayFor(modelItem => item.rate)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.brand.Name)
                         </td>
                         <td align="center" width="10%">
-                            <input type="checkbox" name="IdsToAdd" value="@item.Id" />
+                            <input type="checkbox" name="IdsToAdd" value="@item.id" />
                         </td>
                     </tr>
                 }

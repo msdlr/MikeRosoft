@@ -163,23 +163,23 @@ namespace MikeRosoft.Controllers
             //It will be used to fill in a drop-down control
             selectProducts.Brands = new SelectList(_context.Brand.Select(g => g.Name).ToList());
             //It will filter that product that have enough quantity in stock
-            selectProducts.Products = _context.Products.Include(m => m.brand).Where(m => m.Stock > 0);
+            selectProducts.Products = _context.Products.Include(m => m.brand).Where(m => m.stock > 0);
             //For title
             if(productTitle != null)
             {
-                selectProducts.Products = selectProducts.Products.Where(m => m.Title.Contains(productTitle));
+                selectProducts.Products = selectProducts.Products.Where(m => m.title.Contains(productTitle));
 
             }
             //For price
             if (productPrice > 0)
             {
-                selectProducts.Products = selectProducts.Products.Where(m => m.Price >= productPrice);
+                selectProducts.Products = selectProducts.Products.Where(m => m.precio >= productPrice);
 
             }
             //For rate
             if (productRate >= 0)
             {
-                selectProducts.Products = selectProducts.Products.Where(m => m.Rate >= productRate);
+                selectProducts.Products = selectProducts.Products.Where(m => m.rate >= productRate);
 
             }
 
@@ -208,7 +208,7 @@ namespace MikeRosoft.Controllers
                 //we will recreate the view model again
                 SelectProductsForRecommendationViewModel selectProducts = new SelectProductsForRecommendationViewModel();
                 selectProducts.Brands = new SelectList(_context.Brand.Select(g => g.Name).ToList());
-                selectProducts.Products = _context.Products.Include(m => m.brand).Where(m => m.Stock > 0).ToList();
+                selectProducts.Products = _context.Products.Include(m => m.brand).Where(m => m.stock > 0).ToList();
                 return View(selectProducts);
             }
         }

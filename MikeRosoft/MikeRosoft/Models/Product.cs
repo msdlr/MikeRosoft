@@ -10,28 +10,28 @@ namespace MikeRosoft.Models
     public class Product
     {
         [Key]
-        public virtual int Id { set; get; }
+        public virtual int id { set; get; }
 
         [Required]
         [StringLength(50, MinimumLength = 1)]
-        public virtual string Title { set; get; }
+        public virtual string title { set; get; }
 
         
         [StringLength(500, MinimumLength = 50, ErrorMessage = "Cannot be longer than 50 characters.")]
-        public virtual string Description { set; get; }
+        public virtual string description { set; get; }
 
         [Required]
         [Range(0, float.MaxValue)]
-        public virtual float Price { set; get; }
+        public virtual float precio { set; get; }
 
         
         [Required]
         [Range(0, int.MaxValue)]
-        public virtual int Stock { set; get; }
+        public virtual int stock { set; get; }
 
         [Required]
         [Range(0, 5, ErrorMessage = "Integer points between 0 and 5")]
-        public virtual int Rate { set; get; }
+        public virtual int rate { set; get; }
 
         [ForeignKey("Brandid")]
         public virtual Brand brand{ get; set; }
@@ -44,8 +44,8 @@ namespace MikeRosoft.Models
         public override bool Equals(object Other)
         {
             Product OtherPro = (Product)Other;
-            bool result = (this.Id == OtherPro.Id) && (this.Title == OtherPro.Title)
-                && (this.Description == OtherPro.Description) && (this.brand == OtherPro.brand) && (this.Stock == OtherPro.Stock) && (this.Price == OtherPro.Price) && (this.ProductRecommendations.Count == OtherPro.ProductRecommendations.Count) && (this.ProductOrders.Count == OtherPro.ProductOrders.Count);
+            bool result = (this.id == OtherPro.id) && (this.title == OtherPro.title)
+                && (this.description == OtherPro.description) && (this.brand == OtherPro.brand) && (this.stock == OtherPro.stock) && (this.precio == OtherPro.precio) && (this.ProductRecommendations.Count == OtherPro.ProductRecommendations.Count) && (this.ProductOrders.Count == OtherPro.ProductOrders.Count);
             for (int i = 0; i < this.ProductRecommendations.Count; i++)
             {
                 result = result && (this.ProductRecommendations.ElementAt(i).Equals(OtherPro.ProductRecommendations.ElementAt(i)));

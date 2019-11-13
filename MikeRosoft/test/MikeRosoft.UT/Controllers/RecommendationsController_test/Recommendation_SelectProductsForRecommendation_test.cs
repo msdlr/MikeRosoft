@@ -52,9 +52,9 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
                 Brand brand = new Brand { Name = "HP" };
                 var brands = new List<Brand> { brand };
                 var expectedBrands = new SelectList(brands.Select(g => g.Name).ToList());
-                var expectedProducts = new Product[3] { new Product { Id = 1, Title = "Gamer Mouse", Description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 20, Stock = 100, Rate = 4 }, 
-                                                        new Product { Id = 2, Title = "Dark Keyboard", Description = "2Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 25, Stock = 50, Rate = 3 }, 
-                                                        new Product { Id = 3, Title = "Silence Mouse", Description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 30, Stock = 89, Rate = 5 }};
+                var expectedProducts = new Product[3] { new Product { id = 1, title = "Gamer Mouse", description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 20, stock = 100, rate = 4 }, 
+                                                        new Product { id = 2, title = "Dark Keyboard", description = "2Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 25, stock = 50, rate = 3 }, 
+                                                        new Product { id = 3, title = "Silence Mouse", description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 30, stock = 89, rate = 5 }};
 
                 //Act
                 var result = controller.SelectProductsForRecommendation(null, null, -1, -1);
@@ -62,7 +62,7 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
                 //Assert
                 var viewResult = Assert.IsType<ViewResult>(result);//Check the controller returns a view
                 SelectProductsForRecommendationViewModel model = viewResult.Model as SelectProductsForRecommendationViewModel;
-                Assert.Equal(expectedProducts, model.Products, Comparer.Get<Product>((p1, p2) => p1.Title == p2.Title && p1.Description == p2.Description && p1.Price == p2.Price && p1.Rate == p2.Rate && p1.Stock == p2.Stock));
+                Assert.Equal(expectedProducts, model.Products, Comparer.Get<Product>((p1, p2) => p1.title == p2.title && p1.description == p2.description && p1.precio == p2.precio && p1.rate == p2.rate && p1.stock == p2.stock));
                 Assert.Equal(expectedBrands, model.Brands, Comparer.Get<SelectListItem>((s1, s2) => s1.Value == s2.Value));
                 //Check that both collections (expected and result returned) have the same elements with the same name 
             }
@@ -79,8 +79,8 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
                 Brand brand = new Brand { Name = "HP" };
                 var brands = new List<Brand> { brand };
                 var expectedBrands = new SelectList(brands.Select(g => g.Name).ToList());
-                var expectedProducts = new Product[2] { new Product { Id = 1, Title = "Gamer Mouse", Description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 20, Stock = 100, Rate = 4 },
-                                                        new Product { Id = 3, Title = "Silence Mouse", Description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 30, Stock = 89, Rate = 5 }};
+                var expectedProducts = new Product[2] { new Product { id = 1, title = "Gamer Mouse", description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 20, stock = 100, rate = 4 },
+                                                        new Product { id = 3, title = "Silence Mouse", description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 30, stock = 89, rate = 5 }};
 
                 //Act
                 var result = controller.SelectProductsForRecommendation("Mouse", null, -1, -1);
@@ -88,7 +88,7 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
                 //Assert
                 var viewResult = Assert.IsType<ViewResult>(result);
                 SelectProductsForRecommendationViewModel model = viewResult.Model as SelectProductsForRecommendationViewModel;
-                Assert.Equal(expectedProducts, model.Products, Comparer.Get<Product>((p1, p2) => p1.Title == p2.Title && p1.Description == p2.Description && p1.Price == p2.Price && p1.Rate == p2.Rate && p1.Stock == p2.Stock));
+                Assert.Equal(expectedProducts, model.Products, Comparer.Get<Product>((p1, p2) => p1.title == p2.title && p1.description == p2.description && p1.precio == p2.precio && p1.rate == p2.rate && p1.stock == p2.stock));
                 Assert.Equal(expectedBrands, model.Brands, Comparer.Get<SelectListItem>((s1, s2) => s1.Value == s2.Value));
             }
         }
@@ -104,7 +104,7 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
                 Brand brand = new Brand { Name = "HP" };
                 var brands = new List<Brand> { brand };
                 var expectedBrands = new SelectList(brands.Select(g => g.Name).ToList());
-                var expectedProducts = new Product[1] { new Product { Id = 3, Title = "Silence Mouse", Description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 30, Stock = 89, Rate = 5 } };
+                var expectedProducts = new Product[1] { new Product { id = 3, title = "Silence Mouse", description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 30, stock = 89, rate = 5 } };
 
                 //Act
                 var result = controller.SelectProductsForRecommendation(null, null, 26, -1);
@@ -112,7 +112,7 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
                 //Assert
                 var viewResult = Assert.IsType<ViewResult>(result);
                 SelectProductsForRecommendationViewModel model = viewResult.Model as SelectProductsForRecommendationViewModel;
-                Assert.Equal(expectedProducts, model.Products, Comparer.Get<Product>((p1, p2) => p1.Title == p2.Title && p1.Description == p2.Description && p1.Price == p2.Price && p1.Rate == p2.Rate && p1.Stock == p2.Stock));
+                Assert.Equal(expectedProducts, model.Products, Comparer.Get<Product>((p1, p2) => p1.title == p2.title && p1.description == p2.description && p1.precio == p2.precio && p1.rate == p2.rate && p1.stock == p2.stock));
                 Assert.Equal(expectedBrands, model.Brands, Comparer.Get<SelectListItem>((s1, s2) => s1.Value == s2.Value));
             }
         }
@@ -128,9 +128,9 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
                 Brand brand = new Brand { Name = "HP" };
                 var brands = new List<Brand> { brand };
                 var expectedBrands = new SelectList(brands.Select(g => g.Name).ToList());
-                var expectedProducts = new Product[3] { new Product { Id = 1, Title = "Gamer Mouse", Description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 20, Stock = 100, Rate = 4 },
-                                                        new Product { Id = 2, Title = "Dark Keyboard", Description = "2Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 25, Stock = 50, Rate = 3 },
-                                                        new Product { Id = 3, Title = "Silence Mouse", Description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 30, Stock = 89, Rate = 5 }};
+                var expectedProducts = new Product[3] { new Product { id = 1, title = "Gamer Mouse", description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 20, stock = 100, rate = 4 },
+                                                        new Product { id = 2, title = "Dark Keyboard", description = "2Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 25, stock = 50, rate = 3 },
+                                                        new Product { id = 3, title = "Silence Mouse", description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 30, stock = 89, rate = 5 }};
 
                 //Act
                 var result = controller.SelectProductsForRecommendation(null, null);
@@ -138,7 +138,7 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
                 //Assert
                 var viewResult = Assert.IsType<ViewResult>(result);
                 SelectProductsForRecommendationViewModel model = viewResult.Model as SelectProductsForRecommendationViewModel;
-                Assert.Equal(expectedProducts, model.Products, Comparer.Get<Product>((p1, p2) => p1.Title == p2.Title && p1.Description == p2.Description && p1.Price == p2.Price && p1.Rate == p2.Rate && p1.Stock == p2.Stock));
+                Assert.Equal(expectedProducts, model.Products, Comparer.Get<Product>((p1, p2) => p1.title == p2.title && p1.description == p2.description && p1.precio == p2.precio && p1.rate == p2.rate && p1.stock == p2.stock));
                 Assert.Equal(expectedBrands, model.Brands, Comparer.Get<SelectListItem>((s1, s2) => s1.Value == s2.Value));
             }
         }
@@ -154,9 +154,9 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
                 Brand brand = new Brand { Name = "HP" };
                 var brands = new List<Brand> { brand };
                 var expectedBrands = new SelectList(brands.Select(g => g.Name).ToList());
-                var expectedProducts = new Product[3] { new Product { Id = 1, Title = "Gamer Mouse", Description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 20, Stock = 100, Rate = 4 },
-                                                        new Product { Id = 2, Title = "Dark Keyboard", Description = "2Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 25, Stock = 50, Rate = 3 },
-                                                        new Product { Id = 3, Title = "Silence Mouse", Description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 30, Stock = 89, Rate = 5 }};
+                var expectedProducts = new Product[3] { new Product { id = 1, title = "Gamer Mouse", description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 20, stock = 100, rate = 4 },
+                                                        new Product { id = 2, title = "Dark Keyboard", description = "2Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 25, stock = 50, rate = 3 },
+                                                        new Product { id = 3, title = "Silence Mouse", description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 30, stock = 89, rate = 5 }};
 
                 //Act
                 var result = controller.SelectProductsForRecommendation(null, "HP", -1, -1);
@@ -164,7 +164,7 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
                 //Assert
                 var viewResult = Assert.IsType<ViewResult>(result);
                 SelectProductsForRecommendationViewModel model = viewResult.Model as SelectProductsForRecommendationViewModel;
-                Assert.Equal(expectedProducts, model.Products, Comparer.Get<Product>((p1, p2) => p1.Title == p2.Title && p1.Description == p2.Description && p1.Price == p2.Price && p1.Rate == p2.Rate && p1.Stock == p2.Stock));
+                Assert.Equal(expectedProducts, model.Products, Comparer.Get<Product>((p1, p2) => p1.title == p2.title && p1.description == p2.description && p1.precio == p2.precio && p1.rate == p2.rate && p1.stock == p2.stock));
                 Assert.Equal(expectedBrands, model.Brands, Comparer.Get<SelectListItem>((s1, s2) => s1.Value == s2.Value));
             }
         }
@@ -180,9 +180,9 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
                 Brand brand = new Brand { Name = "HP" };
                 var brands = new List<Brand> { brand };
                 var expectedBrands = new SelectList(brands.Select(g => g.Name).ToList());
-                var expectedProducts = new Product[3] { new Product { Id = 1, Title = "Gamer Mouse", Description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 20, Stock = 100, Rate = 4 },
-                                                        new Product { Id = 2, Title = "Dark Keyboard", Description = "2Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 25, Stock = 50, Rate = 3 },
-                                                        new Product { Id = 3, Title = "Silence Mouse", Description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, Price = 30, Stock = 89, Rate = 5 }};
+                var expectedProducts = new Product[3] { new Product { id = 1, title = "Gamer Mouse", description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 20, stock = 100, rate = 4 },
+                                                        new Product { id = 2, title = "Dark Keyboard", description = "2Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 25, stock = 50, rate = 3 },
+                                                        new Product { id = 3, title = "Silence Mouse", description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 30, stock = 89, rate = 5 }};
                 SelectedProductsForRecommendationViewModel selected = new SelectedProductsForRecommendationViewModel { IdsToAdd = null };
                 
                 //Act
@@ -191,7 +191,7 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
                 //Assert
                 var viewResult = Assert.IsType<ViewResult>(result);
                 SelectProductsForRecommendationViewModel model = viewResult.Model as SelectProductsForRecommendationViewModel;
-                Assert.Equal(expectedProducts, model.Products, Comparer.Get<Product>((p1, p2) => p1.Title == p2.Title && p1.Description == p2.Description && p1.Price == p2.Price && p1.Rate == p2.Rate && p1.Stock == p2.Stock));
+                Assert.Equal(expectedProducts, model.Products, Comparer.Get<Product>((p1, p2) => p1.title == p2.title && p1.description == p2.description && p1.precio == p2.precio && p1.rate == p2.rate && p1.stock == p2.stock));
                 Assert.Equal(expectedBrands, model.Brands, Comparer.Get<SelectListItem>((s1, s2) => s1.Value == s2.Value));
             }
         }

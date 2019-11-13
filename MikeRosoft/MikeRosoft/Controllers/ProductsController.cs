@@ -12,7 +12,7 @@ using MikeRosoft.Models;
 
 namespace MikeRosoft.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -27,12 +27,12 @@ namespace MikeRosoft.Controllers
         {
             if (!String.IsNullOrEmpty(SearchString))
             {
-                var products = _context.Products.Include(m => m.brand).Where(s => s.Title.Contains(SearchString)).OrderBy(m => m.Title);
+                var products = _context.Products.Include(m => m.brand).Where(s => s.title.Contains(SearchString)).OrderBy(m => m.title);
                 return View(await products.ToListAsync());
             }
             else
             {
-                return View(await _context.Products.Include(m => m.brand).OrderBy(m => m.Title).ToListAsync());
+                return View(await _context.Products.Include(m => m.brand).OrderBy(m => m.title).ToListAsync());
             }
         }
 
@@ -44,7 +44,7 @@ namespace MikeRosoft.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.Include(m => m.brand).SingleOrDefaultAsync(m => m.Id == id);
+            var product = await _context.Products.Include(m => m.brand).SingleOrDefaultAsync(m => m.id == id);
             if (product == null)
             {
                 return NotFound();
@@ -70,7 +70,7 @@ namespace MikeRosoft.Controllers
             Product product;
             if (ModelState.IsValid)
             {
-                product = new Product() { Title = model.Title, Description = model.Description, Price = model.Price, Stock = model.Stock, Rate = model.Rate };
+                product = new Product() { title = model.title, description = model.description, precio = model.precio, stock = model.stock, rate = model.rate };
                 Brand brand = await _context.Brand.FirstAsync<Brand>(g => g.Name == model.BrandName);
                 product.brand = brand;
                 _context.Add(product);
@@ -89,7 +89,7 @@ namespace MikeRosoft.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.Include(m => m.brand).SingleOrDefaultAsync(m => m.Id == id);
+            var product = await _context.Products.Include(m => m.brand).SingleOrDefaultAsync(m => m.id == id);
             if (product == null)
             {
                 return NotFound();
@@ -104,7 +104,7 @@ namespace MikeRosoft.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Product product, Brand brand)
         {
-            if (id != product.Id)
+            if (id != product.id)
             {
                 return NotFound();
             }
@@ -118,7 +118,7 @@ namespace MikeRosoft.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!ProductExists(product.id))
                     {
                         return NotFound();
                     }
@@ -141,7 +141,7 @@ namespace MikeRosoft.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.SingleOrDefaultAsync(m => m.Id == id);
+            var product = await _context.Products.SingleOrDefaultAsync(m => m.id == id);
             if (product == null)
             {
                 return NotFound();
@@ -155,7 +155,7 @@ namespace MikeRosoft.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.SingleOrDefaultAsync(m => m.Id == id);
+            var product = await _context.Products.SingleOrDefaultAsync(m => m.id == id);
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -163,15 +163,15 @@ namespace MikeRosoft.Controllers
 
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.Products.Any(e => e.id == id);
         }
 
         [AcceptVerbs("Get", "Post")]
         public IActionResult VerifyTitle(CreateProductViewModel product)
         {
-            if(_context.Products.Any(g => g.Title.Equals(product.Title)))
+            if(_context.Products.Any(g => g.title.Equals(product.title)))
             {
-                return Json(data: $"Name {product.Title} is already in use.");
+                return Json(data: $"Name {product.title} is already in use.");
             }
             return Json(data: true);
         }
