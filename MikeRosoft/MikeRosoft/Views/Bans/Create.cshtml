@@ -23,7 +23,7 @@
                     Ban type
                 </th>
                 <th width="35%">
-                    Start date <lb/>
+                    Start date <lb />
                     dd/MM/yyyy HH:mm
                 </th>
                 <th width="35%">
@@ -36,6 +36,8 @@
             </tr>
         </thead>
 
+        <!-- Content -->
+        
         <tbody>
             @for (int i = 0; i < Model.UserIds.Count(); i++)
             {
@@ -51,13 +53,18 @@
                     <td>
                         <div class="form-group">
                             <div class="col-md-10">
-                                <input asp-for="StartDate[i]" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" value="@DateTime.Now"/>
+                                <input asp-for="StartDate[i]" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" value="@DateTime.Now" />
                                 <span asp-validation-for="StartDate[i]" class="text-danger" />
                             </div>
                         </div>
                     </td>
                     <td>
-                        End date
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input asp-for="StartDate[i]" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" value="@DateTime.Now" />
+                                <span asp-validation-for="StartDate[i]" class="text-danger" />
+                            </div>
+                        </div>
                     </td>
                     <td width="50%">
                         <div class="form-group">
@@ -71,8 +78,6 @@
                 </tr>
             }
         </tbody>
-
-        <!-- Content -->
 
     </table>
 
