@@ -22,19 +22,25 @@ namespace MikeRosoft.Models
 
         public override bool Equals(object obj)
         {
-            Admin otherAdmin = (Admin) obj;
-            bool result = this.Id.Equals(otherAdmin.Id) && (this.contractStarting.Equals(otherAdmin.contractStarting)) 
-                && (this.contractEnding.Equals(otherAdmin.contractEnding)) && (this.GetBans.Count == otherAdmin.GetBans.Count);
-            for(int i=0; i<this.GetBans.Count; i++)
-            {
-                result = result && this.GetBans.ElementAt(i).Equals(otherAdmin.GetBans.ElementAt(i)) ;
-            }
-
-            return result;
+            return obj is Admin admin &&
+                   base.Equals( (ApplicationUser) obj) &&
+                   contractStarting == admin.contractStarting &&
+                   contractEnding == admin.contractEnding;
         }
+
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(base.GetHashCode(), contractStarting, contractEnding);
+        }
+
+        public static bool operator ==(Admin left, Admin right)
+        {
+            return EqualityComparer<Admin>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(Admin left, Admin right)
+        {
+            return !(left == right);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace MikeRosoft.Models
 
 
         //UC_MakeRecommendation
-        public virtual IList<UserRecommend> UserRecommendations { get; set; }
+        //public virtual IList<UserRecommend> UserRecommendations { get; set; }
 
 
 
@@ -45,19 +45,27 @@ namespace MikeRosoft.Models
 
         public override bool Equals(object obj)
         {
-            User otherUser = (User)obj;
-            bool result = (this.Id.Equals(otherUser.Id)) && (this.Street.Equals(otherUser.Street)) && (this.City.Equals(otherUser.City))
-                && (this.Province.Equals(otherUser.Province)) && (this.Country.Equals(otherUser.Country));
-
-            for (int i = 0; i < this.BanRecord.Count; i++)
-            {
-                result = result && (this.BanRecord.ElementAt(i).Equals(BanRecord.ElementAt(i)));
-            }
-            return result;
+            return obj is User user &&
+                   base.Equals( (ApplicationUser) obj) &&
+                   Street == user.Street &&
+                   City == user.City &&
+                   Province == user.Province &&
+                   Country == user.Country;
         }
+
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(base.GetHashCode(), Street, City, Province, Country);
+        }
+
+        public static bool operator ==(User left, User right)
+        {
+            return EqualityComparer<User>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(User left, User right)
+        {
+            return !(left == right);
         }
     }
 }

@@ -44,6 +44,12 @@
     <Compile Remove="Data\Migrations\20191009145105_UC_MakeRecommendation.Designer.cs" />
     <Compile Remove="Data\Migrations\20191009213243_UC_ReturnItem.cs" />
     <Compile Remove="Data\Migrations\20191009213243_UC_ReturnItem.Designer.cs" />
+    <Compile Remove="Migrations\20191102101218_AllUC.cs" />
+    <Compile Remove="Migrations\20191102101218_AllUC.Designer.cs" />
+    <Compile Remove="Migrations\20191112105056_AllUcMigration.cs" />
+    <Compile Remove="Migrations\20191112105056_AllUcMigration.Designer.cs" />
+    <Compile Remove="Migrations\20191112110126_AllUcMigration.cs" />
+    <Compile Remove="Migrations\20191112110126_AllUcMigration.Designer.cs" />
   </ItemGroup>
 
 

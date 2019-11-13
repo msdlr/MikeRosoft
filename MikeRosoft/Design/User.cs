@@ -26,7 +26,7 @@ namespace MikeRosoft.Design
         public virtual IList<BanForUser> BanRecord { get; set; }
 
         //MakeRecommendation
-        public virtual IList<UserRecommend> UserRecommendations { get; set; }
+        //public virtual IList<UserRecommend> UserRecommendations { get; set; }
         // ReturnItem
         public virtual IList<UserRequest> UserRequests { get; set; }
     }

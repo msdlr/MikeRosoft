@@ -1,0 +1,95 @@
+﻿@model MikeRosoft.Models.BanViewModels.SelectUsersToBanViewModel
+
+@{
+    ViewData["Title"] = "Select User(s) to ban";
+}
+
+<h1>Select Users For Ban</h1>
+
+<form asp-controller="Bans" class="form-horizontal" aspaction="SelectUsersToBan" method="get">
+    <p>
+        <div>
+            <!-- FILTERING -->
+            <!--
+    <label asp-for="userID"></label>
+    <input asp-for="userID" size="10" />
+    <span asp-validation-for="userID" class="text-danger"></span>
+    -->
+            <label asp-for="NameSelected"></label>
+            <input asp-for="NameSelected" size="10" />
+            <span asp-validation-for="NameSelected" class="text-danger"></span>
+
+            <label asp-for="userSurname1"></label>
+            <input asp-for="userSurname1" size="10" />
+            <span asp-validation-for="userSurname1" class="text-danger"></span>
+
+            <label asp-for="userSurname2"></label>
+            <input asp-for="userSurname2" size="10" />
+            <span asp-validation-for="userSurname2" class="text-danger"></span>
+
+            <label asp-for="userDNI"></label>
+            <input asp-for="userDNI" size="10" />
+            <span asp-validation-for="userDNI" class="text-danger"></span>
+
+            <!-- Filter button -->
+            <input type="submit" value="Filter" />
+
+        </div>
+    </p>
+</form>
+
+<!-- POST -->
+
+<form asp-action="SelectUsersToBan" method="post">
+    <table class="table"
+           <thead> <!-- cabeceras de la tabla -->
+                <th>
+                    User ID
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    1st Surname
+                </th>
+                <th>
+                    2nd Surname
+                </th>
+           </thead>
+
+                <tbody>
+                    @if (Model.Users.Count() == 0)
+                    {
+                        <tr><td colspan="3">No users left to ban!</td></tr>
+                    }
+                    else
+                    {
+                        foreach (var item in Model.Users)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(m => item.DNI)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.Name)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(m => item.FirstSurname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.SecondSurname)
+                                </td>
+
+                                <td width="10%">
+                                    <input type="checkbox" name="IdsToAdd" value="@item.Id">
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="SelectUsersToBan" class="btn btn-default">Cancel</a>
+</form>

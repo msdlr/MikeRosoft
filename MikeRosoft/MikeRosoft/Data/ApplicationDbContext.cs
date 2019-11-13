@@ -18,11 +18,11 @@ namespace MikeRosoft.Data
 
         //Creo que van aquí las listas
 
-        public virtual DbSet<User> UserList { get; set; }
-        public virtual DbSet<Admin> AdminList { get; set; }
-        public virtual DbSet<Ban> BanList { get; set; }
-        public virtual DbSet<BanForUser> BanForUserList { get; set; }
-        public virtual DbSet<BanType> BanTypeList { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Admin> Admins { get; set; }
+        public virtual DbSet<Ban> Bans { get; set; }
+        public virtual DbSet<BanForUser> BanForUsers { get; set; }
+        public virtual DbSet<BanType> BanTypes { get; set; }
 
         //Buy Products
         public virtual DbSet<Order> Order { get; set; }
@@ -33,7 +33,7 @@ namespace MikeRosoft.Data
         //MakeRecommendation
         public virtual DbSet<Recommendation> Recommendations { get; set;}
         public virtual DbSet<ProductRecommend> ProductRecommendations { get; set;}
-        public virtual DbSet<UserRecommend> UserRecommendations { get; set;}
+        //public virtual DbSet<UserRecommend> UserRecommendations { get; set;}
         public virtual DbSet<Product> Products { get; set;}
 
         //ReturnItem
@@ -58,8 +58,8 @@ namespace MikeRosoft.Data
             .HasKey(pi => new { pi.GetBanID, pi.GetUserId });
             builder.Entity<ProductRecommend>()
             .HasKey(pi => new { pi.ProductId, pi.RecommendationId });
-            builder.Entity<UserRecommend>()
-            .HasKey(pi => new { pi.UserId, pi.RecommendationId });
+            /*builder.Entity<UserRecommend>()
+            .HasKey(pi => new { pi.UserId, pi.RecommendationId });*/
             builder.Entity<UserRequest>()
             .HasKey(pi => new { pi.userID, pi.requestID });
 
@@ -68,5 +68,9 @@ namespace MikeRosoft.Data
             .HasIndex(u => u.DNI)
             .IsUnique();
         }
+
+        //Claves primarias para las relaciones n-n
+
+        public DbSet<MikeRosoft.Models.Brand> Brand { get; set; }
     }
 }
