@@ -20,9 +20,13 @@ namespace MikeRosoft.Controllers
         }
 
         // GET: ReturnRequests
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string SearchString)
         {
-            return View(await _context.ReturnRequests.ToListAsync());
+            if (!String.IsNullOrEmpty(SearchString)) {
+                var returnRequests = _context.ReturnRequests.Where(s => s.title.Contains(SearchString));
+                return View(await returnRequests.ToListAsync());
+            } else
+                return View(await _context.ReturnRequests.ToListAsync());
         }
 
         // GET: ReturnRequests/Details/5
