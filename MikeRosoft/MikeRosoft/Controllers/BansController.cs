@@ -90,7 +90,7 @@ namespace MikeRosoft.Controllers
                     BanViewModel.infoAboutUser.Add(user.Name + " " + user.FirstSurname + " (" + user.DNI + ")");
 
                     //Fill bans for users
-                    BanViewModel.BansForUsers.Add( new BanForUser { GetUser=user, /*ID= nextBanForUserCounter()*/ });
+                    BanViewModel.BansForUsers.Add( new BanForUser { GetUser=user /*ID= nextBanForUserCounter()*/ });
                 }
 
                 var admin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name));
