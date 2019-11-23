@@ -107,7 +107,7 @@ namespace MikeRosoft.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost(CreateBanViewModel cm, IList<BanForUser> BansForUsers)
+        public async Task<IActionResult> CreatePost(CreateBanViewModel cm, IList<BanForUser> BansForUsers, string[] UserIds)
         {
             //Create ban
             Ban ban = new Ban
