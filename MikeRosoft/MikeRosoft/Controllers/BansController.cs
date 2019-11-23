@@ -122,22 +122,26 @@ namespace MikeRosoft.Controllers
             _context.Bans.Add(ban);
 
             //Fill information in BanForUser list (Needed: Ban, BanType relationships)
-            foreach(BanForUser bfu in cm.BansForUsers)
-            //for(int i = 0; i< cm.BansForUsers.Count;i++)
+            //foreach(BanForUser bfu in cm.BansForUsers)
+            for(int i = 0; i< cm.BansForUsers.Count;i++)
             {
-                int num = 0;
+                //If no additional comment was entered, we initialize the string to this value
+                if (cm.BansForUsers[i].AdditionalComment == null) cm.BansForUsers[i].AdditionalComment = "[No comment from the admin]";
+
                 //Relationship with Ban
-                //BansForUsers[i].GetBan = ban;
-                bfu.GetBan = ban;
+                    cm.BansForUsers[i].GetBan = ban;
+                cm.BansForUsers[i].GetBanID = cm.BansForUsers[i].GetBan.ID;
 
                 //Relationship with BanType (the view only picks up the type name)
-                //BansForUsers[i].GetBanType = await _context.BanTypes.SingleOrDefaultAsync(b => b.TypeName.Equals(cm.banTypeName[num]));
-                bfu.GetBanType = await _context.BanTypes.SingleOrDefaultAsync(b => b.TypeName.Equals(cm.banTypeName[num]));
+                cm.BansForUsers[i].GetBanType = await _context.BanTypes.SingleOrDefaultAsync(b => b.TypeName.Equals(cm.banTypeName.ElementAt(i)));
+                cm.BansForUsers[i].GetBanTypeID = cm.BansForUsers[i].GetBanType.TypeID;
+
+                //Relationship with User
+                cm.BansForUsers[i].GetUserId = UserIds[i];
+                cm.BansForUsers[i].GetUser = await _context.Users.SingleOrDefaultAsync(b => b.Id.Equals(cm.BansForUsers[i].GetUserId));
 
                 //Add this BanforUser to the database
-                //_context.BanForUsers.Add(cm.BansForUsers[i]);
-                _context.BanForUsers.Add(bfu);
-                num++;
+                _context.BanForUsers.Add(cm.BansForUsers[i]);
             }
 
             //Update database
