@@ -44,9 +44,18 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
             _contextOptions = CreateNewContextOptions();
             context = new ApplicationDbContext(_contextOptions);
             // Insert seed data into the database using one instance of the context
-            context.Products.Add(new Product { id = 4, title = "Memoria RAM", description ="8 GB", brand ="kingston", precio = 130, stock=3 });
-            context.Products.Add(new Product { id = 5, title = "Memoria RAM", description = "16 GB", brand = "samsung", precio = 130, stock = 0 });
-            context.Products.Add(new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand = "samsung", precio = 130, stock = 456 });
+
+            Brand bran1 = new Brand { Brandid = 1, Name = "Kingston" };
+            Brand bran2 = new Brand { Brandid = 2, Name = "Samsung" };
+
+            context.Brand.Add(bran1);
+            context.Brand.Add(bran1);
+
+            context.Products.Add(new Product { id = 4, title = "Memoria RAM", description ="8 GB", brand =bran1, precio = 130, stock=3 });
+            context.Products.Add(new Product { id = 5, title = "Memoria RAM", description = "16 GB", brand = bran2, precio = 130, stock = 0 });
+            context.Products.Add(new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand = bran2, precio = 130, stock = 456 });
+
+            
 
             context.Users.Add(new User { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García" });
 
@@ -57,7 +66,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
             context.SaveChanges();
 
             //how to simulate the connection of a user
-            System.Security.Principal.GenericIdentity user = new System.Security.Principal.GenericIdentity("carolina.ordono@uclm.com");
+            System.Security.Principal.GenericIdentity user = new System.Security.Principal.GenericIdentity("llanos@uclm.com");
             System.Security.Claims.ClaimsPrincipal identity = new System.Security.Claims.ClaimsPrincipal(user);
             ordersContext = new Microsoft.AspNetCore.Http.DefaultHttpContext();
             ordersContext.User = identity;
@@ -72,13 +81,16 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
             using (context)
             {
 
+
                 // Arrange
                 var controller = new ProductsController(context);
                 controller.ControllerContext.HttpContext = ordersContext;
 
+                Brand brand1 = new Brand { Brandid = 1, Name = "Kingston" };
+                Brand brand2 = new Brand { Brandid = 2, Name = "Samsung" };
 
-                IEnumerable<Product> expectedItems = new Product[2] { new Product {id = 4, title = "Memoria RAM", description ="8 GB", brand ="kingston", precio = 130, stock=3 },
-                                                  new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand = "samsung", precio = 130, stock = 456 }};
+                IEnumerable<Product> expectedItems = new Product[2] { new Product {id = 4, title = "Memoria RAM", description ="8 GB", brand =brand1, precio = 130, stock=3 },
+                                                  new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand = brand2, precio = 130, stock = 456 }};
 
                 // Act             
                 var result = controller.SelectProductsForBuy(null, null);
@@ -88,7 +100,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 SelectProductsForBuyViewModel model = viewResult.Model as SelectProductsForBuyViewModel;
 
 
-                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.equals(p2)));
+                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.Equals(p2)));
                 // Check that both collections (expected and result returned) have the same elements with the same name
 
             }
@@ -107,8 +119,10 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 var controller = new ProductsController(context);
                 controller.ControllerContext.HttpContext = ordersContext;
 
+                Brand bran1 = new Brand { Brandid = 1, Name = "Kingston" };
+                Brand bran2 = new Brand { Brandid = 2, Name = "Samsung" };
 
-                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand = "kingston", precio = 130, stock = 3 },};
+                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand = bran1, precio = 130, stock = 3 },};
 
                 // Act             
                 var result = controller.SelectProductsForBuy("RAM", null);
@@ -118,7 +132,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 SelectProductsForBuyViewModel model = viewResult.Model as SelectProductsForBuyViewModel;
 
 
-                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.equals(p2)));
+                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.Equals(p2)));
                 // Check that both collections (expected and result returned) have the same elements with the same name
 
             }
@@ -127,7 +141,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
 
 
         [Fact]
-        public async Task SelectItem_withFilterBrand()
+        public async Task SelectItem_withFilterbrand_string()
         {
             using (context)
             {
@@ -137,25 +151,32 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 var controller = new ProductsController(context);
                 controller.ControllerContext.HttpContext = ordersContext;
 
+                Brand bran1 = new Brand { Brandid = 1, Name = "Kingston" };
+                Brand bran2 = new Brand { Brandid = 2, Name = "Samsung" };
+                var brands = new List<Brand> { bran1,bran2};
+                var expectedBrands = new SelectList(brands.Select(b => b.Name).ToList());
 
-                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand = "kingston", precio = 130, stock = 3 }};
+
+                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand = bran1, precio = 130, stock = 3 }};
 
                 // Act             
-                var result = controller.SelectProductsForBuy(null, "king");
+                var result = controller.SelectProductsForBuy(null, "Kingston");
 
                 //Assert
                 var viewResult = Assert.IsType<ViewResult>(result); // Check the controller returns a view
                 SelectProductsForBuyViewModel model = viewResult.Model as SelectProductsForBuyViewModel;
 
 
-                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.equals(p2)));
+                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.Equals(p2)));
+                Assert.Equal(expectedBrands, model.Brands, Comparer.Get<SelectListItem>((p1, p2) => p1.Value == p2.Value));
+
                 // Check that both collections (expected and result returned) have the same elements with the same name
 
             }
         }
 
         [Fact]
-        public async Task SelectItem_withFilterTitleandBrand()
+        public async Task SelectItem_withFilterTitleandbrand_string()
         {
             using (context)
             {
@@ -165,18 +186,23 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 var controller = new ProductsController(context);
                 controller.ControllerContext.HttpContext = ordersContext;
 
+                Brand bran1 = new Brand { Brandid = 1, Name = "Kingston" };
+                Brand bran2 = new Brand { Brandid = 2, Name = "Samsung" };
+                var brands = new List<Brand> { bran1, bran2 };
+                var expectedBrands = new SelectList(brands.Select(b => b.Name).ToList());
 
-                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand = "kingston", precio = 130, stock = 3 } };
+                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand = bran1, precio = 130, stock = 3 } };
 
                 // Act             
-                var result = controller.SelectProductsForBuy("RAM", "king");
+                var result = controller.SelectProductsForBuy("RAM", "Kingston");
 
                 //Assert
                 var viewResult = Assert.IsType<ViewResult>(result); // Check the controller returns a view
                 SelectProductsForBuyViewModel model = viewResult.Model as SelectProductsForBuyViewModel;
 
 
-                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.equals(p2)));
+                Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.Equals(p2)));
+                Assert.Equal(expectedBrands, model.Brands, Comparer.Get<SelectListItem>((p1, p2) => p1.Value == p2.Value));
                 // Check that both collections (expected and result returned) have the same elements with the same name
 
             }

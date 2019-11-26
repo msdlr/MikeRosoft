@@ -14,7 +14,6 @@ using MikeRosoft.Models.OrderViewModels;
 namespace MikeRosoft.Controllers
 {
     [Authorize(Roles = "User")]
-
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -159,8 +158,10 @@ namespace MikeRosoft.Controllers
         {
             
             SelectProductsForBuyViewModel selectProducts = new SelectProductsForBuyViewModel();
+            selectProducts.Brands = new SelectList(_context.Brand.Select(b => b.Name).ToList());
+
             //Añade a products todos los productos que están en la base de datos cuyo stock es mayor que 0 
-            selectProducts.Products = _context.Products.Where(p => p.stock > 0);
+            selectProducts.Products = _context.Products.Include(p => p.brand).Where(p => p.stock > 0);
 
             //Para filtrar por nombre
             if (titleSelected != null)
@@ -168,7 +169,7 @@ namespace MikeRosoft.Controllers
 
             //Para filtrar por brand
             if (brandSelected != null)
-                selectProducts.Products = selectProducts.Products.Where(p => p.brand.Contains(brandSelected));
+                selectProducts.Products = selectProducts.Products.Where(p => p.brand.Name.Contains(brandSelected));
 
             selectProducts.Products.ToList();
 
@@ -187,7 +188,7 @@ namespace MikeRosoft.Controllers
 
             ModelState.AddModelError(string.Empty, "You must select at least one product");
             SelectProductsForBuyViewModel selectProducts = new SelectProductsForBuyViewModel();
-            selectProducts.Products = _context.Products.Where(p => p.stock > 0);
+            selectProducts.Products = _context.Products.Include(p=> p.brand).Where(p => p.stock > 0);
 
             return View(selectProducts);
         }

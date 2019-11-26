@@ -84,7 +84,7 @@ namespace MikeRosoft.Data
                 if (result.Succeeded)
                 {
                     //User role
-                    userManager.AddToRoleAsync(user, roles[1]).Wait();
+                    userManager.AddToRoleAsync(user, "User").Wait();
                     user.EmailConfirmed = true;
                 }
             }

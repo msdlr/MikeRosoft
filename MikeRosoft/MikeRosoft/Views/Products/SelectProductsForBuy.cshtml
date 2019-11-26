@@ -17,8 +17,9 @@
             <span asp-validation-for="titleSelected" class="text-danger"></span>
 
             <label asp-for="brandSelected"></label>
-            <input asp-for="brandSelected" size="50" />
-            <span asp-validation-for="brandSelected" class="text-danger"></span>
+            <select asp-for="brandSelected" asp-items="Model.Brands">
+                <option value="">All</option>
+            </select>
 
             <input type="submit" value="Filter" />
         </div>
@@ -63,7 +64,7 @@
                             @Html.DisplayFor(modelItem => item.precio)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.brand)
+                            @Html.DisplayFor(modelItem => item.brand.Name)
                         </td>
                         <td align="center" width="10%">
                             <input type="checkbox" name="IdsToAdd" value="@item.id" class="form-control">

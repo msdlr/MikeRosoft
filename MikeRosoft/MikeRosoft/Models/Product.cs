@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,16 +17,11 @@ namespace MikeRosoft.Models
         public virtual string title { set; get; }
 
         
-        [StringLength(500, MinimumLength = 50)]
+        [StringLength(500, MinimumLength = 50, ErrorMessage = "Cannot be longer than 50 characters.")]
         public virtual string description { set; get; }
 
-
         [Required]
-        public virtual string brand { set; get; }
-
-
-        [Required]
-        [Range(1, int.MaxValue)]
+        [Range(0, float.MaxValue)]
         public virtual float precio { set; get; }
 
         
@@ -33,20 +29,31 @@ namespace MikeRosoft.Models
         [Range(0, int.MaxValue)]
         public virtual int stock { set; get; }
 
+        [Required]
+        [Range(0, 5, ErrorMessage = "Integer points between 0 and 5")]
+        public virtual int rate { set; get; }
 
-        public virtual IList<ProductOrder> productOrders { get; set; }
+        [ForeignKey("Brandid")]
+        public virtual Brand brand{ get; set; }
+
+        [Required]
+        public virtual string brand_string { get; set; }
+
+        public virtual IList<ProductOrder> ProductOrders { get; set; }
 
         //MakeRecommendation
         public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
 
-        public Boolean equals(Product p2)
+        public override bool Equals(object obj)
         {
-            if (this.id == p2.id && this.title == p2.title && this.brand == p2.brand 
-                && this.description == p2.description && this.precio == p2.precio 
-                && this.stock == p2.stock) return true;
-            else return false;
-              
+            return obj is Product product &&
+                   id == product.id &&
+                   title == product.title &&
+                   description == product.description &&
+                   precio == product.precio &&
+                   stock == product.stock &&
+                   rate == product.rate &&
+                   (brand.Brandid == product.brand.Brandid && brand.Name == product.brand.Name);
         }
-
     }
 }

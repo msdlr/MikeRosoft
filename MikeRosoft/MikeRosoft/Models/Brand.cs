@@ -17,19 +17,12 @@ namespace MikeRosoft.Models
 
         public virtual IList<Product> Products { get; set; }
 
-        public override bool Equals(object Other)
+        public override bool Equals(object obj)
         {
-            Brand Otherbrand = (Brand)Other;
-            bool result = (this.Brandid == Otherbrand.Brandid) && (this.Name == Otherbrand.Name) && (this.Products.Count == Otherbrand.Products.Count);
-            for (int i = 0; i < this.Products.Count; i++)
-            {
-                result = result && (this.Products.ElementAt(i).Equals(Otherbrand.Products.ElementAt(i)));
-            }
-            return result;
-        }
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
+            return obj is Brand brand &&
+                   Brandid == brand.Brandid &&
+                   Name == brand.Name &&
+                   EqualityComparer<IList<Product>>.Default.Equals(Products, brand.Products);
         }
     }
 }
