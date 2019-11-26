@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Design", "Design\Design.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BF66F4EA-A9B8-402B-A180-9C16688F84D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeRosoft.UT", "test\MikeRosoft.UT\MikeRosoft.UT.csproj", "{C13729B4-7299-4F52-8105-632E6A65F329}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MikeRosoft.UT", "test\MikeRosoft.UT\MikeRosoft.UT.csproj", "{C13729B4-7299-4F52-8105-632E6A65F329}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeRosoft.UIT", "test\MikeRosoft.UIT\MikeRosoft.UIT.csproj", "{9CB5F5D7-A77B-470D-B2C5-FDC5C2D61048}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{C13729B4-7299-4F52-8105-632E6A65F329}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C13729B4-7299-4F52-8105-632E6A65F329}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C13729B4-7299-4F52-8105-632E6A65F329}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CB5F5D7-A77B-470D-B2C5-FDC5C2D61048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CB5F5D7-A77B-470D-B2C5-FDC5C2D61048}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CB5F5D7-A77B-470D-B2C5-FDC5C2D61048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CB5F5D7-A77B-470D-B2C5-FDC5C2D61048}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{75D6EE77-4126-4219-80B8-EC07BE6B2CA9} = {99990BA2-334E-41E7-801B-8F200C8B16FB}
 		{C13729B4-7299-4F52-8105-632E6A65F329} = {BF66F4EA-A9B8-402B-A180-9C16688F84D2}
+		{9CB5F5D7-A77B-470D-B2C5-FDC5C2D61048} = {BF66F4EA-A9B8-402B-A180-9C16688F84D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9DB6D1FF-732F-4D88-BCA8-C9E375BE483E}
