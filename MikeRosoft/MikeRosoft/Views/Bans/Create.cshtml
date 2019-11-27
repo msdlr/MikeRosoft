@@ -44,25 +44,26 @@
                 <tr>
                     <td>
                         @Html.DisplayFor(m => m.infoAboutUser[i]);
+                        @Html.HiddenFor(x => x.UserIds[i])
                     </td>
                     <td>
-                        <select asp-for="banTypeName" asp-items="Model.BanTypesAvailable">
+                        <select asp-for="banTypeName[i]" asp-items="Model.BanTypesAvailable">
                         </select>
 
                     </td>
                     <td>
                         <div class="form-group">
                             <div class="col-md-10">
-                                <input asp-for="StartDate[i]" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" value="@DateTime.Now" />
-                                <span asp-validation-for="StartDate[i]" class="text-danger" />
+                                <input asp-for="BansForUsers[i].Start" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" value="@DateTime.Now" />
+                                <span asp-validation-for="BansForUsers[i].Start" class="text-danger" />
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
                             <div class="col-md-10">
-                                <input asp-for="StartDate[i]" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" value="@DateTime.Now" />
-                                <span asp-validation-for="StartDate[i]" class="text-danger" />
+                                <input asp-for="BansForUsers[i].End" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" value="@DateTime.Now" />
+                                <span asp-validation-for="BansForUsers[i].End" class="text-danger" />
                             </div>
                         </div>
                     </td>
@@ -70,8 +71,8 @@
                         <div class="form-group">
 
                             <div class="col-md-10">
-                                <input asp-for="AdditionalComment[i]" class="form-control" height="20" />
-                                <span asp-validation-for="AdditionalComment[i]" class="text-danger" />
+                                <input asp-for="BansForUsers[i].AdditionalComment" class="form-control" height="20" />
+                                <span asp-validation-for="BansForUsers[i].AdditionalComment" class="text-danger" />
                             </div>
                         </div>
                     </td>

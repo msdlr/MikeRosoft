@@ -11,23 +11,23 @@ namespace MikeRosoft.Models.BanViewModels
     {
         //IDs of users to ban
         public string[] UserIds { get; set; }
+        //public List<string> IdsToAdd = new List<string>();
+        public List<string> infoAboutUser = new List<string>();
 
-        public string[] infoAboutUser { get; set; }
+        //Admin that bans the user
+        public string adminId { get;set; }
 
         //List of BanForUser
-        public IList<BanForUser> BansForUsers { get; set; }
+        public virtual IList<BanForUser> BansForUsers { get; set; }
 
         //Ban type
         public SelectList BanTypesAvailable { get; set; }
-        public string[] banTypeName { get; set; }
-        public int[] GetBanTypeID { get; set; }
-        public TimeSpan[] defaultDuration { get; set; }
+        public IList<string> banTypeName { get; set; }
+        public List<TimeSpan> defaultDuration { get; set; }
 
-        //End and start date for each BanForUser
-        public DateTime[] StartDate { get; set; }
-        public DateTime[] EndDate { get; set; }
+        //End and start date are inside the BanForUser IList
 
         //Comment for each BanForUser
-        public string[] AdditionalComment { set; get; }
+        public List<string> AdditionalComment { set; get; }
     }
 }

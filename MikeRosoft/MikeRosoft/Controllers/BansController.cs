@@ -62,84 +62,89 @@ namespace MikeRosoft.Controllers
         }
 
         // GET: Bans/Create
-        public IActionResult Create(SelectedUsersToBanViewModel model)
+        public IActionResult Create(SelectedUsersToBanViewModel selectedUsers)
         {
-            CreateBanViewModel BanToCreate = new CreateBanViewModel();
-            //Initialize fields of the viewmodel
-            BanToCreate.UserIds = model.IdsToAdd;
-            //This causes an exception if no users are selected (the array is null and has no size)
-            if(model.IdsToAdd != null) BanToCreate.infoAboutUser = new string[BanToCreate.UserIds.Length];
+            CreateBanViewModel BanViewModel = new CreateBanViewModel();
+            //Initialize fields of the viewmodel (prevents null exception)
+            BanViewModel.UserIds = selectedUsers.IdsToAdd;
+
+            //BanViewModel.infoAboutUser = new List<string>();
+            BanViewModel.BansForUsers = new List<BanForUser>();
+
 
             //Fill the lest of BanTypes in the SelectList
-            BanToCreate.BanTypesAvailable = new SelectList(_context.BanTypes.Select(g => g.TypeName).ToList());
-            //Get default duration for each type (Exception if 0)
-            if(_context.BanTypes.Select(g => g.TypeName).ToList().Count != 0)
-            BanToCreate.defaultDuration = new TimeSpan[_context.BanTypes.Select(g => g.TypeName).ToList().Count];
+            BanViewModel.BanTypesAvailable = new SelectList(_context.BanTypes.Select(g => g.TypeName).ToList());
+            BanViewModel.defaultDuration = new List<TimeSpan>(_context.BanTypes.Select(g => g.DefaultDuration).ToList());
+            
 
-            for (int i=0; i< BanToCreate.BanTypesAvailable.Count();i++)
-            {
-                BanToCreate.defaultDuration[i] = _context.BanTypes.Select(g => g.DefaultDuration).ToList().ElementAt(i);
-            }
-
-            if (model.IdsToAdd == null)
+            if (selectedUsers.IdsToAdd == null)
                 ModelState.AddModelError("NoUsersSelected", "You should select at least a user to be banned, please");
             else
             {
                 //Have some info regarding the user in the viewmodel
-                for (int i = 0; i < model.IdsToAdd.Length; i++)
+                foreach (string id in selectedUsers.IdsToAdd)
                 {
-                    var user = _context.Users.First(u => u.Id.Equals(model.IdsToAdd[i]));
-                    BanToCreate.infoAboutUser[i] = user.Name + " " + user.FirstSurname + " (" + user.DNI + ")";
+                    var user = _context.Users.First(u => u.Id.Equals(id));
+                   
+                    //Fill info about the user
+                    BanViewModel.infoAboutUser.Add(user.Name + " " + user.FirstSurname + " (" + user.DNI + ")");
+
+                    //Fill bans for users
+                    BanViewModel.BansForUsers.Add( new BanForUser { GetUser=user /*ID= nextBanForUserCounter()*/ });
                 }
+
+                var admin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name));
+                BanViewModel.adminId = admin.Id;
+
             }
-           
-            return View(BanToCreate);
+
+            return View(BanViewModel);
         }
 
 
         // POST: Bans/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateBanViewModel cm, IList<BanForUser> bfus)
+        public async Task<IActionResult> CreatePost(CreateBanViewModel cm, IList<BanForUser> BansForUsers, string[] UserIds)
         {
             //Create ban
             Ban ban = new Ban
             {
-                //GetAdmin = _context.Admins.OfType<Admin>().FirstOrDefault<Admin>(u => u.Name.Equals(User.Identity.Name)),
+                GetAdmin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name)),
+                GetAdminId = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name)).Id,
                 BanTime = DateTime.UtcNow,
-                ID = this.nextBanCounter()
+                GetBanForUsers = new List<BanForUser>()
             };
 
+            //Add this ban to the database
             _context.Bans.Add(ban);
-            //Fill the list of BanForUsers
-            for (int i = 0; i<cm.UserIds.Count(); i++)
+
+            //Fill information in BanForUser list (Needed: Ban, BanType relationships)
+            //foreach(BanForUser bfu in cm.BansForUsers)
+            for(int i = 0; i< cm.BansForUsers.Count;i++)
             {
-                //Create a BanForUser for each selected  Id
-                BanForUser bfu = new BanForUser
-                {
-                    //Relationship with ban
-                    GetBan = ban,
+                //If no additional comment was entered, we initialize the string to this value
+                if (cm.BansForUsers[i].AdditionalComment == null) cm.BansForUsers[i].AdditionalComment = "[No comment from the admin]";
 
-                    //Relationship with BanType
-                    GetBanType = _context.Users.OfType<BanType>().FirstOrDefault<BanType>(u => u.TypeName.Equals(cm.banTypeName)),
+                //Relationship with Ban
+                    cm.BansForUsers[i].GetBan = ban;
+                cm.BansForUsers[i].GetBanID = cm.BansForUsers[i].GetBan.ID;
 
-                    //Relationship with User
-                    GetUser = _context.Users.OfType<User>().FirstOrDefault<User>(u => u.Id.Equals(cm.UserIds[i])),
+                //Relationship with BanType (the view only picks up the type name)
+                cm.BansForUsers[i].GetBanType = await _context.BanTypes.SingleOrDefaultAsync(b => b.TypeName.Equals(cm.banTypeName.ElementAt(i)));
+                cm.BansForUsers[i].GetBanTypeID = cm.BansForUsers[i].GetBanType.TypeID;
 
-                    //Start and end dates
-                    Start = Convert.ToDateTime(cm.StartDate[i]),
-                    End = Convert.ToDateTime(cm.EndDate[i]),
+                //Relationship with User
+                cm.BansForUsers[i].GetUserId = UserIds[i];
+                cm.BansForUsers[i].GetUser = await _context.Users.SingleOrDefaultAsync(b => b.Id.Equals(cm.BansForUsers[i].GetUserId));
 
-                    //Additional comments
-                    AdditionalComment = cm.AdditionalComment[i]
-
-                };
-                _context.BanForUsers.Add(bfu);
-                
+                //Add this BanforUser to the database
+                _context.BanForUsers.Add(cm.BansForUsers[i]);
             }
 
+            //Update database
             await _context.SaveChangesAsync();
             //Details of the transaction
             return RedirectToAction("Details", new { id = ban.ID });
