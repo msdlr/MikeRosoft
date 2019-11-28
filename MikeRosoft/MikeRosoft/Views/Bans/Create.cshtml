@@ -12,7 +12,7 @@
         <hr />
     </div>
 
-    <table class="table" width="200%">
+    <table class="table" width="100%">
         <!-- Headers -->
         <thead>
             <tr>
@@ -22,15 +22,13 @@
                 <th>
                     Ban type
                 </th>
-                <th width="35%">
-                    Start date <lb />
-                    dd/MM/yyyy HH:mm
+                <th>
+                    Start date
                 </th>
-                <th width="35%">
-                    End date <lb />
-                    dd/MM/yyyy HH:mm
+                <th>
+                    End date
                 </th>
-                <th width="30%">
+                <th>
                     Additional comment
                 </th>
             </tr>
@@ -49,12 +47,11 @@
                     <td>
                         <select asp-for="banTypeName[i]" asp-items="Model.BanTypesAvailable">
                         </select>
-
                     </td>
                     <td>
                         <div class="form-group">
                             <div class="col-md-10">
-                                <input asp-for="BansForUsers[i].Start" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" value="@DateTime.Now" />
+                                <input asp-for="BansForUsers[i].Start" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20"/>
                                 <span asp-validation-for="BansForUsers[i].Start" class="text-danger" />
                             </div>
                         </div>
@@ -62,7 +59,7 @@
                     <td>
                         <div class="form-group">
                             <div class="col-md-10">
-                                <input asp-for="BansForUsers[i].End" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" value="@DateTime.Now" />
+                                <input asp-for="BansForUsers[i].End" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20"/>
                                 <span asp-validation-for="BansForUsers[i].End" class="text-danger" />
                             </div>
                         </div>
