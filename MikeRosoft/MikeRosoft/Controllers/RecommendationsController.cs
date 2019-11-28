@@ -149,6 +149,7 @@ namespace MikeRosoft.Controllers
             {
                 return NotFound();
             }
+            ViewData["AdminId"] = new SelectList(_context.Set<Admin>(), "Id", "Id", recommendation.AdminId);
             return View(recommendation);
         }
 
@@ -184,6 +185,7 @@ namespace MikeRosoft.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AdminId"] = new SelectList(_context.Set<Admin>(), "Id", "Id", recommendation.AdminId);
             return View(recommendation);
         }
 
@@ -196,7 +198,7 @@ namespace MikeRosoft.Controllers
             }
 
             var recommendation = await _context.Recommendations
-                .FirstOrDefaultAsync(m => m.IdRecommendation == id);
+                .SingleOrDefaultAsync(m => m.IdRecommendation == id);
             if (recommendation == null)
             {
                 return NotFound();
