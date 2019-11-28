@@ -15,20 +15,20 @@ namespace MikeRosoft.Controllers
     [Authorize(Roles = "Admin")]
     public class BansController : Controller
     {
-        private int banCounter = 0; 
-        private int banForUserCounter = 0;
+        //private int banCounter = 0; 
+        //private int banForUserCounter = 0;
 
-        public int nextBanCounter()
-        {
-            this.banCounter++;
-            return this.banCounter;
-        }
+        //public int nextBanCounter()
+        //{
+        //    this.banCounter++;
+        //    return this.banCounter;
+        //}
 
-        public int nextBanForUserCounter()
-        {
-            this.banForUserCounter++;
-            return this.banForUserCounter;
-        }
+        //public int nextBanForUserCounter()
+        //{
+        //    this.banForUserCounter++;
+        //    return this.banForUserCounter;
+        //}
 
         private readonly ApplicationDbContext _context;
 
@@ -90,7 +90,13 @@ namespace MikeRosoft.Controllers
                     BanViewModel.infoAboutUser.Add(user.Name + " " + user.FirstSurname + " (" + user.DNI + ")");
 
                     //Fill bans for users
-                    BanViewModel.BansForUsers.Add( new BanForUser { GetUser=user /*ID= nextBanForUserCounter()*/ });
+                    BanViewModel.BansForUsers.Add( new BanForUser { GetUser=user});
+                }
+
+                foreach(BanForUser bfu in BanViewModel.BansForUsers)
+                {
+                    bfu.Start = DateTime.UtcNow;
+                    bfu.End = DateTime.UtcNow;
                 }
 
                 var admin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name));
