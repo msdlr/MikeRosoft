@@ -12,7 +12,7 @@ using MikeRosoft.Models.RecommendationViewModels;
 
 namespace MikeRosoft.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class RecommendationsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -25,7 +25,7 @@ namespace MikeRosoft.Controllers
         // GET: Recommendations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Recommendations.ToListAsync());
+            return View(_context.Recommendations.Include(p => p.admin).Where(p => p.admin.Name.Equals(User.Identity.Name)).OrderByDescending(p => p.date).ToList());
         }
 
         // GET: Recommendations/Details/5
@@ -36,39 +36,104 @@ namespace MikeRosoft.Controllers
                 return NotFound();
             }
 
-            var recommendation = await _context.Recommendations
+            /*var recommendation = await _context.Recommendations
                 .Include(m => m.ProductRecommendations).ThenInclude(m => m.product)
                 .Include(m => m.admin)
-                .FirstAsync(m => m.IdRecommendation == id);
-                //.FirstOrDefaultAsync(m => m.IdRecommendation == id);
-            if (recommendation == null)
+                .FirstAsync(m => m.IdRecommendation == id);*/
+            //.FirstOrDefaultAsync(m => m.IdRecommendation == id);
+            var recommendation = _context.Recommendations.Include(p => p.ProductRecommendations).ThenInclude<Recommendation, ProductRecommend, Product>(p => p.product).Include(p => p.admin).Where(p => p.IdRecommendation == id).ToList();
+
+            if (recommendation.Count == 0)
             {
                 return NotFound();
             }
 
-            return View(recommendation);
+            return View(recommendation.First());
         }
 
         // GET: Recommendations/Create
-        public IActionResult Create()
+        public IActionResult Create(SelectedProductsForRecommendationViewModel selectedProducts)
         {
-            return View();
+            Product product;
+            int id;
+
+            RecommendationCreateViewModel recommendation = new RecommendationCreateViewModel();
+            recommendation.ProductRecommendations = new List<ProductRecommend>();
+            if(selectedProducts.IdsToAdd == null)
+            {
+                ModelState.AddModelError("ProductNoSelected", "You should select at least a Product to be recommended, please");
+            }
+            else
+            {
+                foreach(string ids in selectedProducts.IdsToAdd)
+                {
+                    id = int.Parse(ids);
+                    product = _context.Products.Include(m => m.brand).FirstOrDefault<Product>(m => m.id.Equals(id));
+                    product.ProductRecommendations.Add(new ProductRecommend() { product = product });
+                }
+            }
+            Admin admin = _context.Users.OfType<Admin>().FirstOrDefault<Admin>(u => u.UserName.Equals(User.Identity.Name));
+            recommendation.Name = admin.Name;
+            recommendation.FirstSurname = admin.FirstSurname;
+            recommendation.SecondSurname = admin.SecondSurname;
+
+            return View(recommendation);
         }
 
         // POST: Recommendations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdRecommendation,name,date,description")] Recommendation recommendation)
+        public async Task<IActionResult> CreatePost(RecommendationCreateViewModel recommendationCreateViewModel, IList<ProductRecommend> productRecommends)
         {
-            if (ModelState.IsValid)
+            Product product;
+            Admin admin;
+            Recommendation recommendation = new Recommendation();
+            recommendation.ProductRecommendations = new List<ProductRecommend>();
+            ModelState.Clear();
+            foreach (ProductRecommend prod in productRecommends)
             {
-                _context.Add(recommendation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                product = await _context.Products.FirstOrDefaultAsync<Product>(m => m.id == prod.product.id);
+                if (product.stock == 0)
+                {
+                    ModelState.AddModelError("", $"There are no that product in stock");
+                    recommendationCreateViewModel.ProductRecommendations = productRecommends;
+                }
+                else
+                {
+                    prod.product = product;
+                    prod.recommendation = recommendation;
+                    recommendation.ProductRecommendations.Add(prod);
+                }
             }
-            return View(recommendation);
+            admin = await _context.Users.OfType<Admin>().FirstOrDefaultAsync<Admin>(u => u.UserName.Equals(User.Identity.Name));
+
+            if(ModelState.ErrorCount > 0)
+            {
+                recommendationCreateViewModel.Name = admin.Name;
+                recommendationCreateViewModel.FirstSurname = admin.FirstSurname;
+                recommendationCreateViewModel.SecondSurname = admin.SecondSurname;
+                return View(recommendationCreateViewModel);
+            }
+            if(recommendation.ProductRecommendations.Count == 0)
+            {
+                recommendationCreateViewModel.Name = admin.Name;
+                recommendationCreateViewModel.FirstSurname = admin.FirstSurname;
+                recommendationCreateViewModel.SecondSurname = admin.SecondSurname;
+                ModelState.AddModelError("", $"Please select at least a product to make a recommendation or cancel this action");
+                recommendationCreateViewModel.ProductRecommendations = productRecommends;
+                return View(recommendationCreateViewModel);
+            }
+
+            recommendation.admin = admin;
+            recommendation.date = DateTime.Now;
+            recommendation.name = recommendationCreateViewModel.name;
+            recommendation.description = recommendationCreateViewModel.description;
+            _context.Add(recommendation);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = recommendation.IdRecommendation });
+            
         }
 
         // GET: Recommendations/Edit/5

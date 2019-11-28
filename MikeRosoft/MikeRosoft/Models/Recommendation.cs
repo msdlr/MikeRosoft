@@ -21,21 +21,28 @@ namespace MikeRosoft.Models
         [Required]
         [DataType(DataType.Date)]
         public virtual DateTime date { get; set; }
-        
+
         //Description about selected products
         [Required]
         [StringLength(180, MinimumLength = 1, ErrorMessage = "Description can not be empty or longer than 180 characters")]
-        public virtual String description { get; set;  }
+        public virtual String description { get; set; }
 
         //Relacion con admin N-1
         [ForeignKey("AdminID")]
         public virtual Admin admin { get; set; }
+
+        public virtual string AdminId { get; set;}
         
         //Relacion con Usuarios N-N
         //public virtual IList<UserRecommend> UserRecommendations { get; set; }
 
         //Relacion con Productos N-N
         public virtual IList<ProductRecommend> ProductRecommendations { get; set; }
+
+        public Recommendation()
+        {
+            ProductRecommendations = new List<ProductRecommend>();
+        }
 
         public override bool Equals(object Other)
         {
