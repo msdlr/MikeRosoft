@@ -48,7 +48,15 @@
                         @Html.HiddenFor(x => x.UserIds[i])
                     </td>
                     <td>
-                        <select asp-for="banTypeName[i]" asp-items="Model.BanTypesAvailable">
+                        <select asp-for="banTypeName[i]">
+                            <!-- Default option (not valid) -->
+                            <option>Select one</option>
+                            <!-- Ban types list -->
+                            @foreach (SelectListItem s in Model.BanTypesAvailable)
+                            {
+                                <option>@s.Text</option>
+                            }
+                            
                         </select>
                     </td>
                     <td>
