@@ -12,6 +12,8 @@
         <hr />
     </div>
 
+    @Html.HiddenFor(x => x.adminId)
+
     <table class="table" width="100%">
         <!-- Headers -->
         <thead>
@@ -35,13 +37,14 @@
         </thead>
 
         <!-- Content -->
-        
+
         <tbody>
             @for (int i = 0; i < Model.UserIds.Count(); i++)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(m => m.infoAboutUser[i]);
+                        @Html.DisplayFor(m => m.infoAboutUser[i])
+                        @Html.HiddenFor(m => m.infoAboutUser[i])
                         @Html.HiddenFor(x => x.UserIds[i])
                     </td>
                     <td>
@@ -51,7 +54,7 @@
                     <td>
                         <div class="form-group">
                             <div class="col-md-10">
-                                <input asp-for="BansForUsers[i].Start" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20"/>
+                                <input asp-for="BansForUsers[i].Start" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" />
                                 <span asp-validation-for="BansForUsers[i].Start" class="text-danger" />
                             </div>
                         </div>
@@ -59,7 +62,7 @@
                     <td>
                         <div class="form-group">
                             <div class="col-md-10">
-                                <input asp-for="BansForUsers[i].End" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20"/>
+                                <input asp-for="BansForUsers[i].End" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" />
                                 <span asp-validation-for="BansForUsers[i].End" class="text-danger" />
                             </div>
                         </div>

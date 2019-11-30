@@ -75,7 +75,7 @@ namespace MikeRosoft.Controllers
             //Fill the lest of BanTypes in the SelectList
             BanViewModel.BanTypesAvailable = new SelectList(_context.BanTypes.Select(g => g.TypeName).ToList());
             BanViewModel.defaultDuration = new List<TimeSpan>(_context.BanTypes.Select(g => g.DefaultDuration).ToList());
-            
+
 
             if (selectedUsers.IdsToAdd == null)
                 ModelState.AddModelError("NoUsersSelected", "You should select at least a user to be banned, please");
@@ -85,19 +85,20 @@ namespace MikeRosoft.Controllers
                 foreach (string id in selectedUsers.IdsToAdd)
                 {
                     var user = _context.Users.First(u => u.Id.Equals(id));
-                   
+
                     //Fill info about the user
                     BanViewModel.infoAboutUser.Add(user.Name + " " + user.FirstSurname + " (" + user.DNI + ")");
 
                     //Fill bans for users
-                    BanViewModel.BansForUsers.Add( new BanForUser { GetUser=user});
+                    BanViewModel.BansForUsers.Add(new BanForUser { GetUser = user });
                 }
 
-                foreach(BanForUser bfu in BanViewModel.BansForUsers)
+                /*
+                foreach (BanForUser bfu in BanViewModel.BansForUsers)
                 {
                     bfu.Start = DateTime.UtcNow;
                     bfu.End = DateTime.UtcNow;
-                }
+                }*/
 
                 var admin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name));
                 BanViewModel.adminId = admin.Id;
@@ -113,8 +114,42 @@ namespace MikeRosoft.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost(CreateBanViewModel cm, IList<BanForUser> BansForUsers, string[] UserIds)
+        public async Task<IActionResult> CreatePost(CreateBanViewModel cm, IList<BanForUser> BansForUsers, string[] UserIds, string adminId, List<string> infoAboutUser)
         {
+            ModelState.Clear();
+
+            //First of all, check the mandatory fields
+            //Check that stard and end dates are filled
+            foreach (BanForUser bfu in cm.BansForUsers)
+            {
+                var asdas = bfu.Start.ToShortDateString();
+                var asdas2 = bfu.End.ToShortDateString();
+
+                if (bfu.Start.ToShortDateString().Equals("01/01/0001") ||
+                    bfu.End.ToShortDateString().Equals("01/01/0001"))
+                {
+                    
+                    ModelState.AddModelError("NoDates", $"Please fill the dates");
+
+                    cm.BanTypesAvailable = new SelectList(_context.BanTypes.Select(g => g.TypeName).ToList());
+                    cm.infoAboutUser = infoAboutUser;
+                    cm.BansForUsers = BansForUsers;
+                    cm.UserIds = UserIds;
+                    return View(cm);
+                }
+            }
+
+            //Check that there's a selected ban type for each ban
+            foreach (string typename in cm.banTypeName)
+            {
+                if (typename == null || typename.Equals(""))
+                {
+                    //ModelState.AddModelError("NoTypes", $"Please select a ban type");
+                    cm.BansForUsers = BansForUsers;
+                    return View(cm);
+                }
+            }
+
             //Create ban
             Ban ban = new Ban
             {
@@ -129,13 +164,13 @@ namespace MikeRosoft.Controllers
 
             //Fill information in BanForUser list (Needed: Ban, BanType relationships)
             //foreach(BanForUser bfu in cm.BansForUsers)
-            for(int i = 0; i< cm.BansForUsers.Count;i++)
+            for (int i = 0; i < cm.BansForUsers.Count; i++)
             {
                 //If no additional comment was entered, we initialize the string to this value
                 if (cm.BansForUsers[i].AdditionalComment == null) cm.BansForUsers[i].AdditionalComment = "[No comment from the admin]";
 
                 //Relationship with Ban
-                    cm.BansForUsers[i].GetBan = ban;
+                cm.BansForUsers[i].GetBan = ban;
                 cm.BansForUsers[i].GetBanID = cm.BansForUsers[i].GetBan.ID;
 
                 //Relationship with BanType (the view only picks up the type name)
@@ -146,7 +181,6 @@ namespace MikeRosoft.Controllers
                 cm.BansForUsers[i].GetUserId = UserIds[i];
                 cm.BansForUsers[i].GetUser = await _context.Users.SingleOrDefaultAsync(b => b.Id.Equals(cm.BansForUsers[i].GetUserId));
 
-                //Add this BanforUser to the database
                 _context.BanForUsers.Add(cm.BansForUsers[i]);
             }
 
