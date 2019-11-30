@@ -122,9 +122,6 @@ namespace MikeRosoft.Controllers
             //Check that stard and end dates are filled
             foreach (BanForUser bfu in cm.BansForUsers)
             {
-                var asdas = bfu.Start.ToShortDateString();
-                var asdas2 = bfu.End.ToShortDateString();
-
                 if (bfu.Start.ToShortDateString().Equals("01/01/0001") ||
                     bfu.End.ToShortDateString().Equals("01/01/0001")) //DateTime cannot be null so the "null" value is this date
                 {
@@ -142,8 +139,7 @@ namespace MikeRosoft.Controllers
                 else
                 {
                     //https://docs.microsoft.com/es-es/dotnet/api/system.datetime.compare?view=netframework-4.8
-                    int v = DateTime.Compare(bfu.Start, DateTime.Now);
-                    if (DateTime.Compare(bfu.Start, bfu.End) >= 0 || v <= 0) //start date is higher or equal than end date or today's
+                    if (DateTime.Compare(bfu.Start, bfu.End) >= 0 || DateTime.Compare(bfu.Start, DateTime.Now) <= 0) //start date is higher or equal than end date or today's
                     {
                         ModelState.AddModelError("InvalidDates", $"End date must be later than start date, and not previous to Today");
 
@@ -189,12 +185,12 @@ namespace MikeRosoft.Controllers
             //Add this ban to the database
             _context.Bans.Add(ban);
 
-            //Fill information in BanForUser list (Needed: Ban, BanType relationships)
+            //Fill information in BanForUser list (Needed: Ban, BanType, User relationships; leaving the additional comment as "" instead of null)
             //foreach(BanForUser bfu in cm.BansForUsers)
             for (int i = 0; i < cm.BansForUsers.Count; i++)
             {
                 //If no additional comment was entered, we initialize the string to this value
-                if (cm.BansForUsers[i].AdditionalComment == null) cm.BansForUsers[i].AdditionalComment = "[No comment from the admin]";
+                if (cm.BansForUsers[i].AdditionalComment == null) cm.BansForUsers[i].AdditionalComment = "";
 
                 //Relationship with Ban
                 cm.BansForUsers[i].GetBan = ban;
