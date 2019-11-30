@@ -71,22 +71,6 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
 
         [Fact]
         /*   Test case: with all the mandatory data, should succeed   */
-        public async Task template()
-        {
-            using (context) {
-                /* Arrange */
-                var controller = new BansController(context);
-                controller.ControllerContext.HttpContext = banContext;
-
-                /* Act */
-
-                /* Assert */
-
-            }
-        }
-
-        [Fact]
-        /*   Test case: with all the mandatory data, should succeed   */
         public async Task Create_GET_WithUsers()
         {
             using (context)
@@ -182,7 +166,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
 
         /* POST TEST CASES */
 
-        //tests needed: invalid start date, " end date, end > start date, start < today, no ban type, existing ban type
+        //tests needed: everything okay, invalid start date, " end date, end > start date, start < today, no ban type
         [Fact]
         public async Task Create_POST_WithEveryMandatoryOK()
         {
@@ -275,6 +259,367 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
             }
         }
 
+        [Fact]
+        public async Task Create_POST_WithoutStartDate()
+        {
+            //For this test case we ban Elena for 1 day, for Fraudulent information, with 
+            using (context)
+            {
+                /* Arrange */
+                var controller = new BansController(context);
+                //simulate user's connection
+                controller.ControllerContext.HttpContext = banContext;
+
+                User userToBan = new User
+                {
+                    UserName = "elena@uclm.com",
+                    Email = "elena@uclm.com",
+                    Name = "Elena",
+                    FirstSurname = "Navarro",
+                    SecondSurname = "Martínez",
+                    DNI = "48484848B"
+                };
+
+                Admin admin = new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "66996699K", contractStarting = DateTime.Now, contractEnding = DateTime.Now, Id = "8d11227c-2ae6-42e2-a1a3-a8669fcdd2f3" };
+
+                //CreatePost(CreateBanViewModel cm, IList<BanForUser> BansForUsers, string[] UserIds, string adminId, List<string> infoAboutUser)
+
+                //IList<BanForUser> BansForUsers
+                IList<BanForUser> BansForUsers = new List<BanForUser>
+                {
+                    //This will contain: Start/End dates, and additional comments, ban type names are in the Viewmodel
+                    new BanForUser
+                    {
+                        End = new DateTime(2020,1,2,0,0,0),   // 2/1/2020 00:00:00
+                        AdditionalComment = "Fake ID"
+                    }
+                };
+
+                //string[] UserIds
+                string[] UserIds = new string[] { userToBan.Id };
+
+                //string adminId
+                string adminId = new string(admin.Id);
+
+                //List<string> infoAboutUser
+                List<string> infoAboutUser = new List<string> { new string(userToBan.Name + " " + userToBan.FirstSurname + " (" + userToBan.DNI + ")") };
+
+                //CreateBanViewModel cm
+                CreateBanViewModel cm = new CreateBanViewModel
+                {
+                    adminId = admin.Id,
+                    BansForUsers = BansForUsers,
+                    UserIds = UserIds,
+                    infoAboutUser = infoAboutUser,
+                    banTypeName = new List<string> { new string("Fraudulent information") }
+                };
+
+                //Expected ban to be added to the database
+                Ban expectedBan = null;
+                IList<BanForUser> expectedBFU = null;
+
+
+                /* Act */
+                var result = controller.CreatePost(cm, BansForUsers, UserIds, adminId, infoAboutUser);
+
+                /* Assert */
+                var viewResult = Assert.IsType<ViewResult>(result.Result);
+                CreateBanViewModel currentPurchase = viewResult.Model as CreateBanViewModel;
+
+                var error = viewResult.ViewData.ModelState["NoDates"].Errors.FirstOrDefault();
+                Assert.Equal("Please insert valid dates for each specific ban", error.ErrorMessage);
+            }
+        }
+
+        [Fact]
+        public async Task Create_POST_WithoutEndDate()
+        {
+            //For this test case we ban Elena for 1 day, for Fraudulent information, with 
+            using (context)
+            {
+                /* Arrange */
+                var controller = new BansController(context);
+                //simulate user's connection
+                controller.ControllerContext.HttpContext = banContext;
+
+                User userToBan = new User
+                {
+                    UserName = "elena@uclm.com",
+                    Email = "elena@uclm.com",
+                    Name = "Elena",
+                    FirstSurname = "Navarro",
+                    SecondSurname = "Martínez",
+                    DNI = "48484848B"
+                };
+
+                Admin admin = new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "66996699K", contractStarting = DateTime.Now, contractEnding = DateTime.Now, Id = "8d11227c-2ae6-42e2-a1a3-a8669fcdd2f3" };
+
+                //CreatePost(CreateBanViewModel cm, IList<BanForUser> BansForUsers, string[] UserIds, string adminId, List<string> infoAboutUser)
+
+                //IList<BanForUser> BansForUsers
+                IList<BanForUser> BansForUsers = new List<BanForUser>
+                {
+                    //This will contain: Start/End dates, and additional comments, ban type names are in the Viewmodel
+                    new BanForUser
+                    {
+                        Start = new DateTime(2020,1,2,0,0,0),   // 2/1/2020 00:00:00
+                        AdditionalComment = "Fake ID"
+                    }
+                };
+
+                //string[] UserIds
+                string[] UserIds = new string[] { userToBan.Id };
+
+                //string adminId
+                string adminId = new string(admin.Id);
+
+                //List<string> infoAboutUser
+                List<string> infoAboutUser = new List<string> { new string(userToBan.Name + " " + userToBan.FirstSurname + " (" + userToBan.DNI + ")") };
+
+                //CreateBanViewModel cm
+                CreateBanViewModel cm = new CreateBanViewModel
+                {
+                    adminId = admin.Id,
+                    BansForUsers = BansForUsers,
+                    UserIds = UserIds,
+                    infoAboutUser = infoAboutUser,
+                    banTypeName = new List<string> { new string("Fraudulent information") }
+                };
+
+                //Expected ban to be added to the database
+                Ban expectedBan = null;
+                IList<BanForUser> expectedBFU = null;
+
+
+                /* Act */
+                var result = controller.CreatePost(cm, BansForUsers, UserIds, adminId, infoAboutUser);
+
+                /* Assert */
+                var viewResult = Assert.IsType<ViewResult>(result.Result);
+                CreateBanViewModel currentPurchase = viewResult.Model as CreateBanViewModel;
+
+                var error = viewResult.ViewData.ModelState["NoDates"].Errors.FirstOrDefault();
+                Assert.Equal("Please insert valid dates for each specific ban", error.ErrorMessage);
+            }
+        }
+
+        [Fact]
+        public async Task Create_POST_EndBeforeStart()
+        {
+            //For this test case we ban Elena for 1 day, for Fraudulent information, with 
+            using (context)
+            {
+                /* Arrange */
+                var controller = new BansController(context);
+                //simulate user's connection
+                controller.ControllerContext.HttpContext = banContext;
+
+                User userToBan = new User
+                {
+                    UserName = "elena@uclm.com",
+                    Email = "elena@uclm.com",
+                    Name = "Elena",
+                    FirstSurname = "Navarro",
+                    SecondSurname = "Martínez",
+                    DNI = "48484848B"
+                };
+
+                Admin admin = new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "66996699K", contractStarting = DateTime.Now, contractEnding = DateTime.Now, Id = "8d11227c-2ae6-42e2-a1a3-a8669fcdd2f3" };
+
+                //CreatePost(CreateBanViewModel cm, IList<BanForUser> BansForUsers, string[] UserIds, string adminId, List<string> infoAboutUser)
+
+                //IList<BanForUser> BansForUsers
+                IList<BanForUser> BansForUsers = new List<BanForUser>
+                {
+                    //This will contain: Start/End dates, and additional comments, ban type names are in the Viewmodel
+                    new BanForUser
+                    {
+                        End = new DateTime(2020,1,1,0,0,0),   // 1/1/2020 00:00:00
+                        Start = new DateTime(2020,1,2,0,0,0),   // 2/1/2020 00:00:00
+                        AdditionalComment = "Fake ID"
+                    }
+                };
+
+                //string[] UserIds
+                string[] UserIds = new string[] { userToBan.Id };
+
+                //string adminId
+                string adminId = new string(admin.Id);
+
+                //List<string> infoAboutUser
+                List<string> infoAboutUser = new List<string> { new string(userToBan.Name + " " + userToBan.FirstSurname + " (" + userToBan.DNI + ")") };
+
+                //CreateBanViewModel cm
+                CreateBanViewModel cm = new CreateBanViewModel
+                {
+                    adminId = admin.Id,
+                    BansForUsers = BansForUsers,
+                    UserIds = UserIds,
+                    infoAboutUser = infoAboutUser,
+                    banTypeName = new List<string> { new string("Fraudulent information") }
+                };
+
+                //Expected ban to be added to the database
+                Ban expectedBan = null;
+                IList<BanForUser> expectedBFU = null;
+
+
+                /* Act */
+                var result = controller.CreatePost(cm, BansForUsers, UserIds, adminId, infoAboutUser);
+
+                /* Assert */
+                var viewResult = Assert.IsType<ViewResult>(result.Result);
+                CreateBanViewModel currentPurchase = viewResult.Model as CreateBanViewModel;
+
+                var error = viewResult.ViewData.ModelState["InvalidDates"].Errors.FirstOrDefault();
+                Assert.Equal("End date must be later than start date, and not previous to Today", error.ErrorMessage);
+            }
+        }
+
+        [Fact]
+        public async Task Create_POST_StartBeforeToday()
+        {
+            //For this test case we ban Elena for 1 day, for Fraudulent information, with 
+            using (context)
+            {
+                /* Arrange */
+                var controller = new BansController(context);
+                //simulate user's connection
+                controller.ControllerContext.HttpContext = banContext;
+
+                User userToBan = new User
+                {
+                    UserName = "elena@uclm.com",
+                    Email = "elena@uclm.com",
+                    Name = "Elena",
+                    FirstSurname = "Navarro",
+                    SecondSurname = "Martínez",
+                    DNI = "48484848B"
+                };
+
+                Admin admin = new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "66996699K", contractStarting = DateTime.Now, contractEnding = DateTime.Now, Id = "8d11227c-2ae6-42e2-a1a3-a8669fcdd2f3" };
+
+                //CreatePost(CreateBanViewModel cm, IList<BanForUser> BansForUsers, string[] UserIds, string adminId, List<string> infoAboutUser)
+
+                //IList<BanForUser> BansForUsers
+                IList<BanForUser> BansForUsers = new List<BanForUser>
+                {
+                    //This will contain: Start/End dates, and additional comments, ban type names are in the Viewmodel
+                    new BanForUser
+                    {
+                        End = DateTime.Today - new TimeSpan(7,0,0,0),   //Today - 7 days
+                        Start = new DateTime(2020,1,2,0,0,0),   // 2/1/2020 00:00:00
+                        AdditionalComment = "Fake ID"
+                    }
+                };
+
+                //string[] UserIds
+                string[] UserIds = new string[] { userToBan.Id };
+
+                //string adminId
+                string adminId = new string(admin.Id);
+
+                //List<string> infoAboutUser
+                List<string> infoAboutUser = new List<string> { new string(userToBan.Name + " " + userToBan.FirstSurname + " (" + userToBan.DNI + ")") };
+
+                //CreateBanViewModel cm
+                CreateBanViewModel cm = new CreateBanViewModel
+                {
+                    adminId = admin.Id,
+                    BansForUsers = BansForUsers,
+                    UserIds = UserIds,
+                    infoAboutUser = infoAboutUser,
+                    banTypeName = new List<string> { new string("Fraudulent information") }
+                };
+
+                //Expected ban to be added to the database
+                Ban expectedBan = null;
+                IList<BanForUser> expectedBFU = null;
+
+
+                /* Act */
+                var result = controller.CreatePost(cm, BansForUsers, UserIds, adminId, infoAboutUser);
+
+                /* Assert */
+                var viewResult = Assert.IsType<ViewResult>(result.Result);
+                CreateBanViewModel currentPurchase = viewResult.Model as CreateBanViewModel;
+
+                var error = viewResult.ViewData.ModelState["InvalidDates"].Errors.FirstOrDefault();
+                Assert.Equal("End date must be later than start date, and not previous to Today", error.ErrorMessage);
+            }
+        }
+        
+        [Fact]
+        public async Task Create_POST_WithoutBanTypeSelected()
+        {
+            //For this test case we ban Elena for 1 day, for Fraudulent information, with 
+            using (context)
+            {
+                /* Arrange */
+                var controller = new BansController(context);
+                //simulate user's connection
+                controller.ControllerContext.HttpContext = banContext;
+
+                User userToBan = new User
+                {
+                    UserName = "elena@uclm.com",
+                    Email = "elena@uclm.com",
+                    Name = "Elena",
+                    FirstSurname = "Navarro",
+                    SecondSurname = "Martínez",
+                    DNI = "48484848B"
+                };
+
+                Admin admin = new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "66996699K", contractStarting = DateTime.Now, contractEnding = DateTime.Now, Id = "8d11227c-2ae6-42e2-a1a3-a8669fcdd2f3" };
+
+                //CreatePost(CreateBanViewModel cm, IList<BanForUser> BansForUsers, string[] UserIds, string adminId, List<string> infoAboutUser)
+
+                //IList<BanForUser> BansForUsers
+                IList<BanForUser> BansForUsers = new List<BanForUser>
+                {
+                    //This will contain: Start/End dates, and additional comments, ban type names are in the Viewmodel
+                    new BanForUser
+                    {
+                        Start = new DateTime(2020,1,1,0,0,0), // 1/1/2020 00:00:00
+                        End = new DateTime(2020,1,2,0,0,0),   // 2/1/2020 00:00:00
+                        AdditionalComment = "Fake ID"
+                    }
+                };
+
+                //string[] UserIds
+                string[] UserIds = new string[] { userToBan.Id };
+
+                //string adminId
+                string adminId = new string(admin.Id);
+
+                //List<string> infoAboutUser
+                List<string> infoAboutUser = new List<string> { new string(userToBan.Name + " " + userToBan.FirstSurname + " (" + userToBan.DNI + ")") };
+
+                //CreateBanViewModel cm
+                CreateBanViewModel cm = new CreateBanViewModel
+                {
+                    adminId = admin.Id,
+                    BansForUsers = BansForUsers,
+                    UserIds = UserIds,
+                    infoAboutUser = infoAboutUser,
+                    banTypeName = new List<string> { new string("Select one") }
+                };
+
+                //Expected ban to be added to the database
+                Ban expectedBan = null;
+                IList<BanForUser> expectedBFU = null;
+
+                /* Act */
+                var result = controller.CreatePost(cm, BansForUsers, UserIds, adminId, infoAboutUser);
+
+                /* Assert */
+                var viewResult = Assert.IsType<ViewResult>(result.Result);
+                CreateBanViewModel currentPurchase = viewResult.Model as CreateBanViewModel;
+
+                var error = viewResult.ViewData.ModelState["NoBanTypes"].Errors.FirstOrDefault();
+                Assert.Equal("Please select a ban type for each user", error.ErrorMessage);
+            }
+        }
 
     }
 }
