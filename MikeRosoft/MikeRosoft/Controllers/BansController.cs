@@ -126,29 +126,56 @@ namespace MikeRosoft.Controllers
                 var asdas2 = bfu.End.ToShortDateString();
 
                 if (bfu.Start.ToShortDateString().Equals("01/01/0001") ||
-                    bfu.End.ToShortDateString().Equals("01/01/0001"))
+                    bfu.End.ToShortDateString().Equals("01/01/0001")) //DateTime cannot be null so the "null" value is this date
                 {
                     
-                    ModelState.AddModelError("NoDates", $"Please fill the dates");
+                    ModelState.AddModelError("NoDates", $"Please insert valid dates for each specific ban");
 
                     cm.BanTypesAvailable = new SelectList(_context.BanTypes.Select(g => g.TypeName).ToList());
                     cm.infoAboutUser = infoAboutUser;
                     cm.BansForUsers = BansForUsers;
                     cm.UserIds = UserIds;
+                    cm.adminId = adminId;
                     return View(cm);
+                }
+
+                else
+                {
+                    //https://docs.microsoft.com/es-es/dotnet/api/system.datetime.compare?view=netframework-4.8
+                    int v = DateTime.Compare(bfu.Start, DateTime.Now);
+                    if (DateTime.Compare(bfu.Start, bfu.End) >= 0 || v <= 0) //start date is higher or equal than end date or today's
+                    {
+                        ModelState.AddModelError("InvalidDates", $"End date must be later than start date, and not previous to Today");
+
+                        cm.BanTypesAvailable = new SelectList(_context.BanTypes.Select(g => g.TypeName).ToList());
+                        cm.infoAboutUser = infoAboutUser;
+                        cm.BansForUsers = BansForUsers;
+                        cm.UserIds = UserIds;
+                        cm.adminId = adminId;
+                        return View(cm);
+                    }
+                    
                 }
             }
 
             //Check that there's a selected ban type for each ban
             foreach (string typename in cm.banTypeName)
             {
-                if (typename == null || typename.Equals(""))
+                var kdjfbh = typename;
+                if (typename.Equals("Select one"))
                 {
-                    //ModelState.AddModelError("NoTypes", $"Please select a ban type");
+                    ModelState.AddModelError("NoBanTypes", $"Please select a ban type for each user");
+
+                    cm.BanTypesAvailable = new SelectList(_context.BanTypes.Select(g => g.TypeName).ToList());
+                    cm.infoAboutUser = infoAboutUser;
                     cm.BansForUsers = BansForUsers;
+                    cm.UserIds = UserIds;
+                    cm.adminId = adminId;
                     return View(cm);
                 }
             }
+
+            //If we get here, it means that all mandatory data is properly introduced
 
             //Create ban
             Ban ban = new Ban
