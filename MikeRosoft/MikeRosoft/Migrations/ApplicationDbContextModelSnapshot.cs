@@ -265,9 +265,6 @@ namespace MikeRosoft.Migrations
                     b.Property<int>("GetBanTypeID")
                         .HasColumnType("int");
 
-                    b.Property<int>("ID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Start")
                         .HasColumnType("datetime2");
 

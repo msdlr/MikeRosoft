@@ -298,7 +298,6 @@ namespace MikeRosoft.Migrations
                 {
                     GetBanID = table.Column<int>(nullable: false),
                     GetUserId = table.Column<string>(nullable: false),
-                    ID = table.Column<int>(nullable: false),
                     AdditionalComment = table.Column<string>(nullable: true),
                     Start = table.Column<DateTime>(nullable: false),
                     End = table.Column<DateTime>(nullable: false),

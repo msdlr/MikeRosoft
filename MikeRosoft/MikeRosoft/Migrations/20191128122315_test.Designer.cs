@@ -10,7 +10,7 @@ using MikeRosoft.Data;
 namespace MikeRosoft.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191113182614_test")]
+    [Migration("20191128122315_test")]
     partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -265,9 +265,6 @@ namespace MikeRosoft.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("GetBanTypeID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Start")

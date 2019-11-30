@@ -34,7 +34,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
             Utilities.InitializeBanTypes(context);
 
             //Simulate admin's connection
-            admin = new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "66996699K", contractStarting = DateTime.Now, contractEnding = DateTime.Now, Id="8d11227c-2ae6-42e2-a1a3-a8669fcdd2f3" };
+            admin = new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "66996699K", contractStarting = DateTime.Now, contractEnding = DateTime.Now, Id = "8d11227c-2ae6-42e2-a1a3-a8669fcdd2f3" };
             context.Admins.Add(admin);
 
             System.Security.Principal.GenericIdentity user = new System.Security.Principal.GenericIdentity("peter@uclm.com");
@@ -68,7 +68,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
             //Save any database changes
             context.SaveChanges();
         }
-        
+
         [Fact]
         /*   Test case: with all the mandatory data, should succeed   */
         public async Task template()
@@ -106,10 +106,10 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 expectedUser.Id = "7ba98196-c2bf-4d6e-9d87-bdca85e81a0a";
 
                 //Create the expected admin
-                Admin admin = new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "66996699K", contractStarting = DateTime.Now, contractEnding = DateTime.Now, Id="8d11227c-2ae6-42e2-a1a3-a8669fcdd2f3" };
+                Admin admin = new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "66996699K", contractStarting = DateTime.Now, contractEnding = DateTime.Now, Id = "8d11227c-2ae6-42e2-a1a3-a8669fcdd2f3" };
 
                 //Create the selected viewmodel
-                SelectedUsersToBanViewModel selectedModel = new SelectedUsersToBanViewModel { IdsToAdd = new string[]{ expectedUser.Id } };
+                SelectedUsersToBanViewModel selectedModel = new SelectedUsersToBanViewModel { IdsToAdd = new string[] { expectedUser.Id } };
 
                 //Create expected SelectLists
                 var expectedBanTypes = new SelectList(context.BanTypes.Select(g => g).ToList());
@@ -121,8 +121,8 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                     adminId = admin.Id,
                     BanTypesAvailable = new SelectList(context.BanTypes.Select(g => g.TypeName).ToList()),
                     defaultDuration = new List<TimeSpan>(context.BanTypes.Select(g => g.DefaultDuration).ToList()),
-                    BansForUsers = new List<BanForUser>{ new BanForUser { GetUser = expectedUser } },
-                    infoAboutUser= new List<string> { expectedUser.Name + " " + expectedUser.FirstSurname + " (" + expectedUser.DNI + ")" }
+                    BansForUsers = new List<BanForUser> { new BanForUser { GetUser = expectedUser } },
+                    infoAboutUser = new List<string> { expectedUser.Name + " " + expectedUser.FirstSurname + " (" + expectedUser.DNI + ")" }
                 };
 
                 /* Act */
@@ -145,7 +145,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                     actual.adminId.Equals(expected.adminId) &&
                     //actual.infoAboutUser.Equals(expected.infoAboutUser) &&
                     //Attributes that are not set in the GET method
-                    actual.banTypeName==null &&
+                    actual.banTypeName == null &&
                     expected.banTypeName == null));
             }
         }
@@ -160,10 +160,10 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 var controller = new BansController(context);
                 //simulate user's connection
                 controller.ControllerContext.HttpContext = banContext;
-                SelectedUsersToBanViewModel selectedUsers = new SelectedUsersToBanViewModel {IdsToAdd=null };
+                SelectedUsersToBanViewModel selectedUsers = new SelectedUsersToBanViewModel { IdsToAdd = null };
                 Admin admin = new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "66996699K", contractStarting = DateTime.Now, contractEnding = DateTime.Now };
 
-                CreateBanViewModel expectedModel = new CreateBanViewModel { adminId=admin.Id };
+                CreateBanViewModel expectedModel = new CreateBanViewModel { adminId = admin.Id };
 
                 /* Act */
                 var result = controller.Create(selectedUsers);
@@ -174,10 +174,107 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
 
                 var error = viewResult.ViewData.ModelState["NoUsersSelected"].Errors.FirstOrDefault();
 
-                Assert.Equal(actualBanViewmodel, expectedModel, Comparer.Get<CreateBanViewModel>( (p1,p2) => (p1.UserIds==null && p2.UserIds==null ) ));
+                Assert.Equal(actualBanViewmodel, expectedModel, Comparer.Get<CreateBanViewModel>((p1, p2) => (p1.UserIds == null && p2.UserIds == null)));
 
                 Assert.Equal("You should select at least a user to be banned, please", error.ErrorMessage);
             }
         }
+
+        /* POST TEST CASES */
+
+        //tests needed: invalid start date, " end date, end > start date, start < today, no ban type, existing ban type
+        [Fact]
+        public async Task Create_POST_WithEveryMandatoryOK()
+        {
+            //For this test case we ban Elena for 1 day, for Fraudulent information, with 
+            using (context)
+            {
+                /* Arrange */
+                var controller = new BansController(context);
+                //simulate user's connection
+                controller.ControllerContext.HttpContext = banContext;
+
+                User userToBan = new User {
+                    UserName = "elena@uclm.com",
+                    Email = "elena@uclm.com",
+                    Name = "Elena",
+                    FirstSurname = "Navarro",
+                    SecondSurname = "Martínez",
+                    DNI = "48484848B" };
+
+                Admin admin = new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "66996699K", contractStarting = DateTime.Now, contractEnding = DateTime.Now,Id="8d11227c-2ae6-42e2-a1a3-a8669fcdd2f3" };
+
+                //CreatePost(CreateBanViewModel cm, IList<BanForUser> BansForUsers, string[] UserIds, string adminId, List<string> infoAboutUser)
+
+                //IList<BanForUser> BansForUsers
+                IList<BanForUser> BansForUsers = new List<BanForUser>
+                {
+                    //This will contain: Start/End dates, and additional comments, ban type names are in the Viewmodel
+                    new BanForUser
+                    {
+                        Start = new DateTime(2020,1,1,0,0,0), // 1/1/2020 00:00:00
+                        End = new DateTime(2020,1,2,0,0,0),   // 2/1/2020 00:00:00
+                        AdditionalComment = "Fake ID"
+                    }
+                };
+
+                //string[] UserIds
+                string[] UserIds = new string[] { userToBan.Id };
+
+                //string adminId
+                string adminId = new string(admin.Id);
+
+                //List<string> infoAboutUser
+                List<string> infoAboutUser = new List<string> { new string(userToBan.Name + " " + userToBan.FirstSurname + " (" + userToBan.DNI + ")") };
+
+                //CreateBanViewModel cm
+                CreateBanViewModel cm = new CreateBanViewModel
+                {
+                    adminId = admin.Id,
+                    BansForUsers = BansForUsers,
+                    UserIds= UserIds,
+                    infoAboutUser = infoAboutUser,
+                    banTypeName = new List<string> { new string ("Fraudulent information")}
+                };
+
+                //Expected ban to be added to the database
+                Ban expectedBan = new Ban {
+                    ID = 1,
+                    BanTime = DateTime.Now,
+                    GetAdmin = admin,
+                    GetAdminId = admin.Id,
+                    GetBanForUsers = BansForUsers
+                };
+
+                IList<BanForUser> expectedBFU = new List<BanForUser>
+                {
+                    //This will contain: Start/End dates, and additional comments, ban type names are in the Viewmodel
+                    new BanForUser
+                    {
+                        Start = new DateTime(2020,1,1,0,0,0), // 1/1/2020 00:00:00
+                        End = new DateTime(2020,1,2,0,0,0),   // 2/1/2020 00:00:00
+                        AdditionalComment = "Fake ID",
+                        GetUserId = userToBan.Id,
+                        GetBanTypeID =3,
+                        GetBanID = expectedBan.ID
+                    }
+                };
+
+                /* Act */
+                var result = controller.CreatePost(cm, BansForUsers, UserIds, adminId, infoAboutUser);
+
+                /* Assert */
+                var viewResult = Assert.IsType<RedirectToActionResult>(result.Result); //Assert that the user is redirected to Details
+
+                //we should check the ban has been created in the database
+                var createdBan = context.Bans.Include(p => p.GetBanForUsers).FirstOrDefault(p => p.ID == 1);
+
+                //Compare the an and the BanForUser objects added to the database
+                Assert.Equal(expectedBan, createdBan);
+                Assert.Equal(BansForUsers, createdBan.GetBanForUsers, Comparer.Get<BanForUser>((p1, p2) => p1.Equals(p2)));
+            }
+        }
+
+
     }
 }
