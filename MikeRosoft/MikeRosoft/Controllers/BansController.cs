@@ -139,7 +139,8 @@ namespace MikeRosoft.Controllers
                 else
                 {
                     //https://docs.microsoft.com/es-es/dotnet/api/system.datetime.compare?view=netframework-4.8
-                    if (DateTime.Compare(bfu.Start, bfu.End) >= 0 || DateTime.Compare(bfu.Start, DateTime.Now) <= 0) //start date is higher or equal than end date or today's
+                    //DateTime.Now gives problem when the controller is called with DateTime.Now because it causes we have 2 different Datetimes, so we assume that it's okay for the start time to be ~1 min ago
+                    if (bfu.Start >= bfu.End || (bfu.Start < DateTime.Now - new TimeSpan(0,1,0)) ) //start date is higher or equal than end date or today's
                     {
                         ModelState.AddModelError("InvalidDates", $"End date must be later than start date, and not previous to Today");
 
@@ -157,7 +158,6 @@ namespace MikeRosoft.Controllers
             //Check that there's a selected ban type for each ban
             foreach (string typename in cm.banTypeName)
             {
-                var kdjfbh = typename;
                 if (typename.Equals("Select one"))
                 {
                     ModelState.AddModelError("NoBanTypes", $"Please select a ban type for each user");
@@ -178,7 +178,7 @@ namespace MikeRosoft.Controllers
             {
                 GetAdmin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name)),
                 GetAdminId = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name)).Id,
-                BanTime = DateTime.UtcNow,
+                BanTime = DateTime.Now,
                 GetBanForUsers = new List<BanForUser>()
             };
 
