@@ -51,14 +51,37 @@ namespace MikeRosoft.Controllers
                 return NotFound();
             }
 
-            var ban = await _context.Bans
+            var ban = await _context.Bans.Include(b => b.GetBanForUsers)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (ban == null)
             {
                 return NotFound();
             }
 
-            return View(ban);
+            //We prepare data for the view
+
+            BanDetailsViewModel model = new BanDetailsViewModel { ban=ban};
+
+            //We search for the admin and the bans for users. If not found, then there's an error
+            model.admin = await _context.Admins
+                .FirstOrDefaultAsync(m => m.Id == ban.GetAdminId);
+            if (model.admin == null)
+            {
+                return NotFound();
+            }
+
+            foreach (BanForUser bfu in model.ban.GetBanForUsers)
+            {
+                var u = await _context.Users.FirstOrDefaultAsync(m => m.Id == bfu.GetUserId);
+                if (bfu == null) return NotFound();
+                else {
+                    var bantype = await _context.BanTypes.FirstOrDefaultAsync(m => m.TypeID == bfu.GetBanTypeID);
+                    model.BanTypeNames.Add(bantype.TypeName);
+                    model.bannedUsers.Add(u); 
+                }
+            }
+
+            return View(model);
         }
 
         // GET: Bans/Create
