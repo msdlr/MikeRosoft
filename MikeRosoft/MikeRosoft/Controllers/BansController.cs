@@ -73,7 +73,7 @@ namespace MikeRosoft.Controllers
             foreach (BanForUser bfu in model.ban.GetBanForUsers)
             {
                 var u = await _context.Users.FirstOrDefaultAsync(m => m.Id == bfu.GetUserId);
-                if (bfu == null) return NotFound();
+                if (u == null) return NotFound();
                 else {
                     var bantype = await _context.BanTypes.FirstOrDefaultAsync(m => m.TypeID == bfu.GetBanTypeID);
                     model.BanTypeNames.Add(bantype.TypeName);
