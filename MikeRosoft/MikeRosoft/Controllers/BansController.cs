@@ -148,8 +148,7 @@ namespace MikeRosoft.Controllers
 
                 else
                 {
-                    //https://docs.microsoft.com/es-es/dotnet/api/system.datetime.compare?view=netframework-4.8
-                    //DateTime.Now gives problem when the controller is called with DateTime.Now because it causes we have 2 different Datetimes, so we assume that it's okay for the start time to be ~1 min ago
+                    //https://docs.microsoft.com/es-es/dotnet/api/system.datetime.compare?view=netframework-4.8 DateTime.Now gives problem when the controller is called with DateTime.Now because it causes we have 2 different Datetimes, so we assume that it's okay for the start time to be ~1 min ago
                     if (bfu.Start >= bfu.End) //start date is higher or equal than end date or today's
                     {
                         ModelState.AddModelError(String.Empty, $"End date must be later than start date");
@@ -203,7 +202,10 @@ namespace MikeRosoft.Controllers
                 for (int i = 0; i < cm.BansForUsers.Count; i++)
                 {
                     //If no additional comment was entered, we initialize the string to this value
-                    if (cm.BansForUsers[i].AdditionalComment == null) cm.BansForUsers[i].AdditionalComment = "";
+                    if (cm.BansForUsers[i].AdditionalComment == null)
+                    {
+                        cm.BansForUsers[i].AdditionalComment = "";
+                    }
 
                     //Relationship with Ban
                     cm.BansForUsers[i].GetBan = ban;

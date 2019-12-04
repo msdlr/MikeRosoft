@@ -156,7 +156,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 ViewResult viewResult = Assert.IsType<ViewResult>(result); //check the controller returns a view
                 CreateBanViewModel actualBanViewmodel = new CreateBanViewModel();
 
-                var error = viewResult.ViewData.ModelState["NoUsersSelected"].Errors.FirstOrDefault();
+                var error = viewResult.ViewData.ModelState[String.Empty].Errors.FirstOrDefault();
 
                 Assert.Equal(actualBanViewmodel, expectedModel, Comparer.Get<CreateBanViewModel>((p1, p2) => (p1.UserIds == null && p2.UserIds == null)));
 
@@ -198,7 +198,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                     {
                         Start = new DateTime(2020,1,1,0,0,0), // 1/1/2020 00:00:00
                         End = new DateTime(2020,1,2,0,0,0),   // 2/1/2020 00:00:00
-                        AdditionalComment = "Fake ID"
+                        AdditionalComment = null              //No input in this field (Not mandatory)
                     }
                 };
 
@@ -237,6 +237,101 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                     {
                         Start = new DateTime(2020,1,1,0,0,0), // 1/1/2020 00:00:00
                         End = new DateTime(2020,1,2,0,0,0),   // 2/1/2020 00:00:00
+                        AdditionalComment = "",
+                        GetUserId = userToBan.Id,
+                        GetBanTypeID =3,
+                        GetBanID = expectedBan.ID
+                    }
+                };
+
+                /* Act */
+                var result = controller.CreatePost(cm, BansForUsers, UserIds, adminId, infoAboutUser);
+
+                /* Assert */
+                var viewResult = Assert.IsType<RedirectToActionResult>(result.Result); //Assert that the user is redirected to Details
+
+                //we should check the ban has been created in the database
+                var createdBan = context.Bans.Include(p => p.GetBanForUsers).FirstOrDefault(p => p.ID == 1);
+
+                //Compare the an and the BanForUser objects added to the database
+                Assert.Equal(expectedBan, createdBan);
+                Assert.Equal(BansForUsers, createdBan.GetBanForUsers, Comparer.Get<BanForUser>((p1, p2) => p1.Equals(p2)));
+            }
+        }
+
+        [Fact]
+        public async Task Create_POST_WithEveryMandatoryOKAndComment()
+        {
+            //For this test case we ban Elena for 1 day, for Fraudulent information, with 
+            using (context)
+            {
+                /* Arrange */
+                var controller = new BansController(context);
+                //simulate user's connection
+                controller.ControllerContext.HttpContext = banContext;
+
+                User userToBan = new User
+                {
+                    UserName = "elena@uclm.com",
+                    Email = "elena@uclm.com",
+                    Name = "Elena",
+                    FirstSurname = "Navarro",
+                    SecondSurname = "Martínez",
+                    DNI = "48484848B"
+                };
+
+                Admin admin = new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "66996699K", contractStarting = DateTime.Now, contractEnding = DateTime.Now, Id = "8d11227c-2ae6-42e2-a1a3-a8669fcdd2f3" };
+
+                //CreatePost(CreateBanViewModel cm, IList<BanForUser> BansForUsers, string[] UserIds, string adminId, List<string> infoAboutUser)
+
+                //IList<BanForUser> BansForUsers
+                IList<BanForUser> BansForUsers = new List<BanForUser>
+                {
+                    //This will contain: Start/End dates, and additional comments, ban type names are in the Viewmodel
+                    new BanForUser
+                    {
+                        Start = new DateTime(2020,1,1,0,0,0), // 1/1/2020 00:00:00
+                        End = new DateTime(2020,1,2,0,0,0),   // 2/1/2020 00:00:00
+                        AdditionalComment = "Fake ID"
+                    }
+                };
+
+                //string[] UserIds
+                string[] UserIds = new string[] { userToBan.Id };
+
+                //string adminId
+                string adminId = new string(admin.Id);
+
+                //List<string> infoAboutUser
+                List<string> infoAboutUser = new List<string> { new string(userToBan.Name + " " + userToBan.FirstSurname + " (" + userToBan.DNI + ")") };
+
+                //CreateBanViewModel cm
+                CreateBanViewModel cm = new CreateBanViewModel
+                {
+                    adminId = admin.Id,
+                    BansForUsers = BansForUsers,
+                    UserIds = UserIds,
+                    infoAboutUser = infoAboutUser,
+                    banTypeName = new List<string> { new string("Fraudulent information") }
+                };
+
+                //Expected ban to be added to the database
+                Ban expectedBan = new Ban
+                {
+                    ID = 1,
+                    BanTime = DateTime.Now,
+                    GetAdmin = admin,
+                    GetAdminId = admin.Id,
+                    GetBanForUsers = BansForUsers
+                };
+
+                IList<BanForUser> expectedBFU = new List<BanForUser>
+                {
+                    //This will contain: Start/End dates, and additional comments, ban type names are in the Viewmodel
+                    new BanForUser
+                    {
+                        Start = new DateTime(2020,1,1,0,0,0), // 1/1/2020 00:00:00
+                        End = new DateTime(2020,1,2,0,0,0),   // 2/1/2020 00:00:00
                         AdditionalComment = "Fake ID",
                         GetUserId = userToBan.Id,
                         GetBanTypeID =3,
@@ -258,6 +353,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 Assert.Equal(BansForUsers, createdBan.GetBanForUsers, Comparer.Get<BanForUser>((p1, p2) => p1.Equals(p2)));
             }
         }
+
 
         [Fact]
         public async Task Create_POST_WithoutStartDate()
@@ -326,7 +422,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 var viewResult = Assert.IsType<ViewResult>(result.Result);
                 CreateBanViewModel currentPurchase = viewResult.Model as CreateBanViewModel;
 
-                var error = viewResult.ViewData.ModelState["NoDates"].Errors.FirstOrDefault();
+                var error = viewResult.ViewData.ModelState[String.Empty].Errors.FirstOrDefault();
                 Assert.Equal("Please insert valid dates for each specific ban", error.ErrorMessage);
             }
         }
@@ -398,7 +494,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 var viewResult = Assert.IsType<ViewResult>(result.Result);
                 CreateBanViewModel currentPurchase = viewResult.Model as CreateBanViewModel;
 
-                var error = viewResult.ViewData.ModelState["NoDates"].Errors.FirstOrDefault();
+                var error = viewResult.ViewData.ModelState[String.Empty].Errors.FirstOrDefault();
                 Assert.Equal("Please insert valid dates for each specific ban", error.ErrorMessage);
             }
         }
@@ -471,8 +567,8 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 var viewResult = Assert.IsType<ViewResult>(result.Result);
                 CreateBanViewModel currentPurchase = viewResult.Model as CreateBanViewModel;
 
-                var error = viewResult.ViewData.ModelState["InvalidDates"].Errors.FirstOrDefault();
-                Assert.Equal("End date must be later than start date, and not previous to Today", error.ErrorMessage);
+                var error = viewResult.ViewData.ModelState[String.Empty].Errors.FirstOrDefault();
+                Assert.Equal("End date must be later than start date", error.ErrorMessage);
             }
         }
 
@@ -507,8 +603,8 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                     //This will contain: Start/End dates, and additional comments, ban type names are in the Viewmodel
                     new BanForUser
                     {
-                        End = DateTime.Today - new TimeSpan(7,0,0,0),   //Today - 7 days
-                        Start = new DateTime(2020,1,2,0,0,0),   // 2/1/2020 00:00:00
+                        Start = DateTime.Today - new TimeSpan(7,0,0,0),   //Today - 7 days
+                        End = new DateTime(2020,1,2,0,0,0),   // 2/1/2020 00:00:00
                         AdditionalComment = "Fake ID"
                     }
                 };
@@ -544,8 +640,8 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 var viewResult = Assert.IsType<ViewResult>(result.Result);
                 CreateBanViewModel currentPurchase = viewResult.Model as CreateBanViewModel;
 
-                var error = viewResult.ViewData.ModelState["InvalidDates"].Errors.FirstOrDefault();
-                Assert.Equal("End date must be later than start date, and not previous to Today", error.ErrorMessage);
+                var error = viewResult.ViewData.ModelState[String.Empty].Errors.FirstOrDefault();
+                Assert.Equal("A ban cannot start before now.", error.ErrorMessage);
             }
         }
         
@@ -616,7 +712,7 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
                 var viewResult = Assert.IsType<ViewResult>(result.Result);
                 CreateBanViewModel currentPurchase = viewResult.Model as CreateBanViewModel;
 
-                var error = viewResult.ViewData.ModelState["NoBanTypes"].Errors.FirstOrDefault();
+                var error = viewResult.ViewData.ModelState[String.Empty].Errors.FirstOrDefault();
                 Assert.Equal("Please select a ban type for each user", error.ErrorMessage);
             }
         }
