@@ -187,67 +187,67 @@ namespace MikeRosoft.UT.Controllers.BansControllers_test
             }
         }
         
-        [Fact]
-        public async Task Details_Purchase_AdminNotFound()
-        {
-            // Arrange
-            using (context)
-            {
-                var controller = new BansController(context);
-                controller.ControllerContext.HttpContext = banContext;
+        //[Fact]
+        //public async Task Details_Purchase_AdminNotFound()
+        //{
+        //    // Arrange
+        //    using (context)
+        //    {
+        //        var controller = new BansController(context);
+        //        controller.ControllerContext.HttpContext = banContext;
 
-                BanForUser bforUser_AdminNotFound = new BanForUser
-                {
-                    Start = DateTime.Now,
-                    End = DateTime.Now + new TimeSpan(1, 0, 0, 0),
-                    GetUser = expectedUser,
-                    GetUserId = expectedUser.Id,
-                    GetBanTypeID = 3, //"Fraudulent information"
-                    AdditionalComment = "Fake DNI"
+        //        BanForUser bforUser_AdminNotFound = new BanForUser
+        //        {
+        //            Start = DateTime.Now,
+        //            End = DateTime.Now + new TimeSpan(1, 0, 0, 0),
+        //            GetUser = expectedUser,
+        //            GetUserId = expectedUser.Id,
+        //            GetBanTypeID = 3, //"Fraudulent information"
+        //            AdditionalComment = "Fake DNI"
 
-                };
-                Ban ban_AdminNotFound = new Ban { BanTime = DateTime.Now, ID = 2, GetAdmin = null, GetAdminId = "Whatever", GetBanForUsers = new List<BanForUser>() };
-                ban_AdminNotFound.GetBanForUsers.Add(bforUser_AdminNotFound);
+        //        };
+        //        Ban ban_AdminNotFound = new Ban { BanTime = DateTime.Now, ID = 2, GetAdmin = null, GetAdminId = "Whatever", GetBanForUsers = new List<BanForUser>() };
+        //        ban_AdminNotFound.GetBanForUsers.Add(bforUser_AdminNotFound);
 
-                // Act
-                var result = await controller.Details(bforUser_AdminNotFound.GetBanID);
+        //        // Act
+        //        var result = await controller.Details(bforUser_AdminNotFound.GetBanID);
 
-                //Assert
-                var viewResult = Assert.IsType<NotFoundResult>(result);
+        //        //Assert
+        //        var viewResult = Assert.IsType<NotFoundResult>(result);
 
-            }
-        }
+        //    }
+        //}
         
-        [Fact]
-        public async Task Details_Purchase_UserNotFound()
-        {
-            // Arrange
-            using (context)
-            {
-                var controller = new BansController(context);
-                controller.ControllerContext.HttpContext = banContext;
+        //[Fact]
+        //public async Task Details_Purchase_UserNotFound()
+        //{
+        //    // Arrange
+        //    using (context)
+        //    {
+        //        var controller = new BansController(context);
+        //        controller.ControllerContext.HttpContext = banContext;
 
-                BanForUser bforUser_UserNotFound = new BanForUser
-                {
-                    Start = DateTime.Now,
-                    End = DateTime.Now + new TimeSpan(1, 0, 0, 0),
-                    GetUser = null,
-                    GetUserId = "whatever",
-                    GetBanTypeID = 3, //"Fraudulent information"
-                    AdditionalComment = "Fake DNI"
+        //        BanForUser bforUser_UserNotFound = new BanForUser
+        //        {
+        //            Start = DateTime.Now,
+        //            End = DateTime.Now + new TimeSpan(1, 0, 0, 0),
+        //            GetUser = null,
+        //            GetUserId = "whatever",
+        //            GetBanTypeID = 3, //"Fraudulent information"
+        //            AdditionalComment = "Fake DNI"
 
-                };
-                Ban ban_UserNotFound = new Ban { BanTime = DateTime.Now, ID = 3, GetAdmin = admin, GetAdminId = admin.Id, GetBanForUsers = new List<BanForUser>() };
-                ban_UserNotFound.GetBanForUsers.Add(bforUser_UserNotFound);
+        //        };
+        //        Ban ban_UserNotFound = new Ban { BanTime = DateTime.Now, ID = 3, GetAdmin = admin, GetAdminId = admin.Id, GetBanForUsers = new List<BanForUser>() };
+        //        ban_UserNotFound.GetBanForUsers.Add(bforUser_UserNotFound);
 
-                // Act
-                var result = await controller.Details(bforUser_UserNotFound.GetBanID);
+        //        // Act
+        //        var result = await controller.Details(bforUser_UserNotFound.GetBanID);
 
-                //Assert
-                var viewResult = Assert.IsType<NotFoundResult>(result);
+        //        //Assert
+        //        var viewResult = Assert.IsType<NotFoundResult>(result);
 
-            }
-        }
+        //    }
+        //}
     }
 }
 

@@ -65,15 +65,18 @@ namespace MikeRosoft.Controllers
             //We search for the admin and the bans for users. If not found, then there's an error
             model.admin = await _context.Admins
                 .FirstOrDefaultAsync(m => m.Id == ban.GetAdminId);
-            if (model.admin == null)
-            {
-                return NotFound();
-            }
+
+            //We don't need to check if the admin or the users are null because they are required, and if they are null, the ban will also be null
+
+            //if (model.admin == null)
+            //{
+            //    return NotFound();
+            //}
 
             foreach (BanForUser bfu in model.ban.GetBanForUsers)
             {
                 var u = await _context.Users.FirstOrDefaultAsync(m => m.Id == bfu.GetUserId);
-                if (u == null) return NotFound();
+                //if (u == null) return NotFound();
                 else
                 {
                     var bantype = await _context.BanTypes.FirstOrDefaultAsync(m => m.TypeID == bfu.GetBanTypeID);
