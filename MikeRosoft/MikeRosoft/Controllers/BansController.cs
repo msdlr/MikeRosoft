@@ -77,12 +77,12 @@ namespace MikeRosoft.Controllers
             {
                 var u = await _context.Users.FirstOrDefaultAsync(m => m.Id == bfu.GetUserId);
                 //if (u == null) return NotFound();
-                else
-                {
+                //else
+                //{
                     var bantype = await _context.BanTypes.FirstOrDefaultAsync(m => m.TypeID == bfu.GetBanTypeID);
                     model.BanTypeNames.Add(bantype.TypeName);
                     model.bannedUsers.Add(u);
-                }
+                //}
             }
 
             return View(model);
