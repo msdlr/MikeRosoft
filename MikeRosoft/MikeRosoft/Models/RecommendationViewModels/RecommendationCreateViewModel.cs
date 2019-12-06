@@ -16,6 +16,9 @@ namespace MikeRosoft.Models.RecommendationViewModels
         [Display(Name = "Second Surname")]
         public virtual string SecondSurname { get; set; }
 
+        [Display(Name = "DNI")]
+        public virtual string DNI { get; set; }
+
         public virtual string AdminId { get; set; }
 
         public virtual String name { get; set; }

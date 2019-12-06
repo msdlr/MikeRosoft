@@ -76,6 +76,7 @@ namespace MikeRosoft.Controllers
             recommendation.Name = admin.Name;
             recommendation.FirstSurname = admin.FirstSurname;
             recommendation.SecondSurname = admin.SecondSurname;
+            recommendation.DNI = admin.DNI;
 
             return View(recommendation);
         }
@@ -114,6 +115,7 @@ namespace MikeRosoft.Controllers
                 recommendationCreateViewModel.Name = admin.Name;
                 recommendationCreateViewModel.FirstSurname = admin.FirstSurname;
                 recommendationCreateViewModel.SecondSurname = admin.SecondSurname;
+                recommendationCreateViewModel.DNI = admin.DNI;
                 return View(recommendationCreateViewModel);
             }
             if(recommendation.ProductRecommendations.Count == 0)
@@ -121,6 +123,7 @@ namespace MikeRosoft.Controllers
                 recommendationCreateViewModel.Name = admin.Name;
                 recommendationCreateViewModel.FirstSurname = admin.FirstSurname;
                 recommendationCreateViewModel.SecondSurname = admin.SecondSurname;
+                recommendationCreateViewModel.DNI = admin.DNI;
                 ModelState.AddModelError("", $"Please select at least a product to make a recommendation or cancel this action");
                 recommendationCreateViewModel.ProductRecommendations = productRecommends;
                 return View(recommendationCreateViewModel);
