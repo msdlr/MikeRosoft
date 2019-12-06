@@ -1,4 +1,4 @@
-﻿@model MikeRosoft.Models.Recommendation
+﻿@model MikeRosoft.Models.RecommendationViewModels.RecommendationCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -6,35 +6,94 @@
 
 <h1>Create</h1>
 
-<h4>Recommendation</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="name" class="control-label"></label>
-                <input asp-for="name" class="form-control" />
-                <span asp-validation-for="name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="date" class="control-label"></label>
-                <input asp-for="date" class="form-control" />
-                <span asp-validation-for="date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="description" class="control-label"></label>
-                <input asp-for="description" class="form-control" />
-                <span asp-validation-for="description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<form asp-action="Create" method="post">
+
+<div class="form-horizontal">
+    <h4>Recommendation</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstSurname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstSurname)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SecondSurname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SecondSurname)
+        </dd>
+    </dl>
+
+    <input asp-for="AdminId" type="hidden" class="form-control" />
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th width="50%">
+                    Title
+                </th>
+                <th width="20%">
+                    Price
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ProductRecommendations.Count() == 0)
+            {
+                <tr><td colspan="3">There are no products available</td></tr>
+            }
+            else
+            {
+                @for (int i = 0; i < Model.ProductRecommendations.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).product.title)
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                @Html.DisplayFor(modelItem => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).product.precio)
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input asp-for="ProductRecommendations[i].product.id" type="hidden" class="form-control" />
+                                <input asp-for="ProductRecommendations[i].product.precio" type="hidden" class="form-control" />
+                                <input asp-for="ProductRecommendations[i].product.title" type="hidden" class="form-control" />
+                                <input asp-for="ProductRecommendations[i].product.brand" type="hidden" class="form-control" />
+                                <input asp-for="ProductRecommendations[i].product.rate" type="hidden" class="form-control" />
+                                <input asp-for="ProductRecommendations[i].product.stock" type="hidden" class="form-control" />
+                            </div>
+
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" id="CreateButton" value="Create" class="btn btn-primary" />
+        </div>
     </div>
 </div>
+</form>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

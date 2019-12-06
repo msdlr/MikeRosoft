@@ -72,7 +72,7 @@ namespace MikeRosoft.Controllers
                     product.ProductRecommendations.Add(new ProductRecommend() { product = product });
                 }
             }
-            Admin admin = _context.Users.OfType<Admin>().FirstOrDefault<Admin>(u => u.UserName.Equals(User.Identity.Name));
+            Admin admin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name));
             recommendation.Name = admin.Name;
             recommendation.FirstSurname = admin.FirstSurname;
             recommendation.SecondSurname = admin.SecondSurname;
@@ -107,9 +107,9 @@ namespace MikeRosoft.Controllers
                     recommendation.ProductRecommendations.Add(prod);
                 }
             }
-            admin = await _context.Users.OfType<Admin>().FirstOrDefaultAsync<Admin>(u => u.UserName.Equals(User.Identity.Name));
+            admin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name));
 
-            if(ModelState.ErrorCount > 0)
+            if (ModelState.ErrorCount > 0)
             {
                 recommendationCreateViewModel.Name = admin.Name;
                 recommendationCreateViewModel.FirstSurname = admin.FirstSurname;
