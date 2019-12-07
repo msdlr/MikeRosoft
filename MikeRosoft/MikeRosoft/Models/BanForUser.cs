@@ -7,8 +7,6 @@ namespace MikeRosoft.Models
     public class BanForUser
     {
         //Attributes
-        //[Key]
-        public virtual int ID { get; set; }
         public virtual string AdditionalComment { get; set; }
         [Required(ErrorMessage = "Enter valid date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
@@ -37,7 +35,7 @@ namespace MikeRosoft.Models
         public override bool Equals(object obj)
         {
             BanForUser bfu = (BanForUser)obj;
-            bool result = (this.ID == bfu.ID) && (this.GetBanID == bfu.GetBanID) && (this.GetUserId == bfu.GetUserId) && (this.GetBanTypeID == bfu.GetBanTypeID)
+            bool result = (this.GetBanID == bfu.GetBanID) && (this.GetUserId == bfu.GetUserId) && (this.GetBanTypeID == bfu.GetBanTypeID)
                             && (this.AdditionalComment.Equals(bfu.AdditionalComment)) && this.Start.Equals(bfu.Start) && (this.End.Equals(bfu.End));
 
             return result;

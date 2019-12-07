@@ -58,6 +58,7 @@ namespace AppForMovies.Data
                 user.Name = "Miguel";
                 user.FirstSurname = "Sanchez";
                 user.SecondSurname = "De la Rosa";
+                user.DNI = "21345234U";
 
                 IdentityResult result = userManager.CreateAsync(user, "Password1234%").Result;
 
