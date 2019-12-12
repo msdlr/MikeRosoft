@@ -44,7 +44,7 @@ namespace MikeRosoft.Models.RecommendationViewModels
             int i;
             bool result = false;
 
-            result = ((this.Name == recommendation.Name) && (this.FirstSurname == recommendation.FirstSurname) && (this.SecondSurname == recommendation.SecondSurname) && (this.AdminId == recommendation.AdminId) && (this.date == recommendation.date) && (this.name == recommendation.name) && (this.description == recommendation.description) && (this.date.Subtract(recommendation.date) < new TimeSpan(0, 1, 0)));
+            result = ((this.Name == recommendation.Name) && (this.FirstSurname == recommendation.FirstSurname) && (this.SecondSurname == recommendation.SecondSurname) && (this.DNI == recommendation.DNI) && (this.AdminId == recommendation.AdminId) && (this.date == recommendation.date) && (this.name == recommendation.name) && (this.description == recommendation.description) && (this.date.Subtract(recommendation.date) < new TimeSpan(0, 1, 0)));
             result = result && (this.ProductRecommendations.Count == recommendation.ProductRecommendations.Count);
             for(i = 0; i < this.ProductRecommendations.Count; i++)
             {

@@ -10,7 +10,7 @@ using MikeRosoft.Data;
 namespace MikeRosoft.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191128130653_alluc")]
+    [Migration("20191212112803_alluc")]
     partial class alluc
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
