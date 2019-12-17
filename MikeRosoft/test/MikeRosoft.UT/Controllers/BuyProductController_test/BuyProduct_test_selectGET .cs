@@ -45,15 +45,16 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
             context = new ApplicationDbContext(_contextOptions);
             // Insert seed data into the database using one instance of the context
 
-            Brand bran1 = new Brand { Brandid = 1, Name = "Kingston" };
-            Brand bran2 = new Brand { Brandid = 2, Name = "Samsung" };
+            Brand brand1 = new Brand { Brandid = 1, Name = "Kingston" };
+            Brand brand2 = new Brand { Brandid = 2, Name = "Samsung" };
+  
 
-            context.Brand.Add(bran1);
-            context.Brand.Add(bran1);
+            context.Brand.Add(brand1);
+            context.Brand.Add(brand2);
 
-            context.Products.Add(new Product { id = 4, title = "Memoria RAM", description ="8 GB", brand =bran1, precio = 130, stock=3 });
-            context.Products.Add(new Product { id = 5, title = "Memoria RAM", description = "16 GB", brand = bran2, precio = 130, stock = 0 });
-            context.Products.Add(new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand = bran2, precio = 130, stock = 456 });
+            context.Products.Add(new Product { id = 4, title = "Memoria RAM", description ="8 GB", brand =brand1, precio = 130, stock=3 });
+            context.Products.Add(new Product { id = 5, title = "Memoria RAM", description = "16 GB", brand = brand2, precio = 130, stock = 0 });
+            context.Products.Add(new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand = brand2, precio = 130, stock = 456 });
 
             
 
@@ -88,6 +89,8 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
 
                 Brand brand1 = new Brand { Brandid = 1, Name = "Kingston" };
                 Brand brand2 = new Brand { Brandid = 2, Name = "Samsung" };
+                var brands = new List<Brand> { brand1, brand2 };
+                var expectedBrands = new SelectList(brands.Select(b => b.Name).ToList());
 
                 IEnumerable<Product> expectedItems = new Product[2] { new Product {id = 4, title = "Memoria RAM", description ="8 GB", brand =brand1, precio = 130, stock=3 },
                                                   new Product { id = 6, title = "Memoria SSD", description = "32 GB", brand = brand2, precio = 130, stock = 456 }};
@@ -101,6 +104,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
 
 
                 Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.Equals(p2)));
+                Assert.Equal(expectedBrands, model.Brands, Comparer.Get<SelectListItem>((p1, p2) => p1.Value == p2.Value));
                 // Check that both collections (expected and result returned) have the same elements with the same name
 
             }
@@ -119,10 +123,12 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
                 var controller = new ProductsController(context);
                 controller.ControllerContext.HttpContext = ordersContext;
 
-                Brand bran1 = new Brand { Brandid = 1, Name = "Kingston" };
-                Brand bran2 = new Brand { Brandid = 2, Name = "Samsung" };
+                Brand brand1 = new Brand { Brandid = 1, Name = "Kingston" };
+                Brand brand2 = new Brand { Brandid = 2, Name = "Samsung" };
+                var brands = new List<Brand> { brand1, brand2 };
+                var expectedBrands = new SelectList(brands.Select(b => b.Name).ToList());
 
-                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand = bran1, precio = 130, stock = 3 },};
+                IEnumerable<Product> expectedItems = new Product[1] { new Product { id = 4, title = "Memoria RAM", description = "8 GB", brand = brand1, precio = 130, stock = 3 },};
 
                 // Act             
                 var result = controller.SelectProductsForBuy("RAM", null);
@@ -133,6 +139,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
 
 
                 Assert.Equal(expectedItems, model.Products, Comparer.Get<Product>((p1, p2) => p1.Equals(p2)));
+                Assert.Equal(expectedBrands, model.Brands, Comparer.Get<SelectListItem>((p1, p2) => p1.Value == p2.Value));
                 // Check that both collections (expected and result returned) have the same elements with the same name
 
             }
@@ -175,6 +182,12 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
             }
         }
 
+
+        /*
+         * 
+         * NO HACE FALTA QUE SE FILTRE POR AMBOS
+         * 
+         * S
         [Fact]
         public async Task SelectItem_withFilterTitleandbrand_string()
         {
@@ -207,7 +220,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
 
             }
         }
-
+        */
 
 
     }

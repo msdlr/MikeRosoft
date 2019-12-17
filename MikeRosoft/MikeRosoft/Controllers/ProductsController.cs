@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +11,6 @@ using MikeRosoft.Models.OrderViewModels;
 
 namespace MikeRosoft.Controllers
 {
-    [Authorize(Roles = "User")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -49,9 +46,39 @@ namespace MikeRosoft.Controllers
         }
 
         // GET: Products/Create
-        public IActionResult Create()
+        public IActionResult Create(SelectedProductsForBuyViewModel selectedProducts)
         {
-            return View();
+
+            Product product;
+            int id;
+
+            CreateProductsForViewModel order = new CreateProductsForViewModel();
+
+            order.ProductOrders = new List<ProductOrder>();
+
+            if (selectedProducts.IdsToAdd == null)
+            {
+                ModelState.AddModelError("ProductNotSelected", "You have to select at least one item");
+            }
+
+            else
+            {
+                foreach (int ids in selectedProducts.IdsToAdd)
+                {
+                    product = _context.Products.Include(m => m.Brand).FirstOrDefault<Product>(m => m.id.Equals(ids));
+                    order.ProductOrders.Add(new ProductOrder() { quantity = 1, products = product, productId = product.id });
+                }
+            }
+
+            User user = _context.Users.OfType<User>().FirstOrDefault<User>(u => u.UserName.Equals(User.Identity.Name));
+
+            order.UserName = user.UserName;
+            order.FirstSurname = user.FirstSurname;
+            order.SecondSurname = user.SecondSurname;
+
+
+
+            return View(order);
         }
 
         // POST: Products/Create
@@ -69,6 +96,8 @@ namespace MikeRosoft.Controllers
             }
             return View(product);
         }
+
+
 
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -156,12 +185,10 @@ namespace MikeRosoft.Controllers
         //titleSelected y brandSelected se llaman asi porque tienen que ser como el de viewModel
         public IActionResult SelectProductsForBuy(string titleSelected, string brandSelected)
         {
-            
-            SelectProductsForBuyViewModel selectProducts = new SelectProductsForBuyViewModel();
-            selectProducts.Brands = new SelectList(_context.Brand.Select(b => b.Name).ToList());
 
+            SelectProductsForBuyViewModel selectProducts = new SelectProductsForBuyViewModel();
             //Añade a products todos los productos que están en la base de datos cuyo stock es mayor que 0 
-            selectProducts.Products = _context.Products.Include(p => p.brand).Where(p => p.stock > 0);
+            selectProducts.Products = _context.Products.Where(p => p.stock > 0);
 
             //Para filtrar por nombre
             if (titleSelected != null)
@@ -169,7 +196,7 @@ namespace MikeRosoft.Controllers
 
             //Para filtrar por brand
             if (brandSelected != null)
-                selectProducts.Products = selectProducts.Products.Where(p => p.brand.Name.Contains(brandSelected));
+                selectProducts.Products = selectProducts.Products.Where(p => p.brand.Contains(brandSelected));
 
             selectProducts.Products.ToList();
 
@@ -188,11 +215,11 @@ namespace MikeRosoft.Controllers
 
             ModelState.AddModelError(string.Empty, "You must select at least one product");
             SelectProductsForBuyViewModel selectProducts = new SelectProductsForBuyViewModel();
-            selectProducts.Products = _context.Products.Include(p=> p.brand).Where(p => p.stock > 0);
+            selectProducts.Products = _context.Products.Where(p => p.stock > 0);
 
             return View(selectProducts);
         }
-        
+
 
 
         private bool ProductExists(int id)
