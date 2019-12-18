@@ -36,9 +36,7 @@ namespace MikeRosoft.Models
         [ForeignKey("Brandid")]
         public virtual Brand brand{ get; set; }
 
-        [Required]
-        public virtual string brand_string { get; set; }
-
+        
         public virtual IList<ProductOrder> ProductOrders { get; set; }
 
         //MakeRecommendation
