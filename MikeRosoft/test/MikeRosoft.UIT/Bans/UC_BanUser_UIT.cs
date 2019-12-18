@@ -86,6 +86,54 @@ namespace MikeRosoft.UIT.Bans
         [Fact]
         public void UC1_30_1() //Successful ban
         {
+            //Open page, login and go to Select webpage
+            this.initial_step_opening_the_web_page();
+            this.selectBanUserFromIndex();
+            SelectUserABC();
+
+            //Check that we are on Create now
+            Assert.Equal("Create - MikeRosoft", _driver.Title);
+
+            //Select a ban type
+            _driver.FindElement(By.Id("Bantype_0")).SendKeys("Fraudulent information");
+
+            //Fill start date
+            _driver.FindElement(By.Id("Start_0")).SendKeys("28/12/2019\t 00:00");
+
+            //Fill end date
+            _driver.FindElement(By.Id("End_0")).SendKeys("28/01/2020\t 00:00");
+
+            //Click on Save
+            _driver.FindElement(By.Id("saveButton")).Click();
+
+            //Check that we are now in the Details page
+            string expectedTitle = "Details - MikeRosoft";
+            Assert.Equal(expectedTitle, _driver.Title);
+            checkBanDetails();
+
+        }
+
+        
+        private void checkBanDetails()
+        {
+            //this.initial_step_opening_the_web_page();
+            //this.precondition_perform_login();
+            //_driver.Navigate().GoToUrl(_URI + "Bans/Details/2");
+
+            //Check the ban instance created
+            var banData = _driver.FindElements(By.Id("banData"));
+            Assert.NotNull(banData);
+            string expected = "Miguel Sanchez (21345234U)";
+            Assert.NotNull(banData.First(l => l.Text.Contains(expected)));
+
+            //Check the ban for user instance created
+
+            var bfuData = _driver.FindElements(By.Id("bfu_0"));
+            Assert.NotNull(bfuData);
+            string[] expectedbfu = {"A B (12345678J)", "Fraudulent information", "28/12/2019 00:00", "28/01/2020 00:00", "No payment" };
+            foreach (string elem in expectedbfu)
+            Assert.NotNull(bfuData.First(l => l.Text.Contains(elem)));
+
 
         }
 
@@ -225,7 +273,7 @@ namespace MikeRosoft.UIT.Bans
             Assert.NotNull(errors);
             foreach (var error in errors)
                 Assert.NotNull(error.Text.Contains(expectedError));
-
+            this.logout();
         }
 
         /* Scenario 3 - Missing mandatory data in create view */
@@ -257,7 +305,7 @@ namespace MikeRosoft.UIT.Bans
             Assert.NotNull(errors);
             foreach (var error in errors)
                 Assert.NotNull(error.Text.Contains(expectedError));
-
+            this.logout();
         }
 
         [Fact]
@@ -272,7 +320,7 @@ namespace MikeRosoft.UIT.Bans
             Assert.Equal("Create - MikeRosoft", _driver.Title);
 
             //Select a ban type
-            _driver.FindElement(By.Id("Bantype_0")).SendKeys("Inappropiate comment");
+            _driver.FindElement(By.Id("Bantype_0")).SendKeys("Fraudulent information");
 
             //Fill end date
             _driver.FindElement(By.Id("End_0")).SendKeys("28/12/2020\t 00:00");
@@ -287,6 +335,7 @@ namespace MikeRosoft.UIT.Bans
             Assert.NotNull(errors);
             foreach (var error in errors)
                 Assert.NotNull(error.Text.Contains(expectedError));
+            this.logout();
         }
 
         [Fact]
@@ -301,7 +350,7 @@ namespace MikeRosoft.UIT.Bans
             Assert.Equal("Create - MikeRosoft", _driver.Title);
 
             //Select a ban type
-            _driver.FindElement(By.Id("Bantype_0")).SendKeys("Inappropiate comment");
+            _driver.FindElement(By.Id("Bantype_0")).SendKeys("Fraudulent information");
 
             //Fill start date
             _driver.FindElement(By.Id("Start_0")).SendKeys("28/12/2020\t 00:00");
@@ -316,6 +365,7 @@ namespace MikeRosoft.UIT.Bans
             Assert.NotNull(errors);
             foreach (var error in errors)
                 Assert.NotNull(error.Text.Contains(expectedError));
+            this.logout();
         }
 
         [Fact]
@@ -330,7 +380,7 @@ namespace MikeRosoft.UIT.Bans
             Assert.Equal("Create - MikeRosoft", _driver.Title);
 
             //Select a ban type
-            _driver.FindElement(By.Id("Bantype_0")).SendKeys("Inappropiate comment");
+            _driver.FindElement(By.Id("Bantype_0")).SendKeys("Fraudulent information");
 
             //Fill start date
             _driver.FindElement(By.Id("Start_0")).SendKeys("28/12/2018\t 00:00");
@@ -348,6 +398,7 @@ namespace MikeRosoft.UIT.Bans
             Assert.NotNull(errors);
             foreach (var error in errors)
                 Assert.NotNull(error.Text.Contains(expectedError));
+            this.logout();
         }
 
         [Fact]
@@ -362,7 +413,7 @@ namespace MikeRosoft.UIT.Bans
             Assert.Equal("Create - MikeRosoft", _driver.Title);
 
             //Select a ban type
-            _driver.FindElement(By.Id("Bantype_0")).SendKeys("Inappropiate comment");
+            _driver.FindElement(By.Id("Bantype_0")).SendKeys("Fraudulent information");
 
             //Fill start date
             _driver.FindElement(By.Id("Start_0")).SendKeys("28/12/2021\t 00:00");
@@ -380,7 +431,7 @@ namespace MikeRosoft.UIT.Bans
             Assert.NotNull(errors);
             foreach (var error in errors)
                 Assert.NotNull(error.Text.Contains(expectedError));
-
+            this.logout();
         }
 
         public void SelectUserABC()
