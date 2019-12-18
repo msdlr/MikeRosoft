@@ -242,10 +242,10 @@ namespace MikeRosoft.UIT.Bans
             Assert.Equal("Create - MikeRosoft", _driver.Title);
 
             //Fill start date
-            _driver.FindElement(By.Id("Start_0")).SendKeys("31/12/2019\t 00:00");
-            
+            _driver.FindElement(By.Id("Start_0")).SendKeys("28/12/2019\t 00:00");
+
             //Fill end date
-            _driver.FindElement(By.Id("End_0")).SendKeys("31/12/2020\t 00:00");
+            _driver.FindElement(By.Id("End_0")).SendKeys("28/01/2020\t 00:00");
 
             //Click on Save
             _driver.FindElement(By.Id("saveButton")).Click();
@@ -263,24 +263,123 @@ namespace MikeRosoft.UIT.Bans
         [Fact]
         public void UC1_30_9() //Start date not selected
         {
+            //Open page, login and go to Select webpage
+            this.initial_step_opening_the_web_page();
+            this.selectBanUserFromIndex();
+            SelectUserABC();
 
+            //Check that we are on Create now
+            Assert.Equal("Create - MikeRosoft", _driver.Title);
+
+            //Select a ban type
+            _driver.FindElement(By.Id("Bantype_0")).SendKeys("Inappropiate comment");
+
+            //Fill end date
+            _driver.FindElement(By.Id("End_0")).SendKeys("28/12/2020\t 00:00");
+
+            //Click on Save
+            _driver.FindElement(By.Id("saveButton")).Click();
+
+
+            string expectedError = "Please insert valid dates for each specific ban";
+            //Check the error message
+            var errors = _driver.FindElements(By.Id("ErrorMsg"));
+            Assert.NotNull(errors);
+            foreach (var error in errors)
+                Assert.NotNull(error.Text.Contains(expectedError));
         }
 
         [Fact]
         public void UC1_30_10() //End date not selected
         {
+            //Open page, login and go to Select webpage
+            this.initial_step_opening_the_web_page();
+            this.selectBanUserFromIndex();
+            SelectUserABC();
 
+            //Check that we are on Create now
+            Assert.Equal("Create - MikeRosoft", _driver.Title);
+
+            //Select a ban type
+            _driver.FindElement(By.Id("Bantype_0")).SendKeys("Inappropiate comment");
+
+            //Fill start date
+            _driver.FindElement(By.Id("Start_0")).SendKeys("28/12/2020\t 00:00");
+
+            //Click on Save
+            _driver.FindElement(By.Id("saveButton")).Click();
+
+
+            string expectedError = "Please insert valid dates for each specific ban";
+            //Check the error message
+            var errors = _driver.FindElements(By.Id("ErrorMsg"));
+            Assert.NotNull(errors);
+            foreach (var error in errors)
+                Assert.NotNull(error.Text.Contains(expectedError));
         }
 
         [Fact]
         public void UC1_30_11() //Start date < Today
         {
+            //Open page, login and go to Select webpage
+            this.initial_step_opening_the_web_page();
+            this.selectBanUserFromIndex();
+            SelectUserABC();
 
+            //Check that we are on Create now
+            Assert.Equal("Create - MikeRosoft", _driver.Title);
+
+            //Select a ban type
+            _driver.FindElement(By.Id("Bantype_0")).SendKeys("Inappropiate comment");
+
+            //Fill start date
+            _driver.FindElement(By.Id("Start_0")).SendKeys("28/12/2018\t 00:00");
+            
+            //Fill end date
+            _driver.FindElement(By.Id("End_0")).SendKeys("28/01/2020\t 00:00");
+
+            //Click on Save
+            _driver.FindElement(By.Id("saveButton")).Click();
+
+
+            string expectedError = "A ban cannot start before now.";
+            //Check the error message
+            var errors = _driver.FindElements(By.Id("ErrorMsg"));
+            Assert.NotNull(errors);
+            foreach (var error in errors)
+                Assert.NotNull(error.Text.Contains(expectedError));
         }
 
         [Fact]
         public void UC1_30_12() //End date > Start date
         {
+            //Open page, login and go to Select webpage
+            this.initial_step_opening_the_web_page();
+            this.selectBanUserFromIndex();
+            SelectUserABC();
+
+            //Check that we are on Create now
+            Assert.Equal("Create - MikeRosoft", _driver.Title);
+
+            //Select a ban type
+            _driver.FindElement(By.Id("Bantype_0")).SendKeys("Inappropiate comment");
+
+            //Fill start date
+            _driver.FindElement(By.Id("Start_0")).SendKeys("28/12/2021\t 00:00");
+            
+            //Fill end date
+            _driver.FindElement(By.Id("End_0")).SendKeys("28/01/2020\t 00:00");
+
+            //Click on Save
+            _driver.FindElement(By.Id("saveButton")).Click();
+
+
+            string expectedError = "Please insert valid dates for each specific ban";
+            //Check the error message
+            var errors = _driver.FindElements(By.Id("ErrorMsg"));
+            Assert.NotNull(errors);
+            foreach (var error in errors)
+                Assert.NotNull(error.Text.Contains(expectedError));
 
         }
 
