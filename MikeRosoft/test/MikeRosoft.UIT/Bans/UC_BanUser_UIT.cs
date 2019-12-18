@@ -219,7 +219,12 @@ namespace MikeRosoft.UIT.Bans
             //Check that we stay in the same webpage
             Assert.Equal("Select User(s) to ban - MikeRosoft", _driver.Title);
 
-
+            string expectedError = "You must select at least one user";
+            //Check the error message
+            var errors = _driver.FindElements(By.Id("ErrorMsg"));
+            Assert.NotNull(errors);
+            foreach (var error in errors)
+                Assert.NotNull(error.Text.Contains(expectedError));
 
         }
 
@@ -254,8 +259,6 @@ namespace MikeRosoft.UIT.Bans
                 Assert.NotNull(error.Text.Contains(expectedError));
 
         }
-
-
 
         [Fact]
         public void UC1_30_9() //Start date not selected
