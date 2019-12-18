@@ -238,11 +238,6 @@ namespace MikeRosoft.UIT.Products
 
         private void select_filter(string NameSelected, string userSurname1, string userSurname2, string userDNI)
         {
-            //Open page, login and go to Select webpage
-            this.initial_step_opening_the_web_page();
-            this.precondition_perform_login();
-            this.selectBanUserFromIndex();
-
             if (NameSelected != null)
             {
                 _driver.FindElement(By.Id("NameSelected")).SendKeys(NameSelected);
