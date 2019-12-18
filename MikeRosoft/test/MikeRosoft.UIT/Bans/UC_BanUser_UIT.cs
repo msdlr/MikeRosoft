@@ -209,6 +209,22 @@ namespace MikeRosoft.UIT.Bans
         [Fact]
         public void UC1_30_7() //No users selected
         {
+            //Open page, login and go to Select webpage
+            this.initial_step_opening_the_web_page();
+            this.selectBanUserFromIndex();
+
+            //Click the submit button
+            _driver.FindElement(By.Id("SubmitButton")).Click();
+
+            //Check that we stay in the same webpage
+            Assert.Equal("Select User(s) to ban - MikeRosoft", _driver.Title);
+
+            string expectedError = "You must select at least one user";
+            //Check the error message
+            var errors = _driver.FindElements(By.Id("ErrorMsg"));
+            Assert.NotNull(errors);
+            foreach (var error in errors)
+                Assert.NotNull(error.Text.Contains(expectedError));
 
         }
 
