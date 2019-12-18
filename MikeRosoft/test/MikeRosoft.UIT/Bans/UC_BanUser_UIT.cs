@@ -120,7 +120,7 @@ namespace MikeRosoft.UIT.Bans
             this.selectUsersToBan_filter("A", null, null, null);
 
             //Check the one with that name is displayed
-            var rowAfterFilter = _driver.FindElements(By.Id("User_"+expectedText[0]));
+            var rowAfterFilter = _driver.FindElements(By.Id("User_" + expectedText[0]));
             Assert.NotNull(rowAfterFilter);
             //checks every column has those data expected
             foreach (string expected in expectedText)
@@ -219,12 +219,7 @@ namespace MikeRosoft.UIT.Bans
             //Check that we stay in the same webpage
             Assert.Equal("Select User(s) to ban - MikeRosoft", _driver.Title);
 
-            string expectedError = "You must select at least one user";
-            //Check the error message
-            var errors = _driver.FindElements(By.Id("ErrorMsg"));
-            Assert.NotNull(errors);
-            foreach (var error in errors)
-                Assert.NotNull(error.Text.Contains(expectedError));
+
 
         }
 
@@ -233,8 +228,34 @@ namespace MikeRosoft.UIT.Bans
         [Fact]
         public void UC1_30_8() //No ban type selected
         {
+            //Open page, login and go to Select webpage
+            this.initial_step_opening_the_web_page();
+            this.selectBanUserFromIndex();
+            SelectUserABC();
+
+            //Check that we are on Create now
+            Assert.Equal("Create - MikeRosoft", _driver.Title);
+
+            //Fill start date
+            _driver.FindElement(By.Id("Start_0")).SendKeys("31/12/2019\t 00:00");
+            
+            //Fill end date
+            _driver.FindElement(By.Id("End_0")).SendKeys("31/12/2020\t 00:00");
+
+            //Click on Save
+            _driver.FindElement(By.Id("saveButton")).Click();
+
+
+            string expectedError = "Please select a ban type for each user";
+            //Check the error message
+            var errors = _driver.FindElements(By.Id("ErrorMsg"));
+            Assert.NotNull(errors);
+            foreach (var error in errors)
+                Assert.NotNull(error.Text.Contains(expectedError));
 
         }
+
+
 
         [Fact]
         public void UC1_30_9() //Start date not selected
@@ -260,7 +281,13 @@ namespace MikeRosoft.UIT.Bans
 
         }
 
-
+        public void SelectUserABC()
+        {
+            //Select user: A B C (12345678J)
+            _driver.FindElement(By.Id("tick_12345678J")).Click();
+            //Click the submit button
+            _driver.FindElement(By.Id("SubmitButton")).Click();
+        }
         private void logout()
         {
             //Go to the page, login and go to SelectUsersToBan
