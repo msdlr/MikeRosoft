@@ -5,7 +5,7 @@
 }
 
 <h1>Select Users For Ban</h1>
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div asp-validation-summary="ModelOnly" class="text-danger" id="ErrorMsg"></div>
 <form asp-controller="Bans" class="form-horizontal" aspaction="SelectUsersToBan" method="get">
     <p>
         <div>
@@ -32,7 +32,7 @@
             <span asp-validation-for="userDNI" class="text-danger"></span>
 
             <!-- Filter button -->
-            <input type="submit" value="Filter" />
+            <input type="submit" value="Filter" id="FilterButton"/>
 
         </div>
     </p>
@@ -60,13 +60,13 @@
                 <tbody>
                     @if (Model.Users.Count() == 0)
                     {
-                        <tr><td colspan="3">No users left to ban!</td></tr>
+                        <tr id="NoUsers"><td colspan="3">No users left to ban!</td> </tr>
                     }
                     else
                     {
                         foreach (var item in Model.Users)
                         {
-                            <tr>
+                            <tr id="User_@item.DNI">
                                 <td>
                                     @Html.DisplayFor(m => item.DNI)
                                 </td>
@@ -82,7 +82,7 @@
                                 </td>
 
                                 <td width="10%">
-                                    <input type="checkbox" name="IdsToAdd" value="@item.Id">
+                                    <input type="checkbox" name="IdsToAdd" value="@item.Id" id="tick_@item.DNI">
                                 </td>
                             </tr>
                         }
@@ -90,6 +90,6 @@
                 </tbody>
     </table>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary" id="SubmitButton">Save</button>
     <a asp-action="SelectUsersToBan" class="btn btn-default">Cancel</a>
 </form>
