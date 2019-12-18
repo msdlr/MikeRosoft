@@ -103,6 +103,9 @@ namespace MikeRosoft.UIT.Bans
             //Fill end date
             _driver.FindElement(By.Id("End_0")).SendKeys("28/01/2020\t 00:00");
 
+            //Fill the additional comment
+            _driver.FindElement(By.Id("Comment_0")).SendKeys("No payment");
+
             //Click on Save
             _driver.FindElement(By.Id("saveButton")).Click();
 
@@ -113,13 +116,8 @@ namespace MikeRosoft.UIT.Bans
 
         }
 
-        
         private void checkBanDetails()
         {
-            //this.initial_step_opening_the_web_page();
-            //this.precondition_perform_login();
-            //_driver.Navigate().GoToUrl(_URI + "Bans/Details/2");
-
             //Check the ban instance created
             var banData = _driver.FindElements(By.Id("banData"));
             Assert.NotNull(banData);
@@ -132,9 +130,9 @@ namespace MikeRosoft.UIT.Bans
             Assert.NotNull(bfuData);
             string[] expectedbfu = {"A B (12345678J)", "Fraudulent information", "28/12/2019 00:00", "28/01/2020 00:00", "No payment" };
             foreach (string elem in expectedbfu)
-            Assert.NotNull(bfuData.First(l => l.Text.Contains(elem)));
-
-
+            {
+                Assert.NotNull(bfuData.First(l => l.Text.Contains(elem)));
+            }
         }
 
         /* Scenario 2 - No users in the database */
