@@ -114,23 +114,15 @@ namespace MikeRosoft.UIT.Bans
             //Check that we correctly get to select users
             Assert.Equal("Select User(s) to ban - MikeRosoft", _driver.Title);
 
-            string[] expectedText = { "48484848B", "Elena", "Navarro", "Martínez" };
-
-            var row = _driver.FindElements(By.Id("User_48484848B"));
-            Assert.NotNull(row);
-
-            //checks every column has those data expected
-            foreach (string expected in expectedText)
-                Assert.NotNull(row.First(l => l.Text.Contains(expected)));
+            string[] expectedText = { "12345678J", "A", "B", "C" };
 
             //Write the name in the filter
             this.selectUsersToBan_filter("A", null, null, null);
 
-            //Check the one wit that name is displayed
+            //Check the one with that name is displayed
             var rowAfterFilter = _driver.FindElements(By.Id("User_"+expectedText[0]));
-            Assert.NotNull(row);
-
-            //checks the row of the table
+            Assert.NotNull(rowAfterFilter);
+            //checks every column has those data expected
             foreach (string expected in expectedText)
                 Assert.NotNull(rowAfterFilter.First(l => l.Text.Contains(expected)));
 
@@ -140,19 +132,76 @@ namespace MikeRosoft.UIT.Bans
         [Fact]
         public void UC1_30_4() //Filter by 1st surname
         {
+            //Open page, login and go to Select webpage
+            this.initial_step_opening_the_web_page();
+            this.selectBanUserFromIndex();
 
+            //Check that we correctly get to select users
+            Assert.Equal("Select User(s) to ban - MikeRosoft", _driver.Title);
+
+            string[] expectedText = { "12345678J", "A", "B", "C" };
+
+            //Write the name in the filter
+            this.selectUsersToBan_filter(null, "B", null, null);
+
+            //Check the one with that name is displayed
+            var rowAfterFilter = _driver.FindElements(By.Id("User_" + expectedText[0]));
+            Assert.NotNull(rowAfterFilter);
+            //checks every column has those data expected
+            foreach (string expected in expectedText)
+                Assert.NotNull(rowAfterFilter.First(l => l.Text.Contains(expected)));
+
+            this.logout();
         }
 
         [Fact]
         public void UC1_30_5() //Filter by 2nd surname 
         {
+            //Open page, login and go to Select webpage
+            this.initial_step_opening_the_web_page();
+            this.selectBanUserFromIndex();
 
+            //Check that we correctly get to select users
+            Assert.Equal("Select User(s) to ban - MikeRosoft", _driver.Title);
+
+            string[] expectedText = { "12345678J", "A", "B", "C" };
+
+            //Write the name in the filter
+            this.selectUsersToBan_filter(null, null, "C", null);
+
+            //Check the one with that name is displayed
+            var rowAfterFilter = _driver.FindElements(By.Id("User_" + expectedText[0]));
+            Assert.NotNull(rowAfterFilter);
+            //checks every column has those data expected
+            foreach (string expected in expectedText)
+                Assert.NotNull(rowAfterFilter.First(l => l.Text.Contains(expected)));
+
+            this.logout();
         }
 
         [Fact]
         public void UC1_30_6() //Filter by DNI
         {
+            //Open page, login and go to Select webpage
+            this.initial_step_opening_the_web_page();
+            this.selectBanUserFromIndex();
 
+            //Check that we correctly get to select users
+            Assert.Equal("Select User(s) to ban - MikeRosoft", _driver.Title);
+
+            string[] expectedText = { "12345678J", "A", "B", "C" };
+
+            //Write the name in the filter
+            this.selectUsersToBan_filter(null, null, null, "12345678J");
+
+            //Check the one with that name is displayed
+            var rowAfterFilter = _driver.FindElements(By.Id("User_" + expectedText[0]));
+            Assert.NotNull(rowAfterFilter);
+            //checks every column has those data expected
+            foreach (string expected in expectedText)
+                Assert.NotNull(rowAfterFilter.First(l => l.Text.Contains(expected)));
+
+            this.logout();
         }
 
         /* Scenario 3 - AF2, no users selected */
@@ -208,26 +257,21 @@ namespace MikeRosoft.UIT.Bans
             if (NameSelected != null)
             {
                 _driver.FindElement(By.Id("NameSelected")).SendKeys(NameSelected);
-                _driver.FindElement(By.Id("FilterButton")).Click();
-
             }
 
             if (userSurname1 != null)
             {
                 _driver.FindElement(By.Id("userSurname1")).SendKeys(userSurname1);
-                _driver.FindElement(By.Id("FilterButton")).Click();
             }
 
             if (userSurname2 != null)
             {
                 _driver.FindElement(By.Id("userSurname2")).SendKeys(userSurname2);
-                _driver.FindElement(By.Id("FilterButton")).Click();
             }
 
             if (userDNI != null)
             {
                 _driver.FindElement(By.Id("userDNI")).SendKeys(userDNI);
-                _driver.FindElement(By.Id("FilterButton")).Click();
             }
 
             //Click on the filter button

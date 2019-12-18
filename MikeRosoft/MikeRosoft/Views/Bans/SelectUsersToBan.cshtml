@@ -32,7 +32,7 @@
             <span asp-validation-for="userDNI" class="text-danger"></span>
 
             <!-- Filter button -->
-            <input type="submit" value="Filter" />
+            <input type="submit" value="Filter" id="FilterButton"/>
 
         </div>
     </p>
@@ -60,7 +60,7 @@
                 <tbody>
                     @if (Model.Users.Count() == 0)
                     {
-                        <tr><td colspan="3">No users left to ban!</td></tr>
+                        <tr id="NoUsers"><td colspan="3">No users left to ban!</td> </tr>
                     }
                     else
                     {
@@ -90,6 +90,6 @@
                 </tbody>
     </table>
 
-    <button type="submit" class="btn btn-primary" id="FilterButton">Save</button>
+    <button type="submit" class="btn btn-primary" id="SubmitButton">Save</button>
     <a asp-action="SelectUsersToBan" class="btn btn-default">Cancel</a>
 </form>
