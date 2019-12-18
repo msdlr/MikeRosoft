@@ -65,7 +65,8 @@ namespace MikeRosoft.Controllers
             {
                 foreach (string ids in selectedProducts.IdsToAdd)
                 {
-                    product = _context.Products.Include(m => m.brand).FirstOrDefault<Product>(m => m.id.Equals(ids));
+                    id = int.Parse(ids);
+                    product = _context.Products.Include(m => m.brand).FirstOrDefault<Product>(m => m.id.Equals(id));
                     order.ProductOrders.Add(new ProductOrder() { quantity = 1, products = product, productId = product.id });
                 }
             }
@@ -87,17 +88,78 @@ namespace MikeRosoft.Controllers
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,title,description,brand,precio,stock")] Product product)
+        public async Task<IActionResult> CreatePost(CreateProductsForViewModel orderViewModel, IList<ProductOrder> productOrders, string cardNumber)
         {
-            if (ModelState.IsValid)
+            //Movie movie;
+            // customer;
+
+            /*
+             * 
+             * MOVIE = PRODUCT
+             * CUSTOMER = USER
+             *                   
+             */
+            Product product;
+            User user;
+            Order order = new Order();
+            order.totalprice = 0;
+            order.ProductOrders = new List<ProductOrder>();
+            ModelState.Clear();
+            foreach (ProductOrder po in productOrders)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                product = await _context.Products.FirstOrDefaultAsync<Product>(m => m.id == po.products.id);
+                if (product.stock < po.quantity)
+                {
+
+                    ModelState.AddModelError("NoEnoughMovies", $"There are no enough movies titled {product.title}, please select less or equal than {product.stock}");
+                    orderViewModel.ProductOrders = productOrders;
+                }
+                else
+                {
+                    if (po.quantity > 0)
+                    {
+                        product.stock = product.stock - po.quantity;
+                        po.products = product;
+                        po.orders = order;
+                        order.totalprice += po.quantity * product.precio;
+                        order.ProductOrders.Add(po);
+                    }
+                }
             }
-            return View(product);
+            user = await _context.Users.OfType<User>().FirstOrDefaultAsync<User>(u => u.UserName.Equals(User.Identity.Name));
+
+            if (ModelState.ErrorCount > 0)
+            {
+                orderViewModel.UserName = user.Name;
+                orderViewModel.FirstSurname = user.FirstSurname;
+                orderViewModel.SecondSurname = user.SecondSurname;
+                return View(orderViewModel);
+            }
+            if (order.totalprice == 0)
+            {
+                orderViewModel.UserName = user.Name;
+                orderViewModel.FirstSurname = user.FirstSurname;
+                orderViewModel.SecondSurname = user.SecondSurname;
+                ModelState.AddModelError("MovieForPurchase0", $"Please select at least a movie to be bought or cancel your purchase");
+                orderViewModel.ProductOrders = productOrders;
+                return View(orderViewModel);
+            }
+
+
+            //YO NO TENGO PARA ELEGIR, SIEMPRE ES CREDIT CARD
+
+            purchase.Customer = customer;
+            purchase.PurchaseDate = DateTime.Now;
+            if (purchaseViewModel.PaymentMethod == "PayPal")
+                purchase.PaymentMethod = purchaseViewModel.PayPal;
+            else
+                purchase.PaymentMethod = purchaseViewModel.CreditCard;
+            purchase.DeliveryAddress = purchaseViewModel.DeliveryAddress;
+            _context.Add(purchase);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = purchase.PurchaseId });
         }
 
 

@@ -67,7 +67,7 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
             context.SaveChanges();
 
             //how to simulate the connection of a user
-            System.Security.Principal.GenericIdentity user = new System.Security.Principal.GenericIdentity("llanos@uclm.com");
+            System.Security.Principal.GenericIdentity user = new System.Security.Principal.GenericIdentity("namesurname@uclm.com");
             System.Security.Claims.ClaimsPrincipal identity = new System.Security.Claims.ClaimsPrincipal(user);
             ordersContext = new Microsoft.AspNetCore.Http.DefaultHttpContext();
             ordersContext.User = identity;
