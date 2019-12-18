@@ -199,7 +199,7 @@ namespace MikeRosoft.Controllers
 
             //Para filtrar por brand
             if (brandSelected != null)
-                selectProducts.Products = selectProducts.Products.Where(p => p.brand.Contains(brandSelected));
+                selectProducts.Products = selectProducts.Products.Where(p => p.brand.Name.Contains(brandSelected));
 
             selectProducts.Products.ToList();
 

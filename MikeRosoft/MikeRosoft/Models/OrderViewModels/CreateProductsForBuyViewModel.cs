@@ -46,8 +46,7 @@ namespace MikeRosoft.Models.OrderViewModels
         public virtual string address { get; set; }
 
 
-        //PAYMENT METHOD
-        public String PaymentMethod { get; set; }
+        //PAYMENT 
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Card Number")]

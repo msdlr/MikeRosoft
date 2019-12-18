@@ -66,5 +66,10 @@ namespace MikeRosoft.Data
         //Claves primarias para las relaciones n-n
 
         public DbSet<MikeRosoft.Models.Brand> Brand { get; set; }
+
+
+        public DbSet<Order> Order { get; set; }
+        public DbSet<ProductOrder> ProductOrder { get; set; }
+
     }
 }
