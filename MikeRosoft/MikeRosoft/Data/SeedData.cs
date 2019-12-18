@@ -69,7 +69,7 @@ namespace AppForMovies.Data
                     user.EmailConfirmed = true;
                 }
             }
-
+            /*
             if (userManager.FindByNameAsync("elena@uclm.com").Result == null)
             {
                 User user = new User();
@@ -127,6 +127,7 @@ namespace AppForMovies.Data
                     user.EmailConfirmed = true;
                 }
             }
+            */
         }
         public static void SeedProducts(ApplicationDbContext dbContext)
         {
