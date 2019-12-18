@@ -71,7 +71,7 @@ namespace MikeRosoft.UIT.Products
         public void precondition_perform_login()
         {
 
-            _driver.Navigate().GoToUrl(_URI+"Identity/Account/Login");
+            _driver.Navigate().GoToUrl(_URI + "Identity/Account/Login");
             _driver.FindElement(By.Id("Input_Email")).SendKeys("ms@uclm.es");
             _driver.FindElement(By.Id("Input_Password")).SendKeys("Password1234%");
             _driver.FindElement(By.Id("login-submit")).Click();
@@ -100,7 +100,7 @@ namespace MikeRosoft.UIT.Products
         }
 
         [Fact]
-        public void select_ClickFilterWithoutFilter()
+        public void select_ClickNoFilter()
         {
             //Open page, login and go to Select webpage
             this.initial_step_opening_the_web_page();
@@ -110,7 +110,7 @@ namespace MikeRosoft.UIT.Products
             //Check that we correctly get to select users
             Assert.Equal("Select User(s) to ban - MikeRosoft", _driver.Title);
 
-            string[] expectedText= { "48484848B","Elena","Navarro", "Martínez" };
+            string[] expectedText = { "48484848B", "Elena", "Navarro", "Martínez" };
 
             var row = _driver.FindElements(By.Id("User_48484848B"));
             Assert.NotNull(row);
@@ -131,13 +131,43 @@ namespace MikeRosoft.UIT.Products
                 Assert.NotNull(rowAfterFilter.First(l => l.Text.Contains(expected)));
 
             this.logout();
-
         }
 
         [Fact]
-        public void select_ClickFilterWithName()
+        public void select_ClickFilterByName()
         {
+            //Open page, login and go to Select webpage
+            this.initial_step_opening_the_web_page();
+            this.precondition_perform_login();
+            this.selectBanUserFromIndex();
 
+            //Check that we correctly get to select users
+            Assert.Equal("Select User(s) to ban - MikeRosoft", _driver.Title);
+
+            string[] expectedText = { "48484848B", "Elena", "Navarro", "Martínez" };
+
+            var row = _driver.FindElements(By.Id("User_48484848B"));
+            Assert.NotNull(row);
+
+            //checks every column has those data expected
+            foreach (string expected in expectedText)
+                Assert.NotNull(row.First(l => l.Text.Contains(expected)));
+
+            //Write the name in the filter
+
+
+
+            //Click on the filter button
+            _driver.FindElement(By.Id("FilterButton")).Click();
+
+            var rowAfterFilter = _driver.FindElements(By.Id("User_48484848B"));
+            Assert.NotNull(row);
+
+            //checks every column has those data expected
+            foreach (string expected in expectedText)
+                Assert.NotNull(rowAfterFilter.First(l => l.Text.Contains(expected)));
+
+            this.logout();
         }
 
         [Fact]
@@ -204,6 +234,39 @@ namespace MikeRosoft.UIT.Products
         public void details_NotNull()
         {
 
+        }
+
+        private void select_filter(string NameSelected, string userSurname1, string userSurname2, string userDNI)
+        {
+            //Open page, login and go to Select webpage
+            this.initial_step_opening_the_web_page();
+            this.precondition_perform_login();
+            this.selectBanUserFromIndex();
+
+            if (NameSelected != null)
+            {
+                _driver.FindElement(By.Id("NameSelected")).SendKeys(NameSelected);
+                _driver.FindElement(By.Id("FilterButton")).Click();
+
+            }
+
+            if (userSurname1 != null)
+            {
+                _driver.FindElement(By.Id("userSurname1")).SendKeys(userSurname1);
+                _driver.FindElement(By.Id("FilterButton")).Click();
+            }
+
+            if (userSurname2 != null)
+            {
+                _driver.FindElement(By.Id("userSurname2")).SendKeys(userSurname2);
+                _driver.FindElement(By.Id("FilterButton")).Click();
+            }
+
+            if (userDNI != null)
+            {
+                _driver.FindElement(By.Id("userDNI")).SendKeys(userDNI);
+                _driver.FindElement(By.Id("FilterButton")).Click();
+            }
         }
 
     }
