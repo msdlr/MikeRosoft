@@ -15,7 +15,7 @@
     @Html.HiddenFor(x => x.adminId)
     Date format: dd/MM/yyyy HH:mm, for example: 17/01/2017 12:46
 
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div asp-validation-summary="ModelOnly" class="text-danger" id="ErrorMsg"></div>
 
     <table class="table" width="100%">
         <!-- Headers -->
@@ -51,7 +51,7 @@
                         @Html.HiddenFor(x => x.UserIds[i])
                     </td>
                     <td>
-                        <select asp-for="banTypeName[i]">
+                        <select asp-for="banTypeName[i]" id="Bantype_@i">
                             <!-- Default option (not valid) -->
                             <option>Select one</option>
                             <!-- Ban types list -->
@@ -63,18 +63,18 @@
                         </select>
                     </td>
                     <td>
-                        <input asp-for="BansForUsers[i].Start" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" />
+                        <input asp-for="BansForUsers[i].Start" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" id="Start_@i"/>
                         <span asp-validation-for="BansForUsers[i].Start" class="text-danger" />
                     </td>
                     <td>
-                        <input asp-for="BansForUsers[i].End" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" />
+                        <input asp-for="BansForUsers[i].End" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" id="End_@i"/>
                         <span asp-validation-for="BansForUsers[i].End" class="text-danger" />
                     </td>
                     <td width="50%">
                         <div class="form-group">
 
                             <div class="col-md-10">
-                                <input asp-for="BansForUsers[i].AdditionalComment" class="form-control" height="20" />
+                                <input asp-for="BansForUsers[i].AdditionalComment" class="form-control" height="20" id="Comment_@i"/>
                                 <span asp-validation-for="BansForUsers[i].AdditionalComment" class="text-danger" />
                             </div>
 
@@ -86,7 +86,7 @@
 
     </table>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary" id="saveButton">Save</button>
     <a asp-action="Index" class="btn btn-default">Cancel</a>
 
 </form>
