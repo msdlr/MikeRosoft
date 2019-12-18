@@ -66,7 +66,7 @@
                     {
                         foreach (var item in Model.Users)
                         {
-                            <tr>
+                            <tr id="User_@item.DNI">
                                 <td>
                                     @Html.DisplayFor(m => item.DNI)
                                 </td>
@@ -90,6 +90,6 @@
                 </tbody>
     </table>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary" id="FilterButton">Save</button>
     <a asp-action="SelectUsersToBan" class="btn btn-default">Cancel</a>
 </form>
