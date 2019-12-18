@@ -93,7 +93,13 @@ namespace MikeRosoft.UIT.Bans
         [Fact]
         public void UC1_30_2() //No users in db
         {
+            //Go to select
+            this.initial_step_opening_the_web_page();
+            selectBanUserFromIndex();
 
+            //Check that the error message is not null
+            var noUsers = _driver.FindElement(By.Id("NoUsers"));
+            Assert.NotNull(noUsers);
         }
 
         /* Scenario 3 - Filters */
@@ -103,7 +109,6 @@ namespace MikeRosoft.UIT.Bans
         {
             //Open page, login and go to Select webpage
             this.initial_step_opening_the_web_page();
-            this.precondition_perform_login();
             this.selectBanUserFromIndex();
 
             //Check that we correctly get to select users
@@ -238,7 +243,10 @@ namespace MikeRosoft.UIT.Bans
 
             string expectedTitle = "Select User(s) to ban - MikeRosoft";
             Assert.Equal(expectedTitle, _driver.Title);
+        }
 
+        private void AssertDefaultUsers()
+        {
             //This are the users expected on the database
             List<string[]> expectedUserList = new List<string[]>
             {
@@ -255,6 +263,5 @@ namespace MikeRosoft.UIT.Bans
                 Assert.NotNull(r);
             }
         }
-
     }
 }
