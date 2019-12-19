@@ -35,6 +35,8 @@ namespace MikeRosoft.Models
         [DataType(DataType.MultilineText)]
         [Display(Name = "Delivery Address")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please, set your address for delivery")]
+        public string deliveryAddress { get; set; }
+
         public DateTime arrivalDate { get; set; }
 
 

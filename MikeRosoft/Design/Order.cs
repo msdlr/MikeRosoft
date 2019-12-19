@@ -25,6 +25,7 @@ namespace MikeRosoft.Design
         public string userId { get; set; }
         public virtual User user { get; set; }
 
+        public string deliveryAddress { get; set; }
 
         //Momento en el que se realiza order
         public DateTime orderDate { get; set; }

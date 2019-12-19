@@ -150,16 +150,18 @@ namespace MikeRosoft.Controllers
 
             //YO NO TENGO PARA ELEGIR, SIEMPRE ES CREDIT CARD
 
-            purchase.Customer = customer;
-            purchase.PurchaseDate = DateTime.Now;
-            if (purchaseViewModel.PaymentMethod == "PayPal")
-                purchase.PaymentMethod = purchaseViewModel.PayPal;
-            else
-                purchase.PaymentMethod = purchaseViewModel.CreditCard;
-            purchase.DeliveryAddress = purchaseViewModel.DeliveryAddress;
-            _context.Add(purchase);
+            order.user = user;
+            order.orderDate = DateTime.Now;
+
+            order.Card = orderViewModel.Card;
+            order.cardCVC = orderViewModel.cardCVC;
+            order.cardExpiration = orderViewModel.cardExpiration;
+
+
+            order.deliveryAddress = orderViewModel.address;
+            _context.Add(order);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Details", new { id = purchase.PurchaseId });
+            return RedirectToAction("Details", new { id = order.id });
         }
 
 
