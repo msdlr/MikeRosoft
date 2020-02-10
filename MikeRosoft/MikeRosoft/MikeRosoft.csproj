@@ -60,6 +60,10 @@
     <Compile Remove="Migrations\20191128130051_alluc.Designer.cs" />
     <Compile Remove="Migrations\20191128130653_alluc.cs" />
     <Compile Remove="Migrations\20191128130653_alluc.Designer.cs" />
+    <Compile Remove="Migrations\20191212112803_alluc.cs" />
+    <Compile Remove="Migrations\20191212112803_alluc.Designer.cs" />
+    <Compile Remove="Migrations\20200209210022_MG1.cs" />
+    <Compile Remove="Migrations\20200209210022_MG1.Designer.cs" />
   </ItemGroup>
 
 

@@ -28,10 +28,12 @@ namespace MikeRosoft.Models
         public virtual String description { get; set; }
 
         //Relacion con admin N-1
-        [ForeignKey("AdminID")]
+        /*[ForeignKey("AdminID")]
         public virtual Admin admin { get; set; }
 
-        public virtual string AdminId { get; set;}
+        public virtual string AdminId { get; set;}*/
+        [Required]
+        public virtual Admin admin { get; set; }
         
         //Relacion con Usuarios N-N
         //public virtual IList<UserRecommend> UserRecommendations { get; set; }

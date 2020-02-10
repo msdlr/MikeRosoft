@@ -10,8 +10,8 @@ using MikeRosoft.Data;
 namespace MikeRosoft.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191212112803_alluc")]
-    partial class alluc
+    [Migration("20200210073543_mg2")]
+    partial class mg2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -437,11 +437,9 @@ namespace MikeRosoft.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AdminID")
+                    b.Property<string>("adminId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AdminId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("date")
                         .HasColumnType("datetime2");
@@ -458,7 +456,7 @@ namespace MikeRosoft.Migrations
 
                     b.HasKey("IdRecommendation");
 
-                    b.HasIndex("AdminID");
+                    b.HasIndex("adminId");
 
                     b.ToTable("Recommendations");
                 });
@@ -720,8 +718,9 @@ namespace MikeRosoft.Migrations
                 {
                     b.HasOne("MikeRosoft.Models.Admin", "admin")
                         .WithMany("Recommendations")
-                        .HasForeignKey("AdminID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("adminId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MikeRosoft.Models.ReturnRequest", b =>

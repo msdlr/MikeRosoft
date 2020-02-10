@@ -152,7 +152,7 @@ namespace MikeRosoft.Controllers
             {
                 return NotFound();
             }
-            ViewData["AdminId"] = new SelectList(_context.Set<Admin>(), "Id", "Id", recommendation.AdminId);
+            ViewData["AdminId"] = new SelectList(_context.Set<Admin>(), "Id", "Id", recommendation.admin);
             return View(recommendation);
         }
 
@@ -188,7 +188,7 @@ namespace MikeRosoft.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AdminId"] = new SelectList(_context.Set<Admin>(), "Id", "Id", recommendation.AdminId);
+            ViewData["AdminId"] = new SelectList(_context.Set<Admin>(), "Id", "Id", recommendation.admin);
             return View(recommendation);
         }
 

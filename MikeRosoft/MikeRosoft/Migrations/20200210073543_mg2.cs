@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MikeRosoft.Migrations
 {
-    public partial class alluc : Migration
+    public partial class mg2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -233,15 +233,14 @@ namespace MikeRosoft.Migrations
                     name = table.Column<string>(maxLength: 50, nullable: false),
                     date = table.Column<DateTime>(nullable: false),
                     description = table.Column<string>(maxLength: 180, nullable: false),
-                    AdminID = table.Column<string>(nullable: true),
-                    AdminId = table.Column<string>(nullable: true)
+                    adminId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Recommendations", x => x.IdRecommendation);
                     table.ForeignKey(
-                        name: "FK_Recommendations_AspNetUsers_AdminID",
-                        column: x => x.AdminID,
+                        name: "FK_Recommendations_AspNetUsers_adminId",
+                        column: x => x.adminId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -520,9 +519,9 @@ namespace MikeRosoft.Migrations
                 column: "Brandid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recommendations_AdminID",
+                name: "IX_Recommendations_adminId",
                 table: "Recommendations",
-                column: "AdminID");
+                column: "adminId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ReturnRequests_shippingCompanyID",

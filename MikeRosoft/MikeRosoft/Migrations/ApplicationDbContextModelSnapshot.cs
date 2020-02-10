@@ -435,11 +435,9 @@ namespace MikeRosoft.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AdminID")
+                    b.Property<string>("adminId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AdminId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("date")
                         .HasColumnType("datetime2");
@@ -456,7 +454,7 @@ namespace MikeRosoft.Migrations
 
                     b.HasKey("IdRecommendation");
 
-                    b.HasIndex("AdminID");
+                    b.HasIndex("adminId");
 
                     b.ToTable("Recommendations");
                 });
@@ -718,8 +716,9 @@ namespace MikeRosoft.Migrations
                 {
                     b.HasOne("MikeRosoft.Models.Admin", "admin")
                         .WithMany("Recommendations")
-                        .HasForeignKey("AdminID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("adminId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MikeRosoft.Models.ReturnRequest", b =>
