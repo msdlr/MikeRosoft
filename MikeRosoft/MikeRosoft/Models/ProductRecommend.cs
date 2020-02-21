@@ -12,18 +12,20 @@ namespace MikeRosoft.Models
         //[Key]
         //public virtual int ID { get; set; }
 
-        public virtual int ProductId { get; set; }
-        [ForeignKey("ProductId")]
-        public virtual Product product { get; set; }
+       // public virtual int ProductId { get; set; }
+        //[ForeignKey("ProductId")]
+        [Required]
+        public virtual Product Product { get; set; }
 
-        public virtual int RecommendationId { get; set; }
-        [ForeignKey("RecommendationId")]
-        public virtual Recommendation recommendation { get; set; }
+        //public virtual int RecommendationId { get; set; }
+        //[ForeignKey("RecommendationId")]
+        [Required]
+        public virtual Recommendation Recommendation { get; set; }
 
         public override bool Equals(object Other)
         {
             ProductRecommend ProdRec = (ProductRecommend)Other;
-            bool result = (this.ProductId == ProdRec.ProductId) && (this.RecommendationId == ProdRec.RecommendationId);
+            bool result = (this.Product == ProdRec.Product) && (this.Recommendation == ProdRec.Recommendation);
             return result;
         }
         public override int GetHashCode()

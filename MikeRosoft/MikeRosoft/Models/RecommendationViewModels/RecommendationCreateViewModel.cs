@@ -21,12 +21,12 @@ namespace MikeRosoft.Models.RecommendationViewModels
 
         public virtual string AdminId { get; set; }
 
-        public virtual String name { get; set; }
+        public virtual string NameRec { get; set; }
 
-        public virtual DateTime date { get; set; }
+        public virtual DateTime Date { get; set; }
 
         //Description about selected products
-        public virtual String description { get; set; }
+        public virtual string Description { get; set; }
 
         //Relacion con Usuarios N-N
         //public virtual IList<UserRecommend> UserRecommendations { get; set; }
@@ -44,7 +44,7 @@ namespace MikeRosoft.Models.RecommendationViewModels
             int i;
             bool result = false;
 
-            result = ((this.Name == recommendation.Name) && (this.FirstSurname == recommendation.FirstSurname) && (this.SecondSurname == recommendation.SecondSurname) && (this.DNI == recommendation.DNI) && (this.AdminId == recommendation.AdminId) && (this.date == recommendation.date) && (this.name == recommendation.name) && (this.description == recommendation.description) && (this.date.Subtract(recommendation.date) < new TimeSpan(0, 1, 0)));
+            result = ((this.Name == recommendation.Name) && (this.FirstSurname == recommendation.FirstSurname) && (this.SecondSurname == recommendation.SecondSurname) && (this.DNI == recommendation.DNI) && (this.AdminId == recommendation.AdminId) && (this.Date == recommendation.Date) && (this.NameRec == recommendation.NameRec) && (this.Description == recommendation.Description) && (this.Date.Subtract(recommendation.Date) < new TimeSpan(0, 1, 0)));
             result = result && (this.ProductRecommendations.Count == recommendation.ProductRecommendations.Count);
             for(i = 0; i < this.ProductRecommendations.Count; i++)
             {
