@@ -7,19 +7,20 @@
 <h2>Index</h2>
 
 <p>
-    <a asp-action="SelectProductsForRecommendation">Create New</a>
+    <a id="SelectProductsForRecommendation" asp-action="SelectProductsForRecommendation">Create New</a>
 </p>
 <table class="table">
+    <!--Datos sobre las recomendaciones-->
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.name)
+                @Html.DisplayNameFor(model => model.NameRec)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.date)
+                @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.description)
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
                 Select Action
@@ -30,13 +31,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.name)
+                @Html.DisplayFor(modelItem => item.NameRec)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.date)
+                @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.description)
+                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdRecommendation">Edit</a> |
