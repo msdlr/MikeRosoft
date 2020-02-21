@@ -8,96 +8,99 @@
 
 <form asp-action="Create" method="post">
 
-<div class="form-horizontal">
-    <h4>Recommendation</h4>
-    <hr />
-    <!--Datos del administrador que crea la recomendacion-->
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstSurname)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FirstSurname)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.SecondSurname)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SecondSurname)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DNI)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DNI)
-        </dd>
-    </dl>
+    <div class="form-horizontal">
+        <h4>Recommendation</h4>
+        <hr />
+        <!--Datos del administrador que crea la recomendacion-->
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstSurname)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FirstSurname)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.SecondSurname)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SecondSurname)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DNI)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DNI)
+            </dd>
+        </dl>
 
-    <input asp-for="AdminId" type="hidden" class="form-control" />
+        <input asp-for="AdminId" type="hidden" class="form-control" />
 
-    <table class="table">
-        <!--Datos del producto-->
-        <thead>
-            <tr>
-                <th width="50%">
-                    Title
-                </th>
-                <th width="20%">
-                    Price
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.ProductRecommendations.Count() == 0)
-            {
-                <tr><td colspan="3">There are no products available</td></tr>
-            }
-            else
-            {
-                @for (int i = 0; i < Model.ProductRecommendations.Count; i++)
+        <table class="table">
+            <!--Datos del producto-->
+            <thead>
+                <tr>
+                    <th width="50%">
+                        Title
+                    </th>
+                    <th width="20%">
+                        Price
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ProductRecommendations.Count() == 0)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.title)
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                @Html.DisplayFor(modelItem => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.precio)
-
-                            </div>
-                        </td>
-                        <td>
-                            <!--Esta parte no se muestra, envía los datos al servidor-->
-                            <div class="form-group">
-                                <input asp-for="ProductRecommendations[i].Product.id" type="hidden" class="form-control" />
-                                <input asp-for="ProductRecommendations[i].Product.precio" type="hidden" class="form-control" />
-                                <input asp-for="ProductRecommendations[i].Product.title" type="hidden" class="form-control" />
-                                <input asp-for="ProductRecommendations[i].Product.brand" type="hidden" class="form-control" />
-                                <input asp-for="ProductRecommendations[i].Product.rate" type="hidden" class="form-control" />
-                                <input asp-for="ProductRecommendations[i].Product.stock" type="hidden" class="form-control" />
-                            </div>
-
-                        </td>
-                    </tr>
+                    <tr><td colspan="3">There are no products available</td></tr>
                 }
-            }
-        </tbody>
-    </table>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" id="CreateButton" value="Create" class="btn btn-primary" />
+                else
+                {
+                    @for (int i = 0; i < Model.ProductRecommendations.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.title)
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.DisplayFor(modelItem => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.precio)
+
+                                </div>
+                            </td>
+                            <td>
+                                <!--Esta parte no se muestra, envía los datos al servidor-->
+                                <div class="form-group">
+                                    <input asp-for="ProductRecommendations[i].Product.id" type="hidden" class="form-control" />
+                                    <input asp-for="ProductRecommendations[i].Product.precio" type="hidden" class="form-control" />
+                                    <input asp-for="ProductRecommendations[i].Product.title" type="hidden" class="form-control" />
+                                    <input asp-for="ProductRecommendations[i].Product.brand" type="hidden" class="form-control" />
+                                    <input asp-for="ProductRecommendations[i].Product.rate" type="hidden" class="form-control" />
+                                    <input asp-for="ProductRecommendations[i].Product.stock" type="hidden" class="form-control" />
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="CreateButton" value="Create" class="btn btn-primary" />
+            </div>
         </div>
     </div>
-</div>
 </form>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
