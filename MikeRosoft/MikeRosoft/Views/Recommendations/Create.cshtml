@@ -11,6 +11,7 @@
 <div class="form-horizontal">
     <h4>Recommendation</h4>
     <hr />
+    <!--Datos del administrador que crea la recomendacion-->
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Name)
@@ -41,7 +42,7 @@
     <input asp-for="AdminId" type="hidden" class="form-control" />
 
     <table class="table">
-
+        <!--Datos del producto-->
         <thead>
             <tr>
                 <th width="50%">
@@ -63,22 +64,23 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).product.title)
+                            @Html.DisplayFor(modelItem => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.title)
                         </td>
                         <td>
                             <div class="form-group">
-                                @Html.DisplayFor(modelItem => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).product.precio)
+                                @Html.DisplayFor(modelItem => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.precio)
 
                             </div>
                         </td>
                         <td>
+                            <!--Esta parte no se muestra, envía los datos al servidor-->
                             <div class="form-group">
-                                <input asp-for="ProductRecommendations[i].product.id" type="hidden" class="form-control" />
-                                <input asp-for="ProductRecommendations[i].product.precio" type="hidden" class="form-control" />
-                                <input asp-for="ProductRecommendations[i].product.title" type="hidden" class="form-control" />
-                                <input asp-for="ProductRecommendations[i].product.brand" type="hidden" class="form-control" />
-                                <input asp-for="ProductRecommendations[i].product.rate" type="hidden" class="form-control" />
-                                <input asp-for="ProductRecommendations[i].product.stock" type="hidden" class="form-control" />
+                                <input asp-for="ProductRecommendations[i].Product.id" type="hidden" class="form-control" />
+                                <input asp-for="ProductRecommendations[i].Product.precio" type="hidden" class="form-control" />
+                                <input asp-for="ProductRecommendations[i].Product.title" type="hidden" class="form-control" />
+                                <input asp-for="ProductRecommendations[i].Product.brand" type="hidden" class="form-control" />
+                                <input asp-for="ProductRecommendations[i].Product.rate" type="hidden" class="form-control" />
+                                <input asp-for="ProductRecommendations[i].Product.stock" type="hidden" class="form-control" />
                             </div>
 
                         </td>
@@ -99,7 +101,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
