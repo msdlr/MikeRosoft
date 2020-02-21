@@ -10,43 +10,45 @@
     <h4>Recommendation</h4>
     <hr />
     <dl class="dl-horizontal">
+        <!--Datos de la Recomendacion y el Administrador que la ha creado-->
         <dt>
-            @Html.DisplayNameFor(model => model.name)
+            @Html.DisplayNameFor(model => model.NameRec)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.name)
+            @Html.DisplayFor(model => model.NameRec)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.date)
+            @Html.DisplayNameFor(model => model.Date)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.date)
+            @Html.DisplayFor(model => model.Date)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.description)
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.description)
+            @Html.DisplayFor(model => model.Description)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.admin.Name)
+            @Html.DisplayNameFor(model => model.Admin.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.admin.Name)
+            @Html.DisplayFor(model => model.Admin.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.admin.FirstSurname)
+            @Html.DisplayNameFor(model => model.Admin.FirstSurname)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.admin.FirstSurname)
+            @Html.DisplayFor(model => model.Admin.FirstSurname)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.admin.SecondSurname)
+            @Html.DisplayNameFor(model => model.Admin.SecondSurname)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.admin.SecondSurname)
+            @Html.DisplayFor(model => model.Admin.SecondSurname)
         </dd>
     </dl>
+    <!--Datos del producto-->
     <table class="table">
         <thead>
             <tr>
@@ -54,27 +56,27 @@
                     Title
                 </th>
                 <th>
-                    Price
+                    Rate
                 </th>
                 <th>
-                    Stock
+                    Price
                 </th>
             </tr>
         </thead>
         <tbody>
             @for (int i = 0; i < Model.ProductRecommendations.Count; i++)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).product.title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).product.precio)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).product.stock)
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.precio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.rate)
+                </td>
+            </tr>
             }
         </tbody>
     </table>
