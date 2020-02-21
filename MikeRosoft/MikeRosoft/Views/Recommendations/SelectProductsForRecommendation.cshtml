@@ -29,7 +29,7 @@
         </div>
     </p>
 </form>
-
+<!--Datos de los productos-->
 <div asp-validation-summary="All" class="text-danger"></div>
 <form asp-action="SelectProductsForRecommendation" method="post">
     <table class="table">
@@ -43,6 +43,9 @@
                 </th>
                 <th>
                     Rate
+                </th>
+                <th>
+                    Brand
                 </th>
                 <th>
                     Select Product
@@ -79,6 +82,6 @@
             }
         </tbody>
     </table>
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button id="SaveButton" type="submit" class="btn btn-primary">Save</button>
     <a asp-action="SelectProductsForRecommendation" class="btn btn-default">Cancel</a>
 </form>
