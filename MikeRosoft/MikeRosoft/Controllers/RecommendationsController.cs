@@ -24,13 +24,16 @@ namespace MikeRosoft.Controllers
 
         // GET: Recommendations
         public async Task<IActionResult> Index()
-        {
-            return View(_context.Recommendations.Include(p => p.admin).Where(p => p.admin.Name.Equals(User.Identity.Name)).OrderByDescending(p => p.date).ToList());
+        { //Devuelve una vista que contiene todas las recomendaciones de el administrador que ha iniciado sesión en orden descendente
+          return View(_context.Recommendations.Include(r => r.Admin).Where(r => r.Admin.Name.Equals(User.Identity.Name)).OrderByDescending(r => r.Date).ToList());
+          //Devuelve una vista con todas las recomendaciones por orden descendente respecto a la fecha 
+           // return View(_context.Recommendations.OrderByDescending(p => p.Date).ToList());
         }
 
         // GET: Recommendations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            //Si no encuentra una recomendacion con ese id para mostrar sus detalles, devuelve un Not Found
             if (id == null)
             {
                 return NotFound();
@@ -41,7 +44,9 @@ namespace MikeRosoft.Controllers
                 .Include(m => m.admin)
                 .FirstAsync(m => m.IdRecommendation == id);*/
             //.FirstOrDefaultAsync(m => m.IdRecommendation == id);
-            var recommendation = _context.Recommendations.Include(p => p.ProductRecommendations).ThenInclude<Recommendation, ProductRecommend, Product>(p => p.product).Include(p => p.admin).Where(p => p.IdRecommendation == id).ToList();
+
+
+            var recommendation = _context.Recommendations.Include(r => r.ProductRecommendations).ThenInclude<Recommendation, ProductRecommend, Product>(p => p.Product).Include(p => p.Admin).Where(p => p.IdRecommendation == id).ToList();
 
             if (recommendation.Count == 0)
             {
@@ -65,13 +70,15 @@ namespace MikeRosoft.Controllers
             }
             else
             {
+                //Cuando seleccionamos el producto, buscamos el producto de la lista de productos que tenga el id del seleccionado y lo añadimos a la lista de productos para recomendar
                 foreach(string ids in selectedProducts.IdsToAdd)
                 {
                     id = int.Parse(ids);
-                    product = _context.Products.Include(m => m.brand).FirstOrDefault<Product>(m => m.id.Equals(id));
-                    product.ProductRecommendations.Add(new ProductRecommend() { product = product });
+                    product = _context.Products.Include(p => p.brand).FirstOrDefault<Product>(p => p.id.Equals(id));
+                    product.ProductRecommendations.Add(new ProductRecommend() { Product = product });
                 }
             }
+            //Tomamos los datos del administrador que ha iniciado sesión y lo guardamos en los datos del administrador de la recomendación
             Admin admin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name));
             recommendation.Name = admin.Name;
             recommendation.FirstSurname = admin.FirstSurname;
@@ -88,6 +95,7 @@ namespace MikeRosoft.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost(RecommendationCreateViewModel recommendationCreateViewModel, IList<ProductRecommend> productRecommends)
         {
+            //Creamos un objeto para producto, para administrador y para recomendaciones. Creamos una lista vacía de productos para recomendar
             Product product;
             Admin admin;
             Recommendation recommendation = new Recommendation();
@@ -95,29 +103,35 @@ namespace MikeRosoft.Controllers
             ModelState.Clear();
             foreach (ProductRecommend prod in productRecommends)
             {
-                product = await _context.Products.FirstOrDefaultAsync<Product>(m => m.id == prod.product.id);
+                product = await _context.Products.FirstOrDefaultAsync<Product>(p => p.id == prod.Product.id);
                 if (product.stock == 0)
                 {
+                    //Si no hay productos en stock, no tiene sentido recomendarlos
                     ModelState.AddModelError("", $"There are no that product in stock");
                     recommendationCreateViewModel.ProductRecommendations = productRecommends;
                 }
                 else
                 {
-                    prod.product = product;
-                    prod.recommendation = recommendation;
+                    //Si hay productos, igualamos el producto actual de la lista a producto, añadimos la recomendación y el producto a la lista de productos para recomendar
+                    //Recordar que prod es un elemento de la clase ProductRecommend, por lo que relaciona un producto y una recomendacion, y luego añade el producto a la lista de productos de la recomendacion
+                    prod.Product = product;
+                    prod.Recommendation = recommendation;
                     recommendation.ProductRecommendations.Add(prod);
                 }
             }
+            //Añadimos el administrador actual al objeto del administrador que hemos creado 
             admin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name));
 
             if (ModelState.ErrorCount > 0)
             {
+                //Si hay ningún error, añade todos los datos del administrador actual a la vista del create
                 recommendationCreateViewModel.Name = admin.Name;
                 recommendationCreateViewModel.FirstSurname = admin.FirstSurname;
                 recommendationCreateViewModel.SecondSurname = admin.SecondSurname;
                 recommendationCreateViewModel.DNI = admin.DNI;
                 return View(recommendationCreateViewModel);
             }
+            //Si no hay ningún error pero no ha seleccionado ningun producto, añade los datos del admistrador a la vista y muestra un mensaje 
             if(recommendation.ProductRecommendations.Count == 0)
             {
                 recommendationCreateViewModel.Name = admin.Name;
@@ -128,11 +142,11 @@ namespace MikeRosoft.Controllers
                 recommendationCreateViewModel.ProductRecommendations = productRecommends;
                 return View(recommendationCreateViewModel);
             }
-
-            recommendation.admin = admin;
-            recommendation.date = DateTime.Now;
-            recommendation.name = recommendationCreateViewModel.name;
-            recommendation.description = recommendationCreateViewModel.description;
+            //Si no hay ningun error y ha seleccionado al menos un producto, crea la recomendacion y pasa a la vista del details 
+            recommendation.Admin = admin;
+            recommendation.Date = DateTime.Now;
+            recommendation.NameRec = recommendationCreateViewModel.NameRec;
+            recommendation.Description = recommendationCreateViewModel.Description;
             _context.Add(recommendation);
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", new { id = recommendation.IdRecommendation });
@@ -147,12 +161,13 @@ namespace MikeRosoft.Controllers
                 return NotFound();
             }
 
-            var recommendation = await _context.Recommendations.FindAsync(id);
+            //var recommendation = await _context.Recommendations.FindAsync(id);
+            var recommendation = await _context.Recommendations.Include(pr => pr.ProductRecommendations).ThenInclude<Recommendation, ProductRecommend, Product>(p => p.Product).Include(pr => pr.Admin).SingleOrDefaultAsync(r => r.IdRecommendation == id);
             if (recommendation == null)
             {
                 return NotFound();
             }
-            ViewData["AdminId"] = new SelectList(_context.Set<Admin>(), "Id", "Id", recommendation.admin);
+            ViewData["AdminId"] = new SelectList(_context.Set<Admin>(), "Id", "Id", recommendation.Admin);
             return View(recommendation);
         }
 
@@ -161,7 +176,7 @@ namespace MikeRosoft.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdRecommendation,name,date,description")] Recommendation recommendation)
+        public async Task<IActionResult> Edit(int id, [Bind("IdRecommendation,AdminId,Date")] Recommendation recommendation)
         {
             if (id != recommendation.IdRecommendation)
             {
@@ -188,7 +203,7 @@ namespace MikeRosoft.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AdminId"] = new SelectList(_context.Set<Admin>(), "Id", "Id", recommendation.admin);
+            ViewData["AdminId"] = new SelectList(_context.Set<Admin>(), "Id", "Id", recommendation.AdminId);
             return View(recommendation);
         }
 
@@ -200,8 +215,9 @@ namespace MikeRosoft.Controllers
                 return NotFound();
             }
 
-            var recommendation = await _context.Recommendations
-                .SingleOrDefaultAsync(m => m.IdRecommendation == id);
+            /*var recommendation = await _context.Recommendations
+                .SingleOrDefaultAsync(m => m.IdRecommendation == id);*/
+            var recommendation = await _context.Recommendations.SingleOrDefaultAsync(r => r.IdRecommendation == id);
             if (recommendation == null)
             {
                 return NotFound();
@@ -215,7 +231,8 @@ namespace MikeRosoft.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var recommendation = await _context.Recommendations.FindAsync(id);
+            //var recommendation = await _context.Recommendations.FindAsync(id);
+            var recommendation = await _context.Recommendations.Include(pr => pr.ProductRecommendations).SingleOrDefaultAsync(pr => pr.IdRecommendation == id);
             _context.Recommendations.Remove(recommendation);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
