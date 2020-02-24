@@ -1,53 +1,144 @@
-﻿@model MikeRosoft.Models.Product
+﻿@model MikeRosoft.Models.OrderViewModels.CreateProductsForViewModel
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
 
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="title" class="control-label"></label>
-                <input asp-for="title" class="form-control" />
-                <span asp-validation-for="title" class="text-danger"></span>
+
+
+<h2>Create</h2>
+
+<form asp-action="Create" method="post">
+
+    <div class="form-horizontal">
+        <h4>Purchase</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstSurname)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FirstSurname)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.SecondSurname)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SecondSurname)
+            </dd>
+        </dl>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input asp-for="userId" type="hidden" class="form-control" />
+
+        <div class="form-group">
+            <label asp-for="address" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="address" class="form-control" height="20" />
+                <span asp-validation-for="address" class="text-danger" />
             </div>
-            <div class="form-group">
-                <label asp-for="description" class="control-label"></label>
-                <input asp-for="description" class="form-control" />
-                <span asp-validation-for="description" class="text-danger"></span>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="50%">
+                        Title
+                    </th>
+                    <th width="20%">
+                        Price
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ProductOrders.Count() == 0)
+                {
+                    <tr><td colspan="3">There are no movies available</td></tr>
+                }
+                else
+                {
+                    @for (int i = 0; i < Model.ProductOrders.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.ProductOrders[i].products.title)
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.DisplayFor(modelItem => Model.ProductOrders[i].products.precio)
+
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input asp-for="ProductOrders[i].products.title" type="hidden" class="form-control" />
+                                    <input asp-for="ProductOrders[i].products.precio" type="hidden" class="form-control" />
+                                    <input asp-for="ProductOrders[i].products.description" type="hidden" class="form-control" />
+                                    <input asp-for="ProductOrders[i].products.brand" type="hidden" class="form-control" />
+                                    <input asp-for="ProductOrders[i].quantity" class="form-control" />
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+        @* this code needs the script defined in site.js *@
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default ">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                       
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse ">
+                    <div class="panel-body row">
+                        <div class="col-md-4">
+                            <label asp-for="Card" class="control-label"></label>
+                            <input asp-for="Card" class="form-control" size="20" />
+                            <span asp-validation-for="Card" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1">
+                            <label asp-for="cardCVC" class="control-label"></label>
+                            <input asp-for="cardCVC" class="form-control" size="3" />
+                            <span asp-validation-for="cardCVC" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2">
+                            <label asp-for="cardExpiration" class="control-label"></label>
+                            <input asp-for="cardExpiration" class="form-control" />
+                            <span asp-validation-for="cardExpiration" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="brand" class="control-label"></label>
-                <input asp-for="brand" class="form-control" />
-                <span asp-validation-for="brand" class="text-danger"></span>
+            
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
-            <div class="form-group">
-                <label asp-for="precio" class="control-label"></label>
-                <input asp-for="precio" class="form-control" />
-                <span asp-validation-for="precio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="stock" class="control-label"></label>
-                <input asp-for="stock" class="form-control" />
-                <span asp-validation-for="stock" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+</form>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+

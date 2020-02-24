@@ -35,14 +35,14 @@ namespace MikeRosoft.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (product == null)
+            var order = await _context.Order.Include(p => p.ProductOrders).ThenInclude(p => p.products).Include(p => p.user).FirstAsync(p => p.id == id);
+
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(order);
         }
 
         // GET: Products/Create
@@ -53,8 +53,8 @@ namespace MikeRosoft.Controllers
             int id;
 
             CreateProductsForViewModel order = new CreateProductsForViewModel();
-
-            order.ProductOrders = new List<ProductOrder>();
+             
+            order.ProductOrders  = new List<ProductOrder>();
 
             if (selectedProducts.IdsToAdd == null)
             {
