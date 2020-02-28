@@ -11,22 +11,15 @@
     <div class="form-horizontal">
         <h4>Recommendation</h4>
         <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="NameRec" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="NameRec" class="form-control" />
-                        <span asp-validation-for="NameRec" class="text-danger" />
-                    </div>
-                    <label asp-for="Description" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Description" class="form-control" />
-                        <span asp-validation-for="Description" class="text-danger" />
-                    </div>
-                </div>
+        <p>Recomendation title</p>
+        <input id="recomText" type="text" name="NameRec"/>
 
-            
-      
+        <p>Description</p>
+        <input id="recomDesc" type="text" name="Description"/>
+        <hr />
+
+
+
         <!--Datos del administrador que crea la recomendacion-->
         <dl class="dl-horizontal">
             <dt>
@@ -48,8 +41,7 @@
                 @Html.DisplayFor(model => model.SecondSurname)
             </dd>
         </dl>
-
-        <input asp-for="AdminId" type="hidden" class="form-control" />
+        
 
 
 
@@ -81,12 +73,19 @@
                             @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.rate)
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <input type="hidden" name="prod" class="form-control" value="@Model.ProductRecommendations[i].Product.id" />
+                        </td>
+                        
+                    </tr>
+                    
                 }
             </tbody>
         </table>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" id="CreateButton" value="Create"  class="btn btn-primary" />
+                <input type="submit" id="CreateButton" value="Create" class="btn btn-primary" />
             </div>
         </div>
     </div>
@@ -95,7 +94,3 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

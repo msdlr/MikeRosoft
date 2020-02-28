@@ -25,9 +25,12 @@ namespace MikeRosoft.Controllers
         // GET: Recommendations
         public async Task<IActionResult> Index()
         { //Devuelve una vista que contiene todas las recomendaciones de el administrador que ha iniciado sesión en orden descendente
-          return View(_context.Recommendations.Include(r => r.Admin).Where(r => r.Admin.Name.Equals(User.Identity.Name)).OrderByDescending(r => r.Date).ToList());
+          //return View(_context.Recommendations.Include(r => r.Admin).Where(r => r.Admin.Name.Equals(User.Identity.Name)).OrderByDescending(r => r.Date).ToList());
           //Devuelve una vista con todas las recomendaciones por orden descendente respecto a la fecha 
-           // return View(_context.Recommendations.OrderByDescending(p => p.Date).ToList());
+          // return View(_context.Recommendations.OrderByDescending(p => p.Date).ToList());
+
+            IEnumerable<Recommendation> recom = _context.Recommendations.Include(r => r.ProductRecommendations).ThenInclude(r => r.Product).Include(r => r.Admin);
+            return View(recom);
         }
 
         // GET: Recommendations/Details/5
@@ -64,15 +67,22 @@ namespace MikeRosoft.Controllers
 
             RecommendationCreateViewModel recommendation = new RecommendationCreateViewModel();
             recommendation.ProductRecommendations = new List<ProductRecommend>();
-            ProductRecommend productRecommend = new ProductRecommend();
+            ProductRecommend productRecommend;
 
             //Cuando seleccionamos el producto, buscamos el producto de la lista de productos que tenga el id del seleccionado y lo añadimos a la lista de productos para recomendar
-            foreach (string ids in selectedProducts.IdsToAdd)
+           /* foreach (string ids in selectedProducts.IdsToAdd)
             {
                 id = int.Parse(ids);
                 //product = _context.Products.Include(p => p.brand).FirstOrDefault<Product>(p => p.id.Equals(id));
                 product = _context.Products.Find(id);
                 productRecommend.Product = product;
+                recommendation.ProductRecommendations.Add(productRecommend);
+            }*/
+            for(int i = 0; i < selectedProducts.IdsToAdd.Length; i++)
+            {
+                id = int.Parse(selectedProducts.IdsToAdd[i]);
+                product = _context.Products.Find(id);
+                productRecommend = new ProductRecommend() { Product = product };
                 recommendation.ProductRecommendations.Add(productRecommend);
             }
         
@@ -83,6 +93,8 @@ namespace MikeRosoft.Controllers
             recommendation.SecondSurname = admin.SecondSurname;
             recommendation.DNI = admin.DNI;
 
+            recommendation.Date = DateTime.Now;
+
             return View(recommendation);
         }
 
@@ -91,12 +103,22 @@ namespace MikeRosoft.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost(RecommendationCreateViewModel recommendationCreateViewModel, IList<ProductRecommend> productRecommends)
+        public async Task<IActionResult> CreatePost(RecommendationCreateViewModel recommendationCreateViewModel, int[] prod)
         {
-            Recommendation recommendation = new Recommendation();
-            recommendation.Admin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name));
-            recommendation.AdminId = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name)).Id;
+            Recommendation recom = new Recommendation() { Admin = await _context.Admins.FirstOrDefaultAsync<Admin>(c => c.UserName.Equals(User.Identity.Name)),
+             Date= DateTime.Now, Description = recommendationCreateViewModel.Description, NameRec = recommendationCreateViewModel.NameRec };
+            IList<ProductRecommend> prodrecom = new List<ProductRecommend>();
+            foreach(int id in prod)
+            {
+                prodrecom.Add(new ProductRecommend() { Product = _context.Products.Find(id), ProductId = id, RecommendationId = recom.IdRecommendation});
+
+            }
             
+            recom.ProductRecommendations = prodrecom;
+            recom.AdminId = recom.Admin.Id.ToString();
+            _context.Recommendations.Add(recom);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = recom.IdRecommendation });
         }
 
         // GET: Recommendations/Edit/5
