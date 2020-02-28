@@ -64,20 +64,18 @@ namespace MikeRosoft.Controllers
 
             RecommendationCreateViewModel recommendation = new RecommendationCreateViewModel();
             recommendation.ProductRecommendations = new List<ProductRecommend>();
-            if(selectedProducts.IdsToAdd == null)
+            ProductRecommend productRecommend = new ProductRecommend();
+
+            //Cuando seleccionamos el producto, buscamos el producto de la lista de productos que tenga el id del seleccionado y lo añadimos a la lista de productos para recomendar
+            foreach (string ids in selectedProducts.IdsToAdd)
             {
-                ModelState.AddModelError("ProductNoSelected", "You should select at least a Product to be recommended, please");
+                id = int.Parse(ids);
+                //product = _context.Products.Include(p => p.brand).FirstOrDefault<Product>(p => p.id.Equals(id));
+                product = _context.Products.Find(id);
+                productRecommend.Product = product;
+                recommendation.ProductRecommendations.Add(productRecommend);
             }
-            else
-            {
-                //Cuando seleccionamos el producto, buscamos el producto de la lista de productos que tenga el id del seleccionado y lo añadimos a la lista de productos para recomendar
-                foreach(string ids in selectedProducts.IdsToAdd)
-                {
-                    id = int.Parse(ids);
-                    product = _context.Products.Include(p => p.brand).FirstOrDefault<Product>(p => p.id.Equals(id));
-                    product.ProductRecommendations.Add(new ProductRecommend() { Product = product });
-                }
-            }
+        
             //Tomamos los datos del administrador que ha iniciado sesión y lo guardamos en los datos del administrador de la recomendación
             Admin admin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name));
             recommendation.Name = admin.Name;
@@ -95,61 +93,9 @@ namespace MikeRosoft.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost(RecommendationCreateViewModel recommendationCreateViewModel, IList<ProductRecommend> productRecommends)
         {
-            //Creamos un objeto para producto, para administrador y para recomendaciones. Creamos una lista vacía de productos para recomendar
-            Product product;
-            Admin admin;
             Recommendation recommendation = new Recommendation();
-            recommendation.ProductRecommendations = new List<ProductRecommend>();
-            ModelState.Clear();
-            foreach (ProductRecommend prod in productRecommends)
-            {
-                product = await _context.Products.FirstOrDefaultAsync<Product>(p => p.id == prod.Product.id);
-                if (product.stock == 0)
-                {
-                    //Si no hay productos en stock, no tiene sentido recomendarlos
-                    ModelState.AddModelError("", $"There are no that product in stock");
-                    recommendationCreateViewModel.ProductRecommendations = productRecommends;
-                }
-                else
-                {
-                    //Si hay productos, igualamos el producto actual de la lista a producto, añadimos la recomendación y el producto a la lista de productos para recomendar
-                    //Recordar que prod es un elemento de la clase ProductRecommend, por lo que relaciona un producto y una recomendacion, y luego añade el producto a la lista de productos de la recomendacion
-                    prod.Product = product;
-                    prod.Recommendation = recommendation;
-                    recommendation.ProductRecommendations.Add(prod);
-                }
-            }
-            //Añadimos el administrador actual al objeto del administrador que hemos creado 
-            admin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name));
-
-            if (ModelState.ErrorCount > 0)
-            {
-                //Si hay ningún error, añade todos los datos del administrador actual a la vista del create
-                recommendationCreateViewModel.Name = admin.Name;
-                recommendationCreateViewModel.FirstSurname = admin.FirstSurname;
-                recommendationCreateViewModel.SecondSurname = admin.SecondSurname;
-                recommendationCreateViewModel.DNI = admin.DNI;
-                return View(recommendationCreateViewModel);
-            }
-            //Si no hay ningún error pero no ha seleccionado ningun producto, añade los datos del admistrador a la vista y muestra un mensaje 
-            if(recommendation.ProductRecommendations.Count == 0)
-            {
-                recommendationCreateViewModel.Name = admin.Name;
-                recommendationCreateViewModel.FirstSurname = admin.FirstSurname;
-                recommendationCreateViewModel.SecondSurname = admin.SecondSurname;
-                recommendationCreateViewModel.DNI = admin.DNI;
-                ModelState.AddModelError("", $"Please select at least a product to make a recommendation or cancel this action");
-                recommendationCreateViewModel.ProductRecommendations = productRecommends;
-                return View(recommendationCreateViewModel);
-            }
-            //Si no hay ningun error y ha seleccionado al menos un producto, crea la recomendacion y pasa a la vista del details 
-            recommendation.Admin = admin;
-            recommendation.Date = DateTime.Now;
-            recommendation.NameRec = recommendationCreateViewModel.NameRec;
-            recommendation.Description = recommendationCreateViewModel.Description;
-            _context.Add(recommendation);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Details", new { id = recommendation.IdRecommendation });
+            recommendation.Admin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name));
+            recommendation.AdminId = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name)).Id;
             
         }
 

@@ -11,6 +11,22 @@
     <div class="form-horizontal">
         <h4>Recommendation</h4>
         <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="NameRec" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="NameRec" class="form-control" />
+                        <span asp-validation-for="NameRec" class="text-danger" />
+                    </div>
+                    <label asp-for="Description" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger" />
+                    </div>
+                </div>
+
+            
+      
         <!--Datos del administrador que crea la recomendacion-->
         <dl class="dl-horizontal">
             <dt>
@@ -31,67 +47,46 @@
             <dd>
                 @Html.DisplayFor(model => model.SecondSurname)
             </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.DNI)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.DNI)
-            </dd>
         </dl>
 
         <input asp-for="AdminId" type="hidden" class="form-control" />
 
+
+
         <table class="table">
-            <!--Datos del producto-->
             <thead>
                 <tr>
-                    <th width="50%">
+                    <th>
                         Title
                     </th>
-                    <th width="20%">
+                    <th>
+                        Rate
+                    </th>
+                    <th>
                         Price
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @if (Model.ProductRecommendations.Count() == 0)
+                @for (int i = 0; i < Model.ProductRecommendations.Count; i++)
                 {
-                    <tr><td colspan="3">There are no products available</td></tr>
-                }
-                else
-                {
-                    @for (int i = 0; i < Model.ProductRecommendations.Count; i++)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.title)
-                            </td>
-                            <td>
-                                <div class="form-group">
-                                    @Html.DisplayFor(modelItem => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.precio)
-
-                                </div>
-                            </td>
-                            <td>
-                                <!--Esta parte no se muestra, envía los datos al servidor-->
-                                <div class="form-group">
-                                    <input asp-for="ProductRecommendations[i].Product.id" type="hidden" class="form-control" />
-                                    <input asp-for="ProductRecommendations[i].Product.precio" type="hidden" class="form-control" />
-                                    <input asp-for="ProductRecommendations[i].Product.title" type="hidden" class="form-control" />
-                                    <input asp-for="ProductRecommendations[i].Product.brand" type="hidden" class="form-control" />
-                                    <input asp-for="ProductRecommendations[i].Product.rate" type="hidden" class="form-control" />
-                                    <input asp-for="ProductRecommendations[i].Product.stock" type="hidden" class="form-control" />
-                                </div>
-
-                            </td>
-                        </tr>
-                    }
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.precio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.rate)
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" id="CreateButton" value="Create" class="btn btn-primary" />
+                <input type="submit" id="CreateButton" value="Create"  class="btn btn-primary" />
             </div>
         </div>
     </div>

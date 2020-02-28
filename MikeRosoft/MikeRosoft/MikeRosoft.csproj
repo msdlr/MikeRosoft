@@ -64,6 +64,14 @@
     <Compile Remove="Migrations\20191212112803_alluc.Designer.cs" />
     <Compile Remove="Migrations\20200209210022_MG1.cs" />
     <Compile Remove="Migrations\20200209210022_MG1.Designer.cs" />
+    <Compile Remove="Migrations\20200210073543_mg2.cs" />
+    <Compile Remove="Migrations\20200210073543_mg2.Designer.cs" />
+    <Compile Remove="Migrations\20200227211001_msall.cs" />
+    <Compile Remove="Migrations\20200227211001_msall.Designer.cs" />
+    <Compile Remove="Migrations\20200227211307_msall1.cs" />
+    <Compile Remove="Migrations\20200227211307_msall1.Designer.cs" />
+    <Compile Remove="Migrations\20200227211734_msall2.cs" />
+    <Compile Remove="Migrations\20200227211734_msall2.Designer.cs" />
   </ItemGroup>
 
 
@@ -86,6 +94,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 
