@@ -47,9 +47,6 @@ namespace MikeRosoft.Models
 
 
         //PAYMENT METHOD
-        [Display(Name = "Payment Method")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, select your payment method for delivery")]
-        public String PaymentMethod{ get; set; }
 
         [CreditCard]
         public string Card { get; set; }

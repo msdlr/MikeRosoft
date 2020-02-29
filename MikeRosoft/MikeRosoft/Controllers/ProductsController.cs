@@ -75,10 +75,11 @@ namespace MikeRosoft.Controllers
 
             User user = _context.Users.First(u => u.UserName.Equals(User.Identity.Name));
 
+            
             order.UserName = user.UserName;
             order.FirstSurname = user.FirstSurname;
             order.SecondSurname = user.SecondSurname;
-
+            order.userId = user.Id;
 
 
             return View(order);
@@ -92,7 +93,7 @@ namespace MikeRosoft.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost(CreateProductsForViewModel orderViewModel, IList<ProductOrder> productOrders, string cardNumber)
+        public async Task<IActionResult> CreatePost(CreateProductsForViewModel orderViewModel, IList<ProductOrder> productOrders, int[] productId, string userId)
         {
             //Movie movie;
             // customer;
@@ -108,11 +109,12 @@ namespace MikeRosoft.Controllers
             Order order = new Order();
             order.totalprice = 0;
             order.ProductOrders = new List<ProductOrder>();
-            ModelState.Clear();
-            foreach (ProductOrder po in productOrders)
+            ModelState.Clear(); //orderViewModel.ProductOrders[i].ProductId
+            //foreach (ProductOrder po in productOrders)
+            for(int i = 0; i< orderViewModel.ProductOrders.Count;i++)
             {
-                product = await _context.Products.FirstOrDefaultAsync<Product>(m => m.id == po.products.id);
-                if (product.stock < po.quantity)
+                product = await _context.Products.FirstOrDefaultAsync<Product>(m => m.id == orderViewModel.ProductOrders[i].productId);
+                if (product.stock < orderViewModel.ProductOrders[i].quantity)
                 {
 
                     ModelState.AddModelError("NoEnoughMovies", $"There are no enough movies titled {product.title}, please select less or equal than {product.stock}");
@@ -120,13 +122,13 @@ namespace MikeRosoft.Controllers
                 }
                 else
                 {
-                    if (po.quantity > 0)
+                    if (orderViewModel.ProductOrders[i].quantity > 0)
                     {
-                        product.stock = product.stock - po.quantity;
-                        po.products = product;
-                        po.orders = order;
-                        order.totalprice += po.quantity * product.precio;
-                        order.ProductOrders.Add(po);
+                        product.stock = product.stock - orderViewModel.ProductOrders[i].quantity;
+                        orderViewModel.ProductOrders[i].products = product;
+                        orderViewModel.ProductOrders[i].orders = order;
+                        order.totalprice += orderViewModel.ProductOrders[i].quantity * product.precio;
+                        order.ProductOrders.Add(orderViewModel.ProductOrders[i]);
                     }
                 }
             }
@@ -144,7 +146,7 @@ namespace MikeRosoft.Controllers
                 orderViewModel.UserName = user.Name;
                 orderViewModel.FirstSurname = user.FirstSurname;
                 orderViewModel.SecondSurname = user.SecondSurname;
-                ModelState.AddModelError("MovieForPurchase0", $"Please select at least a movie to be bought or cancel your purchase");
+                ModelState.AddModelError(String.Empty, $"Please select at least a movie to be bought or cancel your purchase");
                 orderViewModel.ProductOrders = productOrders;
                 return View(orderViewModel);
             }

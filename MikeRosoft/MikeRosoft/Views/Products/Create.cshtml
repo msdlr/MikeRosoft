@@ -17,6 +17,7 @@
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.UserName)
+                @Html.HiddenFor(model => model.userId)
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.UserName)
@@ -42,6 +43,27 @@
             <div class="col-md-10">
                 <input asp-for="address" class="form-control" height="20" />
                 <span asp-validation-for="address" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Card" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Card" class="form-control" height="20" />
+                <span asp-validation-for="Card" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="cardCVC" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="cardCVC" class="form-control" height="20" />
+                <span asp-validation-for="cardCVC" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="cardExpiration" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="cardExpiration" class="form-control" height="20" />
+                <span asp-validation-for="cardExpiration" class="text-danger" />
             </div>
         </div>
 
@@ -75,15 +97,17 @@
                             <td>
                                 <div class="form-group">
                                     @Html.DisplayFor(modelItem => Model.ProductOrders[i].products.precio)
+                                    @Html.HiddenFor(modelItem => Model.ProductOrders[i].productId)
+                                    @Html.HiddenFor(modelItem => Model.ProductOrders[i].products.title)
+                                    @Html.HiddenFor(modelItem => Model.ProductOrders[i].products.precio)
+                                    @Html.HiddenFor(modelItem => Model.ProductOrders[i].products.description)
+                                    @Html.HiddenFor(modelItem => Model.ProductOrders[i].products.brand.Brandid)
+                                    @Html.HiddenFor(modelItem => Model.ProductOrders[i].quantity)
 
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <input asp-for="ProductOrders[i].products.title" type="hidden" class="form-control" />
-                                    <input asp-for="ProductOrders[i].products.precio" type="hidden" class="form-control" />
-                                    <input asp-for="ProductOrders[i].products.description" type="hidden" class="form-control" />
-                                    <input asp-for="ProductOrders[i].products.brand" type="hidden" class="form-control" />
                                     <input asp-for="ProductOrders[i].quantity" class="form-control" />
                                 </div>
 
@@ -95,7 +119,7 @@
         </table>
 
         @* this code needs the script defined in site.js *@
-       
+
 
 
         <div class="form-group">

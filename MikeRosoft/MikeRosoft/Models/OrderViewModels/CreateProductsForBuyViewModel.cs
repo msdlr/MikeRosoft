@@ -8,7 +8,7 @@ namespace MikeRosoft.Models.OrderViewModels
 {
     public class CreateProductsForViewModel
     {
-        public virtual int id { get; set; }
+        public int[] productId { get; set; }
 
 
         //
