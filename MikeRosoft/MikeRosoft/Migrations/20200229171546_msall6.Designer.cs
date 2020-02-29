@@ -10,8 +10,8 @@ using MikeRosoft.Data;
 namespace MikeRosoft.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200228093252_msall5")]
-    partial class msall5
+    [Migration("20200229171546_msall6")]
+    partial class msall6
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

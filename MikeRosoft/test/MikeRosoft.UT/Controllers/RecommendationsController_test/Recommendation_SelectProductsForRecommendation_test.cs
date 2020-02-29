@@ -31,7 +31,7 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
             //Seed the database with test data
             Utilities.InitializeDbProductsForTest(context);
 
-            context.Admins.Add(new Admin { contractEnding = new DateTime(2020, 10, 10), contractStarting = new DateTime(2018, 12, 6), Name = "Juan", FirstSurname = "Lopez", SecondSurname = "Ortiz", DNI = "12345678D" });
+            context.Admins.Add(new Admin { contractEnding = new DateTime(2020, 10, 10), contractStarting = new DateTime(2018, 12, 6), UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "12345678D" });
             context.SaveChanges();
 
             //how to simulate the connection of a user

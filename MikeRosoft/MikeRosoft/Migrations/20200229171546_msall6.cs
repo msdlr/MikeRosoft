@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MikeRosoft.Migrations
 {
-    public partial class msall5 : Migration
+    public partial class msall6 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

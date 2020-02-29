@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace MikeRosoft.UT.Controllers
 {
     public static class Utilities
@@ -71,14 +72,59 @@ namespace MikeRosoft.UT.Controllers
         //Recommendations
         public static void InitializeDbProductsForTest(ApplicationDbContext db)
         {
-            var brand = new Brand { Name = "HP" };
-            db.Brand.Add(brand);
-            db.Products.Add(new Product { id = 1, title = "Gamer Mouse", description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 20, stock = 100, rate = 4 });
-            db.Products.Add(new Product { id = 2, title = "Dark Keyboard", description = "2Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 25, stock = 50, rate = 3 });
-            db.Products.Add(new Product { id = 3, title = "Silence Mouse", description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 30, stock = 89, rate = 5 });
-            db.SaveChanges();
 
-            db.Admins.Add(new Admin { contractEnding = new DateTime(2020, 10, 10), contractStarting = new DateTime(2018, 12, 6), Name = "Juan", FirstSurname = "Lopez", SecondSurname = "Ortiz", DNI = "12345678D" });
+            db.Products.AddRange(Utilities.Products); 
+            db.SaveChanges();
+            db.Admins.Add(new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "12345678D" });
+            db.SaveChanges();
+        }
+
+        public static IList<Product> Products
+        {
+            get
+            {
+                IList<Product> products = new List<Product>();
+                var brand = new Brand { Name = "HP" };
+                //var brand2 = new Brand { Name = "Asus" };
+                
+                products.Add(new Product { id = 1, title = "Gamer Mouse", description = "1Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 20, stock = 100, rate = 4 });
+                products.Add(new Product { id = 2, title = "Dark Keyboard", description = "2Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 25, stock = 50, rate = 3 });
+                products.Add(new Product { id = 3, title = "Silence Mouse", description = "3Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description", brand = brand, precio = 30, stock = 89, rate = 5 });
+                //products.Add(new Product { id = 4, title = "Monitor", description = "4Description", brand = brand, precio = 80, stock = 20, rate = 4 });
+                return products;
+            }
+        }
+
+        public static Recommendation Recommendation
+        {
+            get
+            {
+               // int i = 0;
+                Recommendation recommendation = new Recommendation();
+                Admin admin = new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "12345678D" };
+                recommendation = new Recommendation { IdRecommendation = 0, Admin = admin, Description = "Recommendation Description", NameRec = "Recommendation1", ProductRecommendations = { }, Date = DateTime.Now};
+                foreach (Product prod in Utilities.Products)
+                {
+                    recommendation.ProductRecommendations.Add(new ProductRecommend { Product = prod, ProductId = prod.id, Recommendation = recommendation, RecommendationId = recommendation.IdRecommendation });
+                }
+                return recommendation;
+            }
+        }
+
+        public static void InitializeDbRecommendationForTests(ApplicationDbContext db)
+        {
+            db.Recommendations.Add(Utilities.Recommendation);
+            db.SaveChanges();
+            db.Admins.Add(new Admin { UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García", DNI = "12345678D" });
+            db.SaveChanges();
+        }
+
+        public static void ReInitializeDbRecommendationForTests(ApplicationDbContext db)
+        {
+            db.ProductRecommendations.RemoveRange(db.ProductRecommendations);
+            db.Recommendations.RemoveRange(db.Recommendations);
+            //db.Products.RemoveRange(db.Products);
+            //db.Brand.RemoveRange(db.Brand);
             db.SaveChanges();
         }
 
@@ -91,7 +137,14 @@ namespace MikeRosoft.UT.Controllers
 
         public static void InitializeDbAdminForTests(ApplicationDbContext db)
         {
-            db.Admins.Add(new Admin { contractEnding = new DateTime(2020, 10, 10), contractStarting = new DateTime(2018, 12, 6), Name = "Juan", FirstSurname = "Lopez", SecondSurname = "Ortiz", DNI = "12345678D" });
+            db.Admins.Add(new Admin {  UserName = "peter@uclm.com", PhoneNumber = "967959595", Email = "peter@uclm.com", Name = "Peter", FirstSurname = "Jackson", SecondSurname = "García",  DNI = "12345678D" });
+            db.SaveChanges();
+        }
+
+        public static void ReInitializeDbAdminForTest(ApplicationDbContext db)
+        {
+            db.Admins.RemoveRange(db.Admins);
+            db.SaveChanges();
         }
 
     }
