@@ -10,8 +10,8 @@ using MikeRosoft.Data;
 namespace MikeRosoft.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200229161619_asdf")]
-    partial class asdf
+    [Migration("20200229185357_asf")]
+    partial class asf
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -322,10 +322,6 @@ namespace MikeRosoft.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Card")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ReturnRequestID")

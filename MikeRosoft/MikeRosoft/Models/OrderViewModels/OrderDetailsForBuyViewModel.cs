@@ -8,7 +8,7 @@ namespace MikeRosoft.Models.OrderViewModels
 {
     public class OrderDetailsForBuyViewModel
     {
-        public virtual Order Order { get; set; }
+            public virtual Order Order { get; set; }
        
             public virtual Product Product
             {
@@ -22,13 +22,6 @@ namespace MikeRosoft.Models.OrderViewModels
                 set;
             }
             public virtual string FirstSurname
-            {
-                get;
-                set;
-            }
-
-            [DataType(DataType.Date)]
-            public virtual DateTime PickUpDate
             {
                 get;
                 set;

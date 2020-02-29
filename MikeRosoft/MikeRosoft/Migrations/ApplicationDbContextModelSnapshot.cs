@@ -322,10 +322,6 @@ namespace MikeRosoft.Migrations
                     b.Property<string>("Card")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("ReturnRequestID")
                         .HasColumnType("int");
 

@@ -32,19 +32,21 @@ namespace MikeRosoft.Controllers
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var viewModel = new OrderDetailsForBuyViewModel();
+            
             if (id == null)
             {
                 return NotFound();
             }
 
-            var order = await _context.Order.Include(p => p.ProductOrders).ThenInclude(p => p.products).Include(p => p.user).FirstAsync(p => p.id == id);
+            viewModel.Order = await _context.Order.Include(p => p.ProductOrders).ThenInclude(p => p.products).Include(p => p.user).FirstAsync(p => p.id == id);
 
-            if (order == null)
+            if (viewModel.Order == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(viewModel);
         }
 
         // GET: Products/Create
