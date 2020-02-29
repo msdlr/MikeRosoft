@@ -254,6 +254,9 @@ namespace MikeRosoft.Controllers
         {
 
             SelectProductsForBuyViewModel selectProducts = new SelectProductsForBuyViewModel();
+
+            selectProducts.Brands = new SelectList(_context.Brand.Select(p => p.Name).ToList());
+
             //Añade a products todos los productos que están en la base de datos cuyo stock es mayor que 0 
             selectProducts.Products = _context.Products.Where(p => p.stock > 0);
 

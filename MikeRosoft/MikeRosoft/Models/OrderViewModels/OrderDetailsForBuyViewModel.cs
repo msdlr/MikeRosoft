@@ -8,20 +8,14 @@ namespace MikeRosoft.Models.OrderViewModels
 {
     public class OrderDetailsForBuyViewModel
     {
-
-        public class DetailsOrderViewModel
-        {
+        public virtual Order Order { get; set; }
+       
             public virtual Product Product
             {
                 get;
                 set;
             }
-            
-
-        }
-
-        public class RentalsMovie
-        {
+       
             public virtual string Name
             {
                 get;
@@ -48,7 +42,7 @@ namespace MikeRosoft.Models.OrderViewModels
 
 
 
-        }
+        
 
     }
 }

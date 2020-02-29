@@ -10,8 +10,8 @@ using MikeRosoft.Data;
 namespace MikeRosoft.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191218164706_test")]
-    partial class test
+    [Migration("20200229161619_asdf")]
+    partial class asdf
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -339,6 +339,10 @@ namespace MikeRosoft.Migrations
 
                     b.Property<DateTime>("cardExpiration")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("deliveryAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("orderDate")
                         .HasColumnType("datetime2");

@@ -64,6 +64,10 @@
     <Compile Remove="Migrations\20191218163415_test.Designer.cs" />
     <Compile Remove="Migrations\20191218163752_migration1.cs" />
     <Compile Remove="Migrations\20191218163752_migration1.Designer.cs" />
+    <Compile Remove="Migrations\20191218164706_test.cs" />
+    <Compile Remove="Migrations\20191218164706_test.Designer.cs" />
+    <Compile Remove="Migrations\20200224175815_migracion1.cs" />
+    <Compile Remove="Migrations\20200224175815_migracion1.Designer.cs" />
   </ItemGroup>
 
 

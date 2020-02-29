@@ -12,41 +12,36 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Customer.Name)
+            @Html.DisplayFor(model => model.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Customer.FirstSurname)
+            @Html.DisplayNameFor(model => model.FirstSurname)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Customer.FirstSurname)
+            @Html.DisplayFor(model => model.FirstSurname)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Order.arrivalDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Order.arrivalDate)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Customer.SecondSurname)
+            @Html.DisplayNameFor(model => model.Order.deliveryAddress)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Customer.SecondSurname)
+            @Html.DisplayFor(model => model.Order.deliveryAddress)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PurchaseDate)
+            @Html.DisplayNameFor(model => model.Price)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PurchaseDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DeliveryAddress)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DeliveryAddress)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TotalPrice)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TotalPrice)
+            @Html.DisplayFor(model => model.Price)
         </dd>
 
     </dl>
@@ -65,17 +60,17 @@
             </tr>
         </thead>
         <tbody>
-            @for (int i = 0; i < Model.PurchaseItems.Count; i++)
+            @for (int i = 0; i < Model.Order.ProductOrders.Count; i++)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => Model.PurchaseItems.ElementAt<PurchaseItem>(i).Movie.Title)
+                        @Html.DisplayFor(modelItem => Model.Order.ProductOrders.ElementAt<ProductOrder>(i).products.title)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model.PurchaseItems.ElementAt<PurchaseItem>(i).Movie.PriceForPurchase)
+                        @Html.DisplayFor(modelItem => Model.Order.ProductOrders.ElementAt<ProductOrder>(i).products.precio)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model.PurchaseItems.ElementAt<PurchaseItem>(i).Quantity)
+                        @Html.DisplayFor(modelItem => Model.Order.ProductOrders.ElementAt<ProductOrder>(i).quantity)
                     </td>
                 </tr>
             }
@@ -84,6 +79,6 @@
     </table>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
+    
     <a asp-action="Index">Back to List</a>
 </div>

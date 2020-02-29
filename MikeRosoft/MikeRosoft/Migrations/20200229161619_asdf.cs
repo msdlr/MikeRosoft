@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MikeRosoft.Migrations
 {
-    public partial class test : Migration
+    public partial class asdf : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -358,6 +358,7 @@ namespace MikeRosoft.Migrations
                     ReturnRequestID = table.Column<int>(nullable: true),
                     userId = table.Column<string>(nullable: true),
                     orderDate = table.Column<DateTime>(nullable: false),
+                    deliveryAddress = table.Column<string>(nullable: false),
                     arrivalDate = table.Column<DateTime>(nullable: false),
                     totalprice = table.Column<float>(nullable: false),
                     PaymentMethod = table.Column<string>(nullable: false),
