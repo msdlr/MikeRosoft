@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using MikeRosoft.Models.OrderViewModels;
 
 namespace MikeRosoft.Controllers
 {
+    [Authorize(Roles = "User")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -71,7 +73,7 @@ namespace MikeRosoft.Controllers
                 }
             }
 
-            User user = _context.Users.OfType<User>().FirstOrDefault<User>(u => u.UserName.Equals(User.Identity.Name));
+            User user = _context.Users.First(u => u.UserName.Equals(User.Identity.Name));
 
             order.UserName = user.UserName;
             order.FirstSurname = user.FirstSurname;
