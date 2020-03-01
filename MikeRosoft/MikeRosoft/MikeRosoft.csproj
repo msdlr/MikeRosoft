@@ -78,6 +78,10 @@
     <Compile Remove="Migrations\20200228093252_msall5.Designer.cs" />
     <Compile Remove="Migrations\20200229171546_msall6.cs" />
     <Compile Remove="Migrations\20200229171546_msall6.Designer.cs" />
+    <Compile Remove="Migrations\20200301220430_mall7.cs" />
+    <Compile Remove="Migrations\20200301220430_mall7.Designer.cs" />
+    <Compile Remove="Migrations\20200301221704_mall8.cs" />
+    <Compile Remove="Migrations\20200301221704_mall8.Designer.cs" />
   </ItemGroup>
 
 
@@ -103,7 +107,6 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 
