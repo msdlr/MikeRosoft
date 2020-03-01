@@ -20,6 +20,16 @@ namespace MikeRosoft.Models
 
         public virtual int quantity { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            ProductOrder po = (ProductOrder)obj;
+
+            if (productId == po.productId
+                && orders.Equals(po)
+                && quantity == po.quantity) return true;
+            else return false;
+
+        }
 
     }
 }

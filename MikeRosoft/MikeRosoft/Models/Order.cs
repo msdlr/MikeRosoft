@@ -67,14 +67,24 @@ namespace MikeRosoft.Models
                 TimeSpan difference = this.cardExpiration - otherOrder.cardExpiration;
                 TimeSpan threshold = new TimeSpan(0, 1, 0);
 
+
+                if (id == otherOrder.id &&
+                   ProductOrders.Count == otherOrder.ProductOrders.Count &&
+                   userId == otherOrder.userId &&
+                   Card == otherOrder.Card &&
+                   cardCVC == otherOrder.cardCVC &&
+                   difference < threshold) return true;
+                else return false;
+
+                /*
                 return Other is Order order &&
                    id == order.id &&
                    ProductOrders.Count == order.ProductOrders.Count &&
                    userId == order.userId &&
-                   user == order.user &&
                    Card == order.Card &&
                    cardCVC == order.cardCVC &&
                    difference < threshold;
+                   */
             }
 
             catch (System.OverflowException e)

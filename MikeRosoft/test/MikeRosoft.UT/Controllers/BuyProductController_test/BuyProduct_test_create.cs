@@ -113,7 +113,50 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
         }
 
 
+        [Fact]
+        public async Task Create_Get_WithoutSelectedProducts()
+        {
+            using (context)
+            {
+                //ARRANGE
+                var controller = new ProductsController(context);
+                controller.ControllerContext.HttpContext = ordersContext;
+
+                Brand brand1 = new Brand { Brandid = 1, Name = "Kingston" };
+                Brand brand2 = new Brand { Brandid = 2, Name = "Samsung" };
+                var brands = new List<Brand> { brand1, brand2 };
+
+                String[] ids = new string[1] { "1" };
+                SelectedProductsForBuyViewModel selectedProducts = new SelectedProductsForBuyViewModel() { IdsToAdd = ids };
+
+                Product expectedProduct = new Product { id = 1, title = "SSD", description = "8 GB", brand = brand1, precio = 45, stock = 2 };
+
+                User expectedUser = new User { UserName = "elena@uclm.com", Email = "elena@uclm.com", Name = "Elena", FirstSurname = "Navarro", SecondSurname = "Martinez" };
+
+                //IList<ProductOrder> expectedProductOrder = new ProductOrder[1] { new ProductOrder { products = expectedProduct } };
+                CreateProductsForViewModel expectedOrder = new CreateProductsForViewModel { UserName = expectedUser.UserName, FirstSurname = expectedUser.FirstSurname, SecondSurname = expectedUser.SecondSurname };
+
+
+                // Act
+                var result = controller.Create(selectedProducts);
+
+                //Assert
+                ViewResult viewResult = Assert.IsType<ViewResult>(result);
+                CreateProductsForViewModel currentOrder = viewResult.Model as CreateProductsForViewModel;
+                var error = viewResult.ViewData.ModelState[String.Empty].Errors.FirstOrDefault();
+                Assert.Equal(currentOrder, expectedOrder, Comparer.Get<CreateProductsForViewModel>((p1, p2) => p1.Equals(p2)));
+                Assert.Equal("You have to select at least one item", error.ErrorMessage);
+
+
+            }
+        }
+
+
+
+
     }
+
+
 }
 
 

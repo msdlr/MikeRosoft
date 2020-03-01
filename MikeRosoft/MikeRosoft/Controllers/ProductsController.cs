@@ -62,7 +62,7 @@ namespace MikeRosoft.Controllers
 
             if (selectedProducts.IdsToAdd == null)
             {
-                ModelState.AddModelError("ProductNotSelected", "You have to select at least one item");
+                ModelState.AddModelError(String.Empty, "You have to select at least one item");
             }
 
             else
@@ -111,7 +111,8 @@ namespace MikeRosoft.Controllers
             Order order = new Order();
             order.totalprice = 0;
             order.ProductOrders = new List<ProductOrder>();
-            ModelState.Clear(); //orderViewModel.ProductOrders[i].ProductId
+            ModelState.Clear(); 
+            //orderViewModel.ProductOrders[i].ProductId
             //foreach (ProductOrder po in productOrders)
             for(int i = 0; i< orderViewModel.ProductOrders.Count;i++)
             {
@@ -119,7 +120,7 @@ namespace MikeRosoft.Controllers
                 if (product.stock < orderViewModel.ProductOrders[i].quantity)
                 {
 
-                    ModelState.AddModelError("NoEnoughMovies", $"There are no enough movies titled {product.title}, please select less or equal than {product.stock}");
+                    ModelState.AddModelError("NotEnough", $"There are no enough {product.title}, please select less or equal than {product.stock}");
                     orderViewModel.ProductOrders = productOrders;
                 }
                 else
@@ -148,13 +149,13 @@ namespace MikeRosoft.Controllers
                 orderViewModel.UserName = user.Name;
                 orderViewModel.FirstSurname = user.FirstSurname;
                 orderViewModel.SecondSurname = user.SecondSurname;
-                ModelState.AddModelError(String.Empty, $"Please select at least a movie to be bought or cancel your purchase");
+                ModelState.AddModelError(String.Empty, $"Please select at least one to be bought or cancel");
                 orderViewModel.ProductOrders = productOrders;
                 return View(orderViewModel);
             }
 
 
-            //YO NO TENGO PARA ELEGIR, SIEMPRE ES CREDIT CARD
+            //SIEMPRE ES CREDIT CARD
 
             order.user = user;
             order.orderDate = DateTime.Now;
