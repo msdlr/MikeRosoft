@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BF66F4EA-A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MikeRosoft.UT", "test\MikeRosoft.UT\MikeRosoft.UT.csproj", "{C13729B4-7299-4F52-8105-632E6A65F329}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeRosoft.UIT", "test\MikeRosoft.UIT\MikeRosoft.UIT.csproj", "{9CB5F5D7-A77B-470D-B2C5-FDC5C2D61048}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MikeRosoft.UIT", "test\MikeRosoft.UIT\MikeRosoft.UIT.csproj", "{9CB5F5D7-A77B-470D-B2C5-FDC5C2D61048}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

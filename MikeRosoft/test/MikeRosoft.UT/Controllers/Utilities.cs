@@ -42,6 +42,7 @@ namespace MikeRosoft.UT.Controllers
             banned1.FirstSurname = "Navarro";
             banned1.SecondSurname = "Martínez";
             banned1.DNI = "48484848B";
+            banned1.Id = "7ba98196-c2bf-4d6e-9d87-bdca85e81a0a";
             db.Users.Add(banned1);
 
             User banned2 = new User();
