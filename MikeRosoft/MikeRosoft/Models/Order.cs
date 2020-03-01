@@ -64,8 +64,8 @@ namespace MikeRosoft.Models
             {
                 Order otherOrder = (Order)Other;
 
-                TimeSpan difference = this.cardExpiration - otherOrder.cardExpiration;
-                TimeSpan threshold = new TimeSpan(0, 1, 0);
+                //TimeSpan difference = this.cardExpiration - otherOrder.cardExpiration;
+                //TimeSpan threshold = new TimeSpan(0, 1, 0);
 
 
                 if (id == otherOrder.id &&
@@ -73,7 +73,7 @@ namespace MikeRosoft.Models
                    userId == otherOrder.userId &&
                    Card == otherOrder.Card &&
                    cardCVC == otherOrder.cardCVC &&
-                   difference < threshold) return true;
+                   cardExpiration.ToShortDateString() == otherOrder.cardExpiration.ToShortDateString()) return true;
                 else return false;
 
                 /*

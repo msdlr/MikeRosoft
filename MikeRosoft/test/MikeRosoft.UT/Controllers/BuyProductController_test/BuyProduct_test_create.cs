@@ -152,6 +152,45 @@ namespace MikeRosoft.UT.Controllers.BuyProductController_test
         }
 
 
+        [Fact]
+        public async Task Create_Post_WithoutProducts()
+        {
+            using (context)
+            {
+                //ARRANGE
+                var controller = new ProductsController(context);
+                controller.ControllerContext.HttpContext = ordersContext;
+
+                Brand brand1 = new Brand { Brandid = 1, Name = "Kingston" };
+                String[] ids = new string[1] { "1" };
+                int[] id_int = new int[1] { 1 };
+                SelectedProductsForBuyViewModel selectedProducts = new SelectedProductsForBuyViewModel() { IdsToAdd = ids };
+                Product product = new Product { id = 1, title = "SSD", description = "8 GB", brand = brand1, precio = 45, stock = 2 };
+
+                IList<ProductOrder> productOrders = new ProductOrder[1] { new ProductOrder { productId = 1, orderId = 1, products = product } };
+                CreateProductsForViewModel viewModel = new CreateProductsForViewModel { UserName = "elena@uclm.com", FirstSurname= "Elena", address="calle falsa", cardExpiration = DateTime.Today, Card ="0984", cardCVC = "6578", productId = id_int };
+
+                Product expectedProduct = new Product { id = 1, title = "SSD", description = "8 GB", brand = brand1, precio = 45, stock = 2 };
+                User expectedUser = new User { Id="1", UserName = "elena@uclm.com", Email = "elena@uclm.com", Name = "Elena", FirstSurname = "Navarro", SecondSurname = "Martinez" };
+
+                //IList<ProductOrder> expectedProductOrder = new ProductOrder[1] { new ProductOrder { products = expectedProduct } };
+                CreateProductsForViewModel expectedOrder = new CreateProductsForViewModel { UserName = expectedUser.UserName, FirstSurname = expectedUser.FirstSurname, SecondSurname = expectedUser.SecondSurname };
+
+
+                // Act -- orderviewmodel -- productOrders -- productId, string userId
+                var result = controller.CreatePost(viewModel, productOrders, null, userId:expectedUser.Id);
+
+                //Assert
+                ViewResult viewResult = Assert.IsType<ViewResult>(result);
+                CreateProductsForViewModel currentOrder = viewResult.Model as CreateProductsForViewModel;
+                
+                var error = viewResult.ViewData.ModelState[String.Empty].Errors.FirstOrDefault();
+                Assert.Equal(currentOrder, expectedOrder, Comparer.Get<CreateProductsForViewModel>((p1, p2) => p1.Equals(p2)));
+                Assert.Equal("There are not products", error.ErrorMessage);
+
+
+            }
+        }
 
 
     }
