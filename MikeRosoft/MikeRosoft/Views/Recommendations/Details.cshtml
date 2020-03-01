@@ -9,46 +9,79 @@
 <div>
     <h4>Recommendation</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.name)
+    <dl class="dl-horizontal">
+        <!--Datos de la Recomendacion y el Administrador que la ha creado-->
+        <dt>
+            @Html.DisplayNameFor(model => model.NameRec)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.name)
+        <dd>
+            @Html.DisplayFor(model => model.NameRec)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.date)
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.date)
+        <dd>
+            @Html.DisplayFor(model => model.Date)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.description)
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.description)
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Admin.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Admin.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Admin.FirstSurname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Admin.FirstSurname)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Admin.SecondSurname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Admin.SecondSurname)
         </dd>
     </dl>
-    <table>
+    <!--Datos del producto-->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Rate
+                </th>
+                <th>
+                    Price
+                </th>
+            </tr>
+        </thead>
         <tbody>
             @for (int i = 0; i < Model.ProductRecommendations.Count; i++)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).product.title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).product.precio)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).product.stock)
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.precio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.rate)
+                </td>
+            </tr>
             }
         </tbody>
     </table>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.IdRecommendation">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" id="backIndex">Back to List</a>
 </div>

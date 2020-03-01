@@ -33,7 +33,8 @@ namespace MikeRosoft.Models
         [Range(0, 5, ErrorMessage = "Integer points between 0 and 5")]
         public virtual int rate { set; get; }
 
-        [ForeignKey("Brandid")]
+        //[ForeignKey("Brandid")]
+        [Required]
         public virtual Brand brand{ get; set; }
 
         [Required]

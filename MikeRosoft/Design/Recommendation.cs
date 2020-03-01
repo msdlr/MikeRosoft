@@ -7,13 +7,13 @@ namespace MikeRosoft.Design
     {
         public virtual int IdRecommendation { get; set; }
 
-        public virtual String name { get; set; }
+        public virtual string NameRec { get; set; }
 
-        public virtual DateTime date { get; set; }
+        public virtual DateTime Date { get; set; }
 
-        public virtual String description { get; set; }
+        public virtual string Description { get; set; }
 
-        public virtual Admin admin { get; set; }
+        public virtual Admin Admin { get; set; }
 
        // public virtual IList<UserRecommend> UserRecommendations { get; set; }
 

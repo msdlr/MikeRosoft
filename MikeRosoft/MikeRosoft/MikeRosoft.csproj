@@ -56,10 +56,28 @@
     <Compile Remove="Migrations\20191113182329_test.Designer.cs" />
     <Compile Remove="Migrations\20191113182614_test.cs" />
     <Compile Remove="Migrations\20191113182614_test.Designer.cs" />
-    <Compile Remove="Migrations\20191127110506_test.cs" />
-    <Compile Remove="Migrations\20191127110506_test.Designer.cs" />
-    <Compile Remove="Migrations\20191128121617_test.cs" />
-    <Compile Remove="Migrations\20191128121617_test.Designer.cs" />
+    <Compile Remove="Migrations\20191128130051_alluc.cs" />
+    <Compile Remove="Migrations\20191128130051_alluc.Designer.cs" />
+    <Compile Remove="Migrations\20191128130653_alluc.cs" />
+    <Compile Remove="Migrations\20191128130653_alluc.Designer.cs" />
+    <Compile Remove="Migrations\20191212112803_alluc.cs" />
+    <Compile Remove="Migrations\20191212112803_alluc.Designer.cs" />
+    <Compile Remove="Migrations\20200209210022_MG1.cs" />
+    <Compile Remove="Migrations\20200209210022_MG1.Designer.cs" />
+    <Compile Remove="Migrations\20200210073543_mg2.cs" />
+    <Compile Remove="Migrations\20200210073543_mg2.Designer.cs" />
+    <Compile Remove="Migrations\20200227211001_msall.cs" />
+    <Compile Remove="Migrations\20200227211001_msall.Designer.cs" />
+    <Compile Remove="Migrations\20200227211307_msall1.cs" />
+    <Compile Remove="Migrations\20200227211307_msall1.Designer.cs" />
+    <Compile Remove="Migrations\20200227211734_msall2.cs" />
+    <Compile Remove="Migrations\20200227211734_msall2.Designer.cs" />
+    <Compile Remove="Migrations\20200228092100_msall3.cs" />
+    <Compile Remove="Migrations\20200228092100_msall3.Designer.cs" />
+    <Compile Remove="Migrations\20200228093252_msall5.cs" />
+    <Compile Remove="Migrations\20200228093252_msall5.Designer.cs" />
+    <Compile Remove="Migrations\20200229171546_msall6.cs" />
+    <Compile Remove="Migrations\20200229171546_msall6.Designer.cs" />
   </ItemGroup>
 
 
@@ -74,11 +92,18 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+    <PackageReference Include="Selenium.Chrome.WebDriver" Version="79.0.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="80.0.3987.10600" />
+    <PackageReference Include="SeleniumWebDrivers" Version="1.0.0.4" />
+    <PackageReference Include="WebDriver.ChromeDriver" Version="26.14.313457.1" />
+    <PackageReference Include="WebDriverChromeDriver" Version="2.10.0" />
   </ItemGroup>
 
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 

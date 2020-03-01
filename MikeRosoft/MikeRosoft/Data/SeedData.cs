@@ -27,6 +27,7 @@ namespace AppForMovies.Data
 
             SeedRoles(roleManager, rolesNames);
             SeedUsers(userManager, rolesNames);
+            SeedProducts(dbContext);
         }
 
         public static void SeedRoles(RoleManager<IdentityRole> roleManager, List<string> roles)

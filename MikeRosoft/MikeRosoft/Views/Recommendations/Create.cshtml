@@ -1,4 +1,4 @@
-﻿@model MikeRosoft.Models.Recommendation
+﻿@model MikeRosoft.Models.RecommendationViewModels.RecommendationCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -6,35 +6,91 @@
 
 <h1>Create</h1>
 
-<h4>Recommendation</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="name" class="control-label"></label>
-                <input asp-for="name" class="form-control" />
-                <span asp-validation-for="name" class="text-danger"></span>
+<form asp-action="Create" method="post">
+
+    <div class="form-horizontal">
+        <h4>Recommendation</h4>
+        <hr />
+        <p>Recomendation title</p>
+        <input id="recomText" type="text" name="NameRec"/>
+
+        <p>Description</p>
+        <input id="recomDesc" type="text" name="Description"/>
+        <hr />
+
+
+
+        <!--Datos del administrador que crea la recomendacion-->
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstSurname)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FirstSurname)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.SecondSurname)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SecondSurname)
+            </dd>
+        </dl>
+        
+
+
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        Rate
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.ProductRecommendations.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.precio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelProduct => Model.ProductRecommendations.ElementAt<ProductRecommend>(i).Product.rate)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="hidden" name="prod" class="form-control" value="@Model.ProductRecommendations[i].Product.id" />
+                        </td>
+                        
+                    </tr>
+                    
+                 }
+            </tbody>
+        </table>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="CreateButton" value="Create" class="btn btn-primary" />
             </div>
-            <div class="form-group">
-                <label asp-for="date" class="control-label"></label>
-                <input asp-for="date" class="form-control" />
-                <span asp-validation-for="date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="description" class="control-label"></label>
-                <input asp-for="description" class="form-control" />
-                <span asp-validation-for="description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+</form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" id="backIndex">Back to List</a>
 </div>
-

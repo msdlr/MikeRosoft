@@ -9,9 +9,9 @@ namespace MikeRosoft.Design
         //[Key]
         public virtual int ID { get; set; }
 
-        public virtual Product product { get; set; }
+        public virtual Product Product { get; set; }
 
-        public virtual Recommendation recommendation { get; set; }
+        public virtual Recommendation Recommendation { get; set; }
 
         public ProductRecommend()
         {
