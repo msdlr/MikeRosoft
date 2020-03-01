@@ -12,11 +12,6 @@
         <hr />
     </div>
 
-    @Html.HiddenFor(x => x.adminId)
-    Date format: dd/MM/yyyy HH:mm, for example: 17/01/2017 12:46
-
-    <div asp-validation-summary="ModelOnly" class="text-danger" id="ErrorMsg"></div>
-
     <table class="table" width="100%">
         <!-- Headers -->
         <thead>
@@ -40,44 +35,42 @@
         </thead>
 
         <!-- Content -->
-
+        
         <tbody>
             @for (int i = 0; i < Model.UserIds.Count(); i++)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(m => m.infoAboutUser[i])
-                        @Html.HiddenFor(m => m.infoAboutUser[i])
+                        @Html.DisplayFor(m => m.infoAboutUser[i]);
                         @Html.HiddenFor(x => x.UserIds[i])
                     </td>
                     <td>
-                        <select asp-for="banTypeName[i]" id="Bantype_@i">
-                            <!-- Default option (not valid) -->
-                            <option>Select one</option>
-                            <!-- Ban types list -->
-                            @foreach (SelectListItem s in Model.BanTypesAvailable)
-                            {
-                                <option>@s.Text</option>
-                            }
-
+                        <select asp-for="banTypeName[i]" asp-items="Model.BanTypesAvailable">
                         </select>
                     </td>
                     <td>
-                        <input asp-for="BansForUsers[i].Start" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" id="Start_@i"/>
-                        <span asp-validation-for="BansForUsers[i].Start" class="text-danger" />
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input asp-for="BansForUsers[i].Start" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20"/>
+                                <span asp-validation-for="BansForUsers[i].Start" class="text-danger" />
+                            </div>
+                        </div>
                     </td>
                     <td>
-                        <input asp-for="BansForUsers[i].End" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20" id="End_@i"/>
-                        <span asp-validation-for="BansForUsers[i].End" class="text-danger" />
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input asp-for="BansForUsers[i].End" asp-format="{0:dd/MM/yyyy HH:mm}" class="form-control" height="20"/>
+                                <span asp-validation-for="BansForUsers[i].End" class="text-danger" />
+                            </div>
+                        </div>
                     </td>
                     <td width="50%">
                         <div class="form-group">
 
                             <div class="col-md-10">
-                                <input asp-for="BansForUsers[i].AdditionalComment" class="form-control" height="20" id="Comment_@i"/>
+                                <input asp-for="BansForUsers[i].AdditionalComment" class="form-control" height="20" />
                                 <span asp-validation-for="BansForUsers[i].AdditionalComment" class="text-danger" />
                             </div>
-
                         </div>
                     </td>
                 </tr>
@@ -86,7 +79,7 @@
 
     </table>
 
-    <button type="submit" class="btn btn-primary" id="saveButton">Save</button>
+    <button type="submit" class="btn btn-primary">Save</button>
     <a asp-action="Index" class="btn btn-default">Cancel</a>
 
 </form>

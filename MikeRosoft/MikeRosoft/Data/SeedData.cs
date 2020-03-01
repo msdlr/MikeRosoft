@@ -59,7 +59,6 @@ namespace AppForMovies.Data
                 user.Name = "Miguel";
                 user.FirstSurname = "Sanchez";
                 user.SecondSurname = "De la Rosa";
-                user.DNI = "21345234U";
 
                 IdentityResult result = userManager.CreateAsync(user, "Password1234%").Result;
 
@@ -70,7 +69,7 @@ namespace AppForMovies.Data
                     user.EmailConfirmed = true;
                 }
             }
-            /*
+
             if (userManager.FindByNameAsync("elena@uclm.com").Result == null)
             {
                 User user = new User();
@@ -128,7 +127,6 @@ namespace AppForMovies.Data
                     user.EmailConfirmed = true;
                 }
             }
-            */
         }
         public static void SeedProducts(ApplicationDbContext dbContext)
         {

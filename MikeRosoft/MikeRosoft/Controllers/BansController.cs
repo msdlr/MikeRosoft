@@ -51,41 +51,14 @@ namespace MikeRosoft.Controllers
                 return NotFound();
             }
 
-            var ban = await _context.Bans.Include(b => b.GetBanForUsers)
+            var ban = await _context.Bans
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (ban == null)
             {
                 return NotFound();
             }
 
-            //We prepare data for the view
-
-            BanDetailsViewModel model = new BanDetailsViewModel { ban = ban };
-
-            //We search for the admin and the bans for users. If not found, then there's an error
-            model.admin = await _context.Admins
-                .FirstOrDefaultAsync(m => m.Id == ban.GetAdminId);
-
-            //We don't need to check if the admin or the users are null because they are required, and if they are null, the ban will also be null
-
-            //if (model.admin == null)
-            //{
-            //    return NotFound();
-            //}
-
-            foreach (BanForUser bfu in model.ban.GetBanForUsers)
-            {
-                var u = await _context.Users.FirstOrDefaultAsync(m => m.Id == bfu.GetUserId);
-                //if (u == null) return NotFound();
-                //else
-                //{
-                    var bantype = await _context.BanTypes.FirstOrDefaultAsync(m => m.TypeID == bfu.GetBanTypeID);
-                    model.BanTypeNames.Add(bantype.TypeName);
-                    model.bannedUsers.Add(u);
-                //}
-            }
-
-            return View(model);
+            return View(ban);
         }
 
         // GET: Bans/Create
@@ -102,22 +75,28 @@ namespace MikeRosoft.Controllers
             //Fill the lest of BanTypes in the SelectList
             BanViewModel.BanTypesAvailable = new SelectList(_context.BanTypes.Select(g => g.TypeName).ToList());
             BanViewModel.defaultDuration = new List<TimeSpan>(_context.BanTypes.Select(g => g.DefaultDuration).ToList());
-
+            
 
             if (selectedUsers.IdsToAdd == null)
-                ModelState.AddModelError(String.Empty, "You should select at least a user to be banned, please");
+                ModelState.AddModelError("NoUsersSelected", "You should select at least a user to be banned, please");
             else
             {
                 //Have some info regarding the user in the viewmodel
                 foreach (string id in selectedUsers.IdsToAdd)
                 {
                     var user = _context.Users.First(u => u.Id.Equals(id));
-
+                   
                     //Fill info about the user
                     BanViewModel.infoAboutUser.Add(user.Name + " " + user.FirstSurname + " (" + user.DNI + ")");
 
                     //Fill bans for users
-                    BanViewModel.BansForUsers.Add(new BanForUser { GetUser = user });
+                    BanViewModel.BansForUsers.Add( new BanForUser { GetUser=user});
+                }
+
+                foreach(BanForUser bfu in BanViewModel.BansForUsers)
+                {
+                    bfu.Start = DateTime.UtcNow;
+                    bfu.End = DateTime.UtcNow;
                 }
 
                 var admin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name));
@@ -134,102 +113,47 @@ namespace MikeRosoft.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost(CreateBanViewModel cm, IList<BanForUser> BansForUsers, string[] UserIds, string adminId, List<string> infoAboutUser)
+        public async Task<IActionResult> CreatePost(CreateBanViewModel cm, IList<BanForUser> BansForUsers, string[] UserIds)
         {
-            ModelState.Clear();
-
-            //First of all, check the mandatory fields
-            //Check that stard and end dates are filled
-            foreach (BanForUser bfu in cm.BansForUsers)
+            //Create ban
+            Ban ban = new Ban
             {
-                if (bfu.Start.ToShortDateString().Equals("01/01/0001") ||
-                    bfu.End.ToShortDateString().Equals("01/01/0001")) //DateTime cannot be null so the "null" value is this date
-                {
+                GetAdmin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name)),
+                GetAdminId = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name)).Id,
+                BanTime = DateTime.UtcNow,
+                GetBanForUsers = new List<BanForUser>()
+            };
 
-                    ModelState.AddModelError(String.Empty, $"Please insert valid dates for each specific ban");
-                }
+            //Add this ban to the database
+            _context.Bans.Add(ban);
 
-                else
-                {
-                    //https://docs.microsoft.com/es-es/dotnet/api/system.datetime.compare?view=netframework-4.8 DateTime.Now gives problem when the controller is called with DateTime.Now because it causes we have 2 different Datetimes, so we assume that it's okay for the start time to be ~1 min ago
-                    if (bfu.Start >= bfu.End) //start date is higher or equal than end date or today's
-                    {
-                        ModelState.AddModelError(String.Empty, $"End date must be later than start date");
-                    }
-
-                    if (bfu.Start < DateTime.Now - new TimeSpan(0, 1, 0))
-                    {
-                        ModelState.AddModelError(String.Empty, $"A ban cannot start before now.");
-                    }
-
-                }
-            }
-
-            //Check that there's a selected ban type for each ban
-            foreach (string typename in cm.banTypeName)
+            //Fill information in BanForUser list (Needed: Ban, BanType relationships)
+            //foreach(BanForUser bfu in cm.BansForUsers)
+            for(int i = 0; i< cm.BansForUsers.Count;i++)
             {
-                if (typename.Equals("Select one"))
-                {
-                    ModelState.AddModelError(String.Empty, $"Please select a ban type for each user");
-                }
-            }
+                //If no additional comment was entered, we initialize the string to this value
+                if (cm.BansForUsers[i].AdditionalComment == null) cm.BansForUsers[i].AdditionalComment = "[No comment from the admin]";
 
-            if (ModelState.ErrorCount > 0)
-            {
-                cm.BanTypesAvailable = new SelectList(_context.BanTypes.Select(g => g.TypeName).ToList());
-                cm.infoAboutUser = infoAboutUser;
-                cm.BansForUsers = BansForUsers;
-                cm.UserIds = UserIds;
-                cm.adminId = adminId;
-                return View(cm);
-            }
-
-            else
-            {
-                // If we get here, it means that all mandatory data is properly introduced
-
-                //Create ban
-                Ban ban = new Ban
-                {
-                    GetAdmin = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name)),
-                    GetAdminId = _context.Admins.First(u => u.UserName.Equals(User.Identity.Name)).Id,
-                    BanTime = DateTime.Now,
-                    GetBanForUsers = new List<BanForUser>()
-                };
-
-                //Add this ban to the database
-                _context.Bans.Add(ban);
-
-                //Fill information in BanForUser list (Needed: Ban, BanType, User relationships; leaving the additional comment as "" instead of null)
-                //foreach(BanForUser bfu in cm.BansForUsers)
-                for (int i = 0; i < cm.BansForUsers.Count; i++)
-                {
-                    //If no additional comment was entered, we initialize the string to this value
-                    if (cm.BansForUsers[i].AdditionalComment == null)
-                    {
-                        cm.BansForUsers[i].AdditionalComment = "";
-                    }
-
-                    //Relationship with Ban
+                //Relationship with Ban
                     cm.BansForUsers[i].GetBan = ban;
-                    cm.BansForUsers[i].GetBanID = cm.BansForUsers[i].GetBan.ID;
+                cm.BansForUsers[i].GetBanID = cm.BansForUsers[i].GetBan.ID;
 
-                    //Relationship with BanType (the view only picks up the type name)
-                    cm.BansForUsers[i].GetBanType = await _context.BanTypes.SingleOrDefaultAsync(b => b.TypeName.Equals(cm.banTypeName.ElementAt(i)));
-                    cm.BansForUsers[i].GetBanTypeID = cm.BansForUsers[i].GetBanType.TypeID;
+                //Relationship with BanType (the view only picks up the type name)
+                cm.BansForUsers[i].GetBanType = await _context.BanTypes.SingleOrDefaultAsync(b => b.TypeName.Equals(cm.banTypeName.ElementAt(i)));
+                cm.BansForUsers[i].GetBanTypeID = cm.BansForUsers[i].GetBanType.TypeID;
 
-                    //Relationship with User
-                    cm.BansForUsers[i].GetUserId = UserIds[i];
-                    cm.BansForUsers[i].GetUser = await _context.Users.SingleOrDefaultAsync(b => b.Id.Equals(cm.BansForUsers[i].GetUserId));
+                //Relationship with User
+                cm.BansForUsers[i].GetUserId = UserIds[i];
+                cm.BansForUsers[i].GetUser = await _context.Users.SingleOrDefaultAsync(b => b.Id.Equals(cm.BansForUsers[i].GetUserId));
 
-                    _context.BanForUsers.Add(cm.BansForUsers[i]);
-                }
-
-                //Update database
-                await _context.SaveChangesAsync();
-                //Details of the transaction
-                return RedirectToAction("Details", new { id = ban.ID });
+                //Add this BanforUser to the database
+                _context.BanForUsers.Add(cm.BansForUsers[i]);
             }
+
+            //Update database
+            await _context.SaveChangesAsync();
+            //Details of the transaction
+            return RedirectToAction("Details", new { id = ban.ID });
         }
 
         // GET: Bans/Edit/5
@@ -364,7 +288,7 @@ namespace MikeRosoft.Controllers
             else
             {
                 //If no users are selected
-                ModelState.AddModelError(String.Empty, "You must select at least one user");
+                ModelState.AddModelError(string.Empty, "You must select at least one user");
                 SelectUsersToBanViewModel select = new SelectUsersToBanViewModel();
                 select.Users = _context.Users.Include(user => user.BanRecord).Where(user => !user.BanRecord.Any(banforuser => banforuser.End.Date > DateTime.Now));
 
