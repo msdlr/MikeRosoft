@@ -90,9 +90,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+    <PackageReference Include="Selenium.Chrome.WebDriver" Version="79.0.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="78.0.3904.10500" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="80.0.3987.10600" />
+    <PackageReference Include="SeleniumWebDrivers" Version="1.0.0.4" />
     <PackageReference Include="WebDriver.ChromeDriver" Version="26.14.313457.1" />
+    <PackageReference Include="WebDriverChromeDriver" Version="2.10.0" />
   </ItemGroup>
 
 

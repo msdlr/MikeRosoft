@@ -10,22 +10,22 @@
     <p>
         <div>
             <label asp-for="productTitle"></label>
-            <input asp-for="productTitle" size="10" />
+            <input id="ptitle" asp-for="productTitle" size="10" />
             <span asp-validation-for="productTitle" class="text-danger"></span>
 
             <label asp-for="productPrice"></label>
-            <input asp-for="productPrice" size="10" />
+            <input id="pprice" asp-for="productPrice" size="10" />
             <span asp-validation-for="productPrice" class="text-danger"></span>
 
             <label asp-for="productRate"></label>
-            <input asp-for="productRate" size="10" />
+            <input id="prate" asp-for="productRate" size="10" />
             <span asp-validation-for="productRate" class="text-danger"></span>
 
             <label asp-for="productBrandSelected"></label>
             <select asp-for="productBrandSelected" asp-items="Model.Brands">
                 <option value="">All</option>
             </select>
-            <input type="submit" value="Filter" />
+            <input id="filter" type="submit" value="Filter" />
         </div>
     </p>
 </form>
@@ -55,13 +55,13 @@
         <tbody>
             @if (Model.Products.Count() == 0)
             {
-                <tr><td colspan="3">There are no products available</td></tr>
+                <tr id="No_Products"><td colspan="3">There are no products available</td></tr>
             }
             else
             {
                 @foreach (var item in Model.Products)
                 {
-                    <tr>
+                    <tr id="Product_@item.title">
                         <td>
                             @Html.DisplayFor(modelItem => item.title)
                         </td>
@@ -75,7 +75,7 @@
                             @Html.DisplayFor(modelItem => item.brand.Name)
                         </td>
                         <td align="center" width="10%">
-                            <input type="checkbox" name="IdsToAdd" value="@item.id" />
+                            <input id="check_@item.title" type="checkbox" name="IdsToAdd" value="@item.id" />
                         </td>
                     </tr>
                 }

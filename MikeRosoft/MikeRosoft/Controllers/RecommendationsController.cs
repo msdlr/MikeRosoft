@@ -105,6 +105,17 @@ namespace MikeRosoft.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost(RecommendationCreateViewModel recommendationCreateViewModel, int[] prod)
         {
+
+            if(recommendationCreateViewModel.NameRec ==null || recommendationCreateViewModel.Description == null)
+            {
+                string[] ids = new string[prod.Count()];
+                for(int i = 0; i< prod.Count(); i++)
+                {
+                    ids[i] = prod[i].ToString();
+                }
+                SelectedProductsForRecommendationViewModel selected = new SelectedProductsForRecommendationViewModel() { IdsToAdd = ids };
+                return RedirectToAction("Create", selected);
+            }
             Recommendation recom = new Recommendation() { Admin = await _context.Admins.FirstOrDefaultAsync<Admin>(c => c.UserName.Equals(User.Identity.Name)),
              Date= DateTime.Now, Description = recommendationCreateViewModel.Description, NameRec = recommendationCreateViewModel.NameRec };
             IList<ProductRecommend> prodrecom = new List<ProductRecommend>();

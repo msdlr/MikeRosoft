@@ -17,25 +17,25 @@ using MikeRosoft.UT.Controllers;
 
 namespace MikeRosoft.UT.Controllers.RecommendationsController_test
 {
-    public class Recommendation_Index_test
+    public class Recommendation_Details_test
     {
-
         private DbContextOptions<ApplicationDbContext> _ContextOptions;
         private ApplicationDbContext context;
         Microsoft.AspNetCore.Http.DefaultHttpContext recommendationContext;
 
-        public Recommendation_Index_test(){
+        public Recommendation_Details_test()
+        {
             //Initialize the Database
             _ContextOptions = Utilities.CreateNewContextOptions();
             context = new ApplicationDbContext(_ContextOptions);
             context.Database.EnsureCreated();
 
             //Seed the database with test data
-           /* Utilities.InitializeDbAdminForTests(context);
-            Utilities.InitializeDbBrandsForTests(context);*/
+            /* Utilities.InitializeDbAdminForTests(context);
+             Utilities.InitializeDbBrandsForTests(context);*/
             //Utilities.InitializeDbProductsForTest(context);
             Utilities.InitializeDbRecommendationForTests(context);
-            context.SaveChanges();
+            //context.SaveChanges();
 
             //how to simulate the connection of a user
             System.Security.Principal.GenericIdentity user = new System.Security.Principal.GenericIdentity("peter@uclm.com");
@@ -46,35 +46,56 @@ namespace MikeRosoft.UT.Controllers.RecommendationsController_test
         }
 
         [Fact]
-        public async Task Index_Get()
+        public async Task Details_withoutId()
         {
             using (context)
             {
-                int i;
-                //IEnumerable<MikeRosoft.Models.Recommendation> expectedRecommendation;
-                // IEnumerable<MikeRosoft.Models.Recommendation> expectedRecommendation = new List<Recommendation> { Utilities.Recommendation };
-                var expectedRecommendation = new List<Recommendation> { Utilities.Recommendation };
                 var controller = new RecommendationsController(context);
                 controller.ControllerContext.HttpContext = recommendationContext;
 
                 //Act
-                var result = controller.Index();
+                var result = await controller.Details(null);
+
+                //Assert
+                var viewResult = Assert.IsType<NotFoundResult>(result);
+            }
+        }
+
+        [Fact]
+        public async Task Details_Recommendation_notfound()
+        {
+            using (context)
+            {
+                var controller = new RecommendationsController(context);
+                controller.ControllerContext.HttpContext = recommendationContext;
+                var id = 50;
+
+                //Act
+                var result = await controller.Details(id);
+
+                //Assert
+                var viewResult = Assert.IsType<NotFoundResult>(result);
+            }
+        }
+
+        [Fact]
+        public async Task Details_Recommendation_found()
+        {
+            using (context)
+            {
+                var expectedRecommendation = Utilities.Recommendation;
+                var controller = new RecommendationsController(context);
+                controller.ControllerContext.HttpContext = recommendationContext;
+
+                //Act
+                var result = await controller.Details(0);
 
                 //Assert
                 var viewResult = Assert.IsType<ViewResult>(result);
 
-                // IEnumerable<Recommendation> model = viewResult.Model as IEnumerable<Recommendation>;
-                //var currentRecommendation = model.ToList();
-                List<Recommendation> model = viewResult.Model as List<Recommendation>;
-
-                Assert.Equal(expectedRecommendation.Count(), model.Count());
-
-                for (i = 0; i < model.Count(); i++)
-                {
-                    Assert.Equal(expectedRecommendation[i], model[i]);
-                }
+                var model = viewResult.Model as Recommendation;
+                Assert.Equal(expectedRecommendation, model);
             }
-
         }
 
     }
