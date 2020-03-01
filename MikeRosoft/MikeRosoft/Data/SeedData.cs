@@ -29,7 +29,7 @@ namespace AppForMovies.Data
             SeedUsers(userManager, rolesNames);
             SeedProducts(dbContext);
         }
-
+        //
         public static void SeedRoles(RoleManager<IdentityRole> roleManager, List<string> roles)
         {
 
