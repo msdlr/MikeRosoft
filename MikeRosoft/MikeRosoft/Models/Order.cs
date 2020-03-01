@@ -57,6 +57,33 @@ namespace MikeRosoft.Models
         public DateTime cardExpiration { get; set; }
 
 
+        public override bool Equals(object Other)
+        {
+
+            try
+            {
+                Order otherOrder = (Order)Other;
+
+                TimeSpan difference = this.cardExpiration - otherOrder.cardExpiration;
+                TimeSpan threshold = new TimeSpan(0, 1, 0);
+
+                return Other is Order order &&
+                   id == order.id &&
+                   ProductOrders.Count == order.ProductOrders.Count &&
+                   userId == order.userId &&
+                   user == order.user &&
+                   Card == order.Card &&
+                   cardCVC == order.cardCVC &&
+                   difference < threshold;
+            }
+
+            catch (System.OverflowException e)
+            {
+                return Other.Equals(this);
+            }
+
+
+        }
 
     }
 }
